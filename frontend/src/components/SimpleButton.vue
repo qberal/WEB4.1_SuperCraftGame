@@ -12,7 +12,7 @@ defineProps({
 <template>
   <div>
     <button @click="onClick">
-      <img :src="icon">
+      <img :src="icon" alt="icon for {{name}}">
     </button>
   </div>
 </template>
@@ -23,7 +23,7 @@ button {
   border-radius: 10px;
   border: 1px solid #BBB;
   background: #ECECEC;
-  box-shadow: 0px 4px 16.3px 0px rgba(49, 49, 49, 0.15);
+  box-shadow: 0 4px 16.3px 0px rgba(49, 49, 49, 0.15);
   width: 50px;
   height: 50px;
 }

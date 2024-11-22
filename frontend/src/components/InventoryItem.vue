@@ -1,30 +1,28 @@
 <script setup>
+import { defineProps, defineEmits } from "vue";
 
-import {defineProps} from "vue";
-
-defineProps({
+const props = defineProps({
+  id: Number,
   name: String,
   icon: String,
+  isClicked: Boolean,
 });
 
-let isClicked = false;
+const emit = defineEmits(['click']);
 
 const handleClick = () => {
-  document.querySelector(".inventory-item").classList.toggle("selected");
-  isClicked = !isClicked;
+  emit('click', props.id);
 };
-
 </script>
 
 <template>
-  <div class="inventory-item" v-on:click="handleClick">
-    <img :src="icon" alt="icon for {{name}}" />
+  <div class="inventory-item" :class="{ selected: isClicked }" @click="handleClick">
+    <img :src="icon" alt="icon for {{name}}"/>
     <h3>{{ name }}</h3>
   </div>
 </template>
 
 <style scoped>
-
 .inventory-item {
   display: flex;
   flex-direction: row;
@@ -33,6 +31,7 @@ const handleClick = () => {
   border: 1px solid #BBB;
   background: #F7F7F7;
   box-shadow: 0px -1px 4.2px 0px rgba(0, 0, 0, 0.10) inset;
+  margin: 5px;
 }
 
 .inventory-item:hover {
@@ -51,6 +50,5 @@ img {
   margin: 10px;
   border-radius: 11px;
   border: 1px solid #BBB;
-  box-shadow: 0 -1px 4.2px 0 rgba(0, 0, 0, 0.10) inset;
 }
 </style>

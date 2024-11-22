@@ -2,6 +2,10 @@
 import InventoryItem from "@/components/inventory/InventoryItem.vue";
 import {reactive, ref} from 'vue';
 
+defineProps({
+  inventory: Array,
+});
+
 // inventory data
 const inventory = reactive([
   {id: 1, icon: "/favicon.svg", name: "Item 1"},

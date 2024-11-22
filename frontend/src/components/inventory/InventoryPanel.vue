@@ -1,5 +1,5 @@
 <script setup>
-import InventoryItem from "@/components/InventoryItem.vue";
+import InventoryItem from "@/components/inventory/InventoryItem.vue";
 import {reactive, ref} from 'vue';
 
 // inventory data
@@ -29,7 +29,7 @@ let isSearchVisible = ref(false);
 
       <input type="text" v-if="isSearchVisible" placeholder="Search inventory">
 
-      <img class="search-button" src="../assets/img/magnifyingglass.svg" alt="magngifying glass icon"
+      <img class="search-button" src="../../assets/img/magnifyingglass.svg" alt="magngifying glass icon"
            @click="isSearchVisible = !isSearchVisible">
     </div>
 

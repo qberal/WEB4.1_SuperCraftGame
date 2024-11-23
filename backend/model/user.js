@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const bcrypt = require('bcrypt');
 
 //model for user
 class User {
@@ -12,6 +13,10 @@ class User {
 
     //create user
     static create(newUser, result) {
+
+        //hash password
+        newUser.password = bcrypt.hash(newUser.password, 10);
+
         db.run("INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)", [newUser.username, newUser.password, newUser.email, newUser.role], function (err) {
             if (err) {
                 console.log("error: ", err);
@@ -73,6 +78,11 @@ class User {
                 result({kind: "not_found"}, null);
             }
         );
+    }
+
+    //check password
+    static checkPassword(user, password) {
+        return bcrypt.compare(password, user.password);
     }
 
 }

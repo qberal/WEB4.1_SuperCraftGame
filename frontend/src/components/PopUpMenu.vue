@@ -63,7 +63,7 @@ img {
 }
 
 .popup-title {
-  fled: 1;
+  flex: 1;
   margin-top: 20px;
   margin-bottom: 20px;
   text-align: center;

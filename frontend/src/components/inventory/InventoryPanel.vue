@@ -1,6 +1,6 @@
 <script setup>
 import InventoryItem from "@/components/inventory/InventoryItem.vue";
-import {reactive, ref} from 'vue';
+import { reactive, ref, computed } from 'vue';
 
 defineProps({
   inventory: Array,
@@ -8,12 +8,11 @@ defineProps({
 
 // inventory data
 const inventory = reactive([
-  {id: 1, icon: "/favicon.svg", name: "Item 1"},
-  {id: 2, icon: "/favicon.svg", name: "Item 2"},
-  {id: 3, icon: "/favicon.svg", name: "Item 3"},
-  {id: 4, icon: "/favicon.svg", name: "Item 4"},
-  {id: 5, icon: "/favicon.svg", name: "Item 5"},
-
+  { id: 1, icon: "/favicon.svg", name: "Air" },
+  { id: 2, icon: "/favicon.svg", name: "Water" },
+  { id: 3, icon: "/favicon.svg", name: "Cloud" },
+  { id: 4, icon: "/favicon.svg", name: "Steam" },
+  { id: 5, icon: "/favicon.svg", name: "Electricity" },
 ]);
 
 const clickedItemId = ref(null);
@@ -22,8 +21,31 @@ const updateClickedItem = (id) => {
   clickedItemId.value = id;
 };
 
-let isSearchVisible = ref(false);
+const isSearchVisible = ref(false);
 
+const toggleSearch = () => {
+
+  if(isSearchVisible.value){
+    searchQuery.value = '';
+  }
+
+  isSearchVisible.value = !isSearchVisible.value;
+
+};
+
+const searchQuery = ref('');
+
+const filteredInventory = computed(() => {
+  let sortedInventory = [...inventory].sort((a, b) =>
+      a.name.localeCompare(b.name)
+  );
+
+  if (!searchQuery.value) return sortedInventory;
+
+  return sortedInventory.filter(item =>
+      item.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
+});
 </script>
 
 <template>
@@ -31,15 +53,24 @@ let isSearchVisible = ref(false);
     <div class="inventory-header">
       <h3 v-if="!isSearchVisible">Inventory</h3>
 
-      <input type="text" v-if="isSearchVisible" placeholder="Search inventory">
+      <input
+          type="text"
+          v-if="isSearchVisible"
+          placeholder="Search inventory"
+          v-model="searchQuery"
+      />
 
-      <img class="search-button" src="../../assets/img/magnifyingglass.svg" alt="magngifying glass icon"
-           @click="isSearchVisible = !isSearchVisible">
+      <img
+          class="search-button"
+          src="../../assets/img/magnifyingglass.svg"
+          alt="magnifying glass icon"
+          @click="toggleSearch"
+      >
     </div>
 
     <div class="inventory">
       <InventoryItem
-          v-for="item in inventory"
+          v-for="item in filteredInventory"
           :key="item.id"
           :icon="item.icon"
           :name="item.name"
@@ -51,7 +82,6 @@ let isSearchVisible = ref(false);
 </template>
 
 <style scoped>
-
 .inventory-header {
   display: flex;
   justify-content: space-between;
@@ -83,5 +113,4 @@ h3 {
   font-size: 18px;
   transition: opacity 0.3s ease;
 }
-
 </style>

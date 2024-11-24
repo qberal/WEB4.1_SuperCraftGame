@@ -110,7 +110,8 @@ input {
 }
 
 h3 {
-  font-size: 18px;
+  font-size: 20px;
   transition: opacity 0.3s ease;
+  height: 34px;
 }
 </style>

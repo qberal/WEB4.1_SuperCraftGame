@@ -44,13 +44,6 @@ body {
   overflow: hidden;
 }
 
-.layout {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; /* Utilise toute la hauteur de l'écran */
-  overflow: hidden;
-}
-
 .status-bar {
   position: absolute;
   bottom: 0;

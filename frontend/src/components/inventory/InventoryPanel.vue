@@ -1,6 +1,6 @@
 <script setup>
 import InventoryItem from "@/components/inventory/InventoryItem.vue";
-import { reactive, ref, computed } from 'vue';
+import {reactive, ref, computed} from 'vue';
 
 defineProps({
   inventory: Array,
@@ -8,11 +8,11 @@ defineProps({
 
 // inventory data
 const inventory = reactive([
-  { id: 1, icon: "/favicon.svg", name: "Air" },
-  { id: 2, icon: "/favicon.svg", name: "Water" },
-  { id: 3, icon: "/favicon.svg", name: "Cloud" },
-  { id: 4, icon: "/favicon.svg", name: "Steam" },
-  { id: 5, icon: "/favicon.svg", name: "Electricity" },
+  {id: 1, icon: "/favicon.svg", name: "Air"},
+  {id: 2, icon: "/favicon.svg", name: "Water"},
+  {id: 3, icon: "/favicon.svg", name: "Cloud"},
+  {id: 4, icon: "/favicon.svg", name: "Steam"},
+  {id: 5, icon: "/favicon.svg", name: "Electricity"},
 ]);
 
 const clickedItemId = ref(null);
@@ -25,7 +25,7 @@ const isSearchVisible = ref(false);
 
 const toggleSearch = () => {
 
-  if(isSearchVisible.value){
+  if (isSearchVisible.value) {
     searchQuery.value = '';
   }
 
@@ -51,14 +51,18 @@ const filteredInventory = computed(() => {
 <template>
   <div>
     <div class="inventory-header">
+
       <h3 v-if="!isSearchVisible">Inventory</h3>
 
-      <input
-          type="text"
-          v-if="isSearchVisible"
-          placeholder="Search inventory"
-          v-model="searchQuery"
-      />
+      <transition name="fade">
+
+        <input
+            type="text"
+            v-if="isSearchVisible"
+            placeholder="Search inventory"
+            v-model="searchQuery"
+        />
+      </transition>
 
       <img
           class="search-button"
@@ -114,4 +118,31 @@ h3 {
   transition: opacity 0.3s ease;
   height: 34px;
 }
+
+/* Animation pour la barre de recherche */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+.fade-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
 </style>

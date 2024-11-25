@@ -19,3 +19,9 @@ app.listen(port, () => {
         }
     });
 });
+
+//test route
+
+app.get('/test', (req, res) => {
+    res.send('Hello World');
+});

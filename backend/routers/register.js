@@ -8,6 +8,11 @@ const validateEmail = (email) => {
     return re.test(String(email).toLowerCase());
 };
 
+router.get('/test', (req, res) => {
+    console.log('API is reachable!');
+    res.status(200).send('API is reachable!');
+});
+
 // Route pour s'enregistrer
 router.post('/register', async (req, res) => {
     const { username, email, password} = req.body;
@@ -28,15 +33,17 @@ router.post('/register', async (req, res) => {
     try {
         // Vérifier si le username existe
         User.findByUsername(username, async (err, existingUser) => {
+            console.log('Vérification username...');
             if (existingUser) {
                 return res.status(400).json({ message: "Ce nom d'utilisateur est déjà pris." });
-            }
+            } //TODO : À afficher dans le front
 
             // Vérifier si l'email existe
             User.findByEmail(email, async (err, existingEmail) => {
+                console.log('Vérification email...');
                 if (existingEmail) {
                     return res.status(400).json({ message: "Cet email est déjà utilisé." });
-                }
+                } //TODO : À afficher dans le front
 
                 // Création d'un nouvel utilisateur
                 const newUser = {
@@ -45,13 +52,13 @@ router.post('/register', async (req, res) => {
                     password,
                     role: 'user',
                 };
-
                 User.create(newUser, (err, createdUser) => {
                     if (err) {
                         return res.status(500).json({ message: "Erreur lors de la création de l'utilisateur." });
                     }
+                    console.log('Utilisateur créé avec succès :', createdUser);
                     res.status(201).json({ message: "Votre compte est créé !", user: createdUser });
-                });
+                }); //TODO : À rediriger vers la page de connexion dans le front
             });
         });
     } catch (error) {

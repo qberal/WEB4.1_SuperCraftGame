@@ -11,22 +11,21 @@ router.post('/login', function (req, res) {
     // Vérification des champs
     if (!username || !password) {
         return res.status(400).json({ message: "Nom d'utilisateur et mot de passe requis." });
-    }
+    } //TODO : À afficher dans le front
 
     try {
         // Vérifier si le username existe
         User.findByUsername(username, async (err, user) => {
             if (!user) {
                 return res.status(404).json({ message: "Nom d'utilisateur introuvable." });
-            }
+            } //TODO : À afficher dans le front
 
             // Vérifier que le mot de passe correspond
             if (user.password !== password) {
                 return res.status(401).json({ message: "Mot de passe incorrect." });
-            }
+            } //TODO : À afficher dans le front
 
-            // Redirection vers /play
-            //return res.status(200).json({ message: "Connexion réussie.", redirect: "/play" });
+            // TODO : Rediriger vers un /play correspondant à la session de l'utilisateur
         });
     } catch (error) {
         console.error("Erreur lors de la connexion :", error);
@@ -35,4 +34,5 @@ router.post('/login', function (req, res) {
 });
 
 // TODO : Faire un token jwt pour la connexion
+
 module.exports = router;

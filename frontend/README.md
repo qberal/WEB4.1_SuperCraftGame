@@ -19,3 +19,11 @@ npm run dev
 ```sh
 npm run build
 ```
+
+### Run with docker
+
+```sh
+docker build -t scg-frontend .
+docker run -p 80:80 scg-frontend
+```
+

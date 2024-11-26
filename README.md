@@ -32,4 +32,14 @@ In short, a world where the line between the virtual and your morning coffee is 
 
 ## 🤷 Why Web 4.1?
 
+
+# Run the game with docker
+
+To run the game with docker, you need to have docker installed on your machine. Then, after running the following command, you can access the game at `http://localhost`
+
+```sh
+docker-compose up --build
+```
+
+
 Because Web 4.0 was too stable, and chaos is where innovation happens. You’re welcome. 🎉

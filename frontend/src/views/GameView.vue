@@ -3,6 +3,7 @@
 import PlayerStatusBar from "@/components/PlayerStatusBar.vue";
 import InventoryPanel from "@/components/inventory/InventoryPanel.vue";
 import SimpleButton from "@/components/buttons/SimpleButton.vue";
+import GameCanvas from "@/components/GameCanvas.vue";
 
 const inventory = [
   {id: 1, icon: "/favicon.svg", name: "Item 1"},
@@ -32,6 +33,12 @@ const inventory = [
       <InventoryPanel :inventory="inventory"/>
     </div>
 
+    <!-- Canvas de jeu -->
+    <div class="game-canvas">
+      <GameCanvas/>
+    </div>
+
+
     <!-- Bouton en bas avant l'inventaire -->
     <div class="button-container">
       <SimpleButton icon="src/assets/img/paintbrush.svg"/>
@@ -50,6 +57,7 @@ body {
   left: 0;
   padding: 20px;
   width: 20vw;
+  z-index: 90;
 }
 
 .inventory {
@@ -64,6 +72,7 @@ body {
   background: #ECECEC;
   box-shadow: 0px 4px 16.3px 0px rgba(49, 49, 49, 0.25);
   margin: 10px 10px 10px 0;
+  z-index: 90;
 }
 
 .button-container {
@@ -74,5 +83,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 90;
 }
+
+.game-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 50;
+}
+
 </style>

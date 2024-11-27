@@ -9,16 +9,11 @@ import PopUpMenu from "@/components/PopUpMenu.vue";
 import Leaderboard from "@/components/Leaderboard.vue";
 
 const inventory = [
-  {id: 1, icon: "/favicon.svg", name: "Item 1"},
-  {id: 2, icon: "/favicon.svg", name: "Item 2"},
-  {id: 3, icon: "/favicon.svg", name: "Item 3"},
-  {id: 4, icon: "/favicon.svg", name: "Item 4"},
-  {id: 5, icon: "/favicon.svg", name: "Item 5"},
+  {id: 1, icon: "/wind.svg", name: "Air"},
+  {id: 2, icon: "/flame.svg", name: "Fire"},
+  {id: 3, icon: "/globe.europe.africa.svg", name: "Earth"},
+  {id: 4, icon: "/drop.svg", name: "Water"},
 ];
-
-let cleanUpToggle = ref(false)
-let openLeaderboard = ref(false)
-let openSettings = ref(false)
 
 const players = [
   {id: 1, name: "Player 1", score: 100},
@@ -27,6 +22,19 @@ const players = [
   {id: 4, name: "Player 4", score: 400},
   {id: 5, name: "Player 5", score: 500},
 ];
+
+let cleanUpToggle = ref(false)
+
+let currentItem = ref(null)
+
+let openLeaderboard = ref(false)
+let openSettings = ref(false)
+
+
+function updateCurrentItem(id) {
+  currentItem.value = inventory.find(item => item.id === id)
+  console.log(currentItem.value)
+}
 
 </script>
 
@@ -46,12 +54,12 @@ const players = [
 
     <!-- Inventaire à droite -->
     <div class="inventory">
-      <InventoryPanel :inventory="inventory"/>
+      <InventoryPanel :inventory="inventory" @update-clicked-item="updateCurrentItem"/>
     </div>
 
     <!-- Canvas de jeu -->
     <div class="game-canvas">
-      <GameCanvas :clean-up-action="cleanUpToggle"/>
+      <GameCanvas :clean-up-action="cleanUpToggle" :current-selected-item="currentItem"/>
     </div>
 
 

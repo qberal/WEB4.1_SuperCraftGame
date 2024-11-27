@@ -1,11 +1,21 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue';
+import {ref, reactive, onMounted, watch} from 'vue';
+
+const props = defineProps({
+  cleanUpAction: Boolean
+})
+
+//when cleanUpAction prop changes to true, empty canvas
+watch(() => props.cleanUpAction, (newValue) => {
+  shapes.splice(0, shapes.length);
+  drawCanvas();
+})
 
 const canvasRef = ref(null);
 
 const shapes = reactive([
-  { id: 1, x: 100, y: 100, radius: 30, color: "red", isDragging: false },
-  { id: 2, x: 200, y: 200, radius: 40, color: "blue", isDragging: false },
+  {id: 1, x: 100, y: 100, radius: 30, color: "red", isDragging: false},
+  {id: 2, x: 200, y: 200, radius: 40, color: "blue", isDragging: false},
 ]);
 
 let selectedShape = null;
@@ -33,6 +43,7 @@ const getClickedShape = (x, y) => {
   );
 };
 
+//début du drag and drop
 const handleMouseDown = (event) => {
   const canvas = canvasRef.value;
   const rect = canvas.getBoundingClientRect();
@@ -43,10 +54,10 @@ const handleMouseDown = (event) => {
 
   if (selectedShape) {
     selectedShape.isDragging = true;
-    console.log(`Début du drag de la forme ${selectedShape.id}`);
   }
 };
 
+//déplacement de l'objet
 const handleMouseMove = (event) => {
   if (!selectedShape || !selectedShape.isDragging) return;
 
@@ -61,9 +72,9 @@ const handleMouseMove = (event) => {
   drawCanvas();
 };
 
+//fin du drag and drop
 const handleMouseUp = () => {
   if (selectedShape) {
-    console.log(`Fin du drag de la forme ${selectedShape.id}`);
     selectedShape.isDragging = false;
     selectedShape = null;
   }
@@ -80,12 +91,6 @@ onMounted(() => {
   canvas.addEventListener("mousedown", handleMouseDown);
   canvas.addEventListener("mousemove", handleMouseMove);
   canvas.addEventListener("mouseup", handleMouseUp);
-
-  onUnmounted(() => {
-    canvas.removeEventListener("mousedown", handleMouseDown);
-    canvas.removeEventListener("mousemove", handleMouseMove);
-    canvas.removeEventListener("mouseup", handleMouseUp);
-  });
 });
 </script>
 
@@ -102,6 +107,7 @@ body {
   width: 100%;
   height: 100%;
 }
+
 canvas {
   display: block;
 }

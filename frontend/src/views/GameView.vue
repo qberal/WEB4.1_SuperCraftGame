@@ -4,6 +4,7 @@ import PlayerStatusBar from "@/components/PlayerStatusBar.vue";
 import InventoryPanel from "@/components/inventory/InventoryPanel.vue";
 import SimpleButton from "@/components/buttons/SimpleButton.vue";
 import GameCanvas from "@/components/GameCanvas.vue";
+import {ref} from "vue";
 
 const inventory = [
   {id: 1, icon: "/favicon.svg", name: "Item 1"},
@@ -13,6 +14,7 @@ const inventory = [
   {id: 5, icon: "/favicon.svg", name: "Item 5"},
 ];
 
+let cleanUpToggle = ref(false)
 
 </script>
 
@@ -24,7 +26,7 @@ const inventory = [
           name="Player 1"
           profilePicture="src/assets/img/person.fill.placeholder.svg"
           score="100"
-          maxScore="200"
+          maxScore="100"
       />
     </div>
 
@@ -35,13 +37,13 @@ const inventory = [
 
     <!-- Canvas de jeu -->
     <div class="game-canvas">
-      <GameCanvas/>
+      <GameCanvas :clean-up-action="cleanUpToggle"/>
     </div>
 
 
     <!-- Bouton en bas avant l'inventaire -->
     <div class="button-container">
-      <SimpleButton icon="src/assets/img/paintbrush.svg"/>
+      <SimpleButton icon="src/assets/img/paintbrush.svg" @cleanUp="cleanUpToggle = !cleanUpToggle"/>
     </div>
   </div>
 </template>

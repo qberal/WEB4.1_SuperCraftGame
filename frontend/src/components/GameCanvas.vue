@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, watch } from 'vue';
+import {ref, reactive, watch} from 'vue';
 
 const props = defineProps({
   cleanUpAction: Boolean,
@@ -59,12 +59,18 @@ const handleDrop = (event) => {
   if (item?.icon) {
     addShape(x, y, item.icon);
   }
+
+  // Réactive les interactions des formes
+  shapes.forEach((shape) => (shape.pointerEvents = 'auto'));
 };
 
 const handleDragOver = (event) => {
   if (!isDraggingInternal) {
     event.preventDefault();
   }
+
+  // Désactive temporairement les interactions des formes
+  shapes.forEach((shape) => (shape.pointerEvents = 'none'));
 };
 
 const handleDragEnter = () => {
@@ -73,6 +79,25 @@ const handleDragEnter = () => {
 
 const handleDragLeave = () => {
   isDragOver.value = false;
+
+  // Réactive les interactions des formes
+  shapes.forEach((shape) => (shape.pointerEvents = 'auto'));
+};
+
+// Gérer le drop sur les formes existantes
+const handleShapeDrop = (shape, event) => {
+  event.preventDefault();
+
+  const rect = containerRef.value.getBoundingClientRect();
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+
+  const data = event.dataTransfer.getData('application/json');
+  const item = JSON.parse(data);
+
+  if (item?.icon) {
+    shape.imgSrc = item.icon;
+  }
 };
 
 // Variables pour le déplacement des formes internes
@@ -100,7 +125,6 @@ const onMouseUp = () => {
 
 const startDrag = (shape, event) => {
   event.stopPropagation();
-  // event.preventDefault(); // Retirez ceci si nécessaire
 
   isDraggingInternal = true;
 
@@ -126,22 +150,24 @@ const startDrag = (shape, event) => {
       @dragenter="handleDragEnter"
       @dragleave="handleDragLeave"
       draggable="false"
-  ></div>
-  <div
-      v-for="shape in shapes"
-      :key="shape.id"
-      :class="['shape', shape.imgSrc ? 'image-shape' : 'circle-shape']"
-      :style="{
-        top: shape.y + 'px',
-        left: shape.x + 'px',
-        width: shape.width + 'px',
-        height: shape.height + 'px',
-        backgroundImage: shape.imgSrc ? `url(${shape.imgSrc})` : 'none',
-        backgroundColor: shape.color || 'transparent',
-      }"
-      @mousedown="(e) => startDrag(shape, e)"
-      draggable="false"
-  ></div>
+  >
+    <div
+        v-for="shape in shapes"
+        :key="shape.id"
+        :class="['shape', shape.imgSrc ? 'image-shape' : 'circle-shape']"
+        :style="{
+    top: shape.y + 'px',
+    left: shape.x + 'px',
+    width: shape.width + 'px',
+    height: shape.height + 'px',
+    backgroundImage: shape.imgSrc ? `url(${shape.imgSrc})` : 'none',
+    backgroundColor: shape.color || 'transparent',
+    pointerEvents: shape.pointerEvents || 'auto',
+  }"
+        @mousedown="(e) => startDrag(shape, e)"
+        draggable="false"
+    />
+  </div>
 </template>
 
 <style>
@@ -149,7 +175,7 @@ const startDrag = (shape, event) => {
   width: 100vw;
   height: 100vh;
   position: relative;
-  background-color: #f0f0f0;
+  background-color: white;
   overflow: hidden;
 }
 

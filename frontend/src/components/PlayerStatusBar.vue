@@ -27,8 +27,8 @@ let extraSettingOpened = ref(false);
   </div>
 
   <div class="extra-settings" v-if="extraSettingOpened">
-    <a href="/leaderboard">Leaderboard</a>
-    <a href="/settings">Settings</a>
+    <a @click="$emit('open-leaderboard')">Leaderboard</a>
+    <a @click="$emit('open-settings')">Settings</a>
     <a href="/logout">Logout</a>
   </div>
 

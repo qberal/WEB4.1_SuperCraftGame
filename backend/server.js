@@ -13,6 +13,11 @@ app.use('/fusion', fusion);
 const item = require('./routers/item');  
 app.use('/item', item);
 
+const infinity = require('./routers/infinityRouter');
+app.use('/infinity', infinity);
+
+
+
 //const mergeWords = require('./words.js');
 
 app.listen(port, () => {

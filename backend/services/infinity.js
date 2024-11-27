@@ -20,7 +20,7 @@ class Infinity {
                     content: `You are a game intelligence that outputs in JSON.\n
                     You will be given to words and you will have to fusion them in an intelligent way.\n
                      For example, water+earth=mud.\n
-                     NEVER give a something that is just a mix of the two words.\n
+                     NEVER give a something that is just a mix of the two words, except if it's totally legit (water+melon = watermelon)\n
                      \n You will also give an emoji according to your result.\n
                      'The JSON object must use the schema: ${jsonSchema}`,
                 },
@@ -29,7 +29,7 @@ class Infinity {
                     content: `Fusion ${item_name1} and ${item_name2}`,
                 },
             ],
-            model: "llama3-8b-8192",
+            model: "llama-3.1-70b-versatile",
             temperature: 0,
             stream: false,
             response_format: {type: "json_object"},

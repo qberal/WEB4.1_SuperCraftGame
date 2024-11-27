@@ -1,42 +1,41 @@
 <script setup>
 import InventoryItem from "@/components/inventory/InventoryItem.vue";
-import {reactive, ref, computed} from 'vue';
+import {ref, computed} from 'vue';
 
-defineProps({
+const props = defineProps({
   inventory: Array,
 });
 
-// inventory data
-const inventory = reactive([
-  {id: 1, icon: "/favicon.svg", name: "Air"},
-  {id: 2, icon: "/favicon.svg", name: "Water"},
-  {id: 3, icon: "/favicon.svg", name: "Cloud"},
-  {id: 4, icon: "/favicon.svg", name: "Steam"},
-  {id: 5, icon: "/favicon.svg", name: "Electricity"},
-]);
+const emit = defineEmits({
+  updateClickedItem: (id) => id,
+});
 
+// clicked item
 const clickedItemId = ref(null);
+
 
 const updateClickedItem = (id) => {
   clickedItemId.value = id;
+  emit('updateClickedItem', id);
 };
 
+
+//search bar visibility
 const isSearchVisible = ref(false);
 
 const toggleSearch = () => {
-
   if (isSearchVisible.value) {
     searchQuery.value = '';
   }
-
   isSearchVisible.value = !isSearchVisible.value;
-
 };
 
+
+//search functionality
 const searchQuery = ref('');
 
 const filteredInventory = computed(() => {
-  let sortedInventory = [...inventory].sort((a, b) =>
+  let sortedInventory = [...props.inventory].sort((a, b) =>
       a.name.localeCompare(b.name)
   );
 
@@ -46,6 +45,7 @@ const filteredInventory = computed(() => {
       item.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
+
 </script>
 
 <template>

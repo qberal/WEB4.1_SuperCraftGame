@@ -5,16 +5,36 @@ import InventoryPanel from "@/components/inventory/InventoryPanel.vue";
 import SimpleButton from "@/components/buttons/SimpleButton.vue";
 import GameCanvas from "@/components/GameCanvas.vue";
 import {ref} from "vue";
+import PopUpMenu from "@/components/PopUpMenu.vue";
+import Leaderboard from "@/components/Leaderboard.vue";
 
 const inventory = [
-  {id: 1, icon: "/favicon.svg", name: "Item 1"},
-  {id: 2, icon: "/favicon.svg", name: "Item 2"},
-  {id: 3, icon: "/favicon.svg", name: "Item 3"},
-  {id: 4, icon: "/favicon.svg", name: "Item 4"},
-  {id: 5, icon: "/favicon.svg", name: "Item 5"},
+  {id: 1, icon: "/wind.svg", name: "Air"},
+  {id: 2, icon: "/flame.svg", name: "Fire"},
+  {id: 3, icon: "/globe.europe.africa.svg", name: "Earth"},
+  {id: 4, icon: "/drop.svg", name: "Water"},
+];
+
+const players = [
+  {id: 1, name: "Player 1", score: 100},
+  {id: 2, name: "Player 2", score: 200},
+  {id: 3, name: "Player 3", score: 300},
+  {id: 4, name: "Player 4", score: 400},
+  {id: 5, name: "Player 5", score: 500},
 ];
 
 let cleanUpToggle = ref(false)
+
+let currentItem = ref(null)
+
+let openLeaderboard = ref(false)
+let openSettings = ref(false)
+
+
+function updateCurrentItem(id) {
+  currentItem.value = inventory.find(item => item.id === id)
+  console.log(currentItem.value)
+}
 
 </script>
 
@@ -27,17 +47,19 @@ let cleanUpToggle = ref(false)
           profilePicture="src/assets/img/person.fill.placeholder.svg"
           score="100"
           maxScore="100"
+          @open-leaderboard="openLeaderboard = !openLeaderboard"
+          @open-settings="openSettings = !openSettings"
       />
     </div>
 
     <!-- Inventaire à droite -->
     <div class="inventory">
-      <InventoryPanel :inventory="inventory"/>
+      <InventoryPanel :inventory="inventory" @update-clicked-item="updateCurrentItem"/>
     </div>
 
     <!-- Canvas de jeu -->
     <div class="game-canvas">
-      <GameCanvas :clean-up-action="cleanUpToggle"/>
+      <GameCanvas :clean-up-action="cleanUpToggle" :current-selected-item="currentItem"/>
     </div>
 
 
@@ -45,6 +67,17 @@ let cleanUpToggle = ref(false)
     <div class="button-container">
       <SimpleButton icon="src/assets/img/paintbrush.svg" @cleanUp="cleanUpToggle = !cleanUpToggle"/>
     </div>
+
+    <!-- PopUps -->
+    <PopUpMenu title="Leaderboard" :show="openLeaderboard" @close="openLeaderboard = false">
+      <Leaderboard :players="players"/>
+    </PopUpMenu>
+
+    <PopUpMenu title="Settings" :show="openSettings" @close="openSettings = false">
+      <p>Settings (WIP)</p>
+    </PopUpMenu>
+
+
   </div>
 </template>
 

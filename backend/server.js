@@ -8,15 +8,13 @@ const port = process.env.PORT || 3000;
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('../frontend'));
 
-
-
 const fusion = require('./routers/fusion');  
 app.use('/fusion', fusion);
 
 const item = require('./routers/item');  
 app.use('/item', item);
 
-
+const mergeWords = require('./words.js');
 
 app.listen(port, () => {
     console.log(`Express app listening on port ${port}`);

@@ -3,10 +3,10 @@
 import PlayerStatusBar from "@/components/PlayerStatusBar.vue";
 import InventoryPanel from "@/components/inventory/InventoryPanel.vue";
 import SimpleButton from "@/components/buttons/SimpleButton.vue";
-import GameCanvas from "@/components/GameCanvas.vue";
 import {ref} from "vue";
 import PopUpMenu from "@/components/PopUpMenu.vue";
 import Leaderboard from "@/components/Leaderboard.vue";
+import GameCanvasDiv from "@/components/GameCanvasDiv.vue";
 
 const inventory = [
   {id: 1, icon: "/wind.svg", name: "Air"},
@@ -59,7 +59,7 @@ function updateCurrentItem(id) {
 
     <!-- Canvas de jeu -->
     <div class="game-canvas">
-      <GameCanvas :clean-up-action="cleanUpToggle" :current-selected-item="currentItem"/>
+      <GameCanvasDiv :clean-up-action="cleanUpToggle" :current-selected-item="currentItem"/>
     </div>
 
 

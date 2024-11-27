@@ -1,184 +1,180 @@
 <script setup>
-import {ref, reactive, onMounted, watch} from 'vue';
+import { ref, reactive, watch } from 'vue';
 
 const props = defineProps({
   cleanUpAction: Boolean,
   currentSelectedItem: Object,
-})
+});
 
-// Quand la prop cleanUpAction passe à true, vider le canvas
-watch(() => props.cleanUpAction, (newValue) => {
-  shapes.splice(0);
-  drawCanvas();
-})
-
-const canvasRef = ref(null);
-
-let shapes = reactive([]);
-
-let selectedShape = null;
-
-const drawCanvas = () => {
-  const canvas = canvasRef.value;
-  const ctx = canvas.getContext("2d");
-
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  shapes.forEach((shape) => {
-    if (shape.image && shape.image.complete) {
-      ctx.drawImage(
-          shape.image,
-          shape.x - shape.width / 2,
-          shape.y - shape.height / 2,
-          shape.width,
-          shape.height
-      );
-    } else if (shape.color) {
-      ctx.fillStyle = shape.color;
-      ctx.beginPath();
-      ctx.arc(shape.x, shape.y, shape.radius, 0, Math.PI * 2);
-      ctx.fill();
+watch(
+    () => props.cleanUpAction,
+    () => {
+      shapes.splice(0); // Efface les formes
     }
-  });
-};
+);
 
-const getClickedShape = (x, y) => {
-  return shapes.find((shape) => {
-    if (shape.radius) {
-      // Pour les cercles
-      return Math.sqrt((x - shape.x) ** 2 + (y - shape.y) ** 2) <= shape.radius;
-    } else if (shape.width && shape.height) {
-      // Pour les images (rectangles)
-      return (
-          x >= shape.x - shape.width / 2 &&
-          x <= shape.x + shape.width / 2 &&
-          y >= shape.y - shape.height / 2 &&
-          y <= shape.y + shape.height / 2
-      );
-    }
-    return false;
-  });
-};
+const shapes = reactive([]);
+const containerRef = ref(null);
 
-
-// Début du drag and drop
-const handleMouseDown = (event) => {
-  const canvas = canvasRef.value;
-  const rect = canvas.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
-
-  selectedShape = getClickedShape(x, y);
-
-  if (selectedShape) {
-    selectedShape.isDragging = true;
-    selectedShape.offsetX = x - selectedShape.x;
-    selectedShape.offsetY = y - selectedShape.y;
-  }
-
-  isDragging = true;
-  clickPrevented = false; // Initialisation
-};
-
-// Déplacement de l'objet
-const handleMouseMove = (event) => {
-  if (!selectedShape || !selectedShape.isDragging) return;
-
-  const canvas = canvasRef.value;
-  const rect = canvas.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
-
-  selectedShape.x = x - selectedShape.offsetX;
-  selectedShape.y = y - selectedShape.offsetY;
-
-  drawCanvas();
-  clickPrevented = true; // Empêche le déclenchement du clic
-};
-
-let isDragging = false;
-let clickPrevented = false;
-
-// Fin du drag and drop
-const handleMouseUp = () => {
-  if (selectedShape) {
-    selectedShape.isDragging = false;
-    selectedShape = null;
-  }
-
-  isDragging = false;
+const addShape = (x, y, imgSrc = null, color = null) => {
+  const size = 50; // Taille par défaut
+  shapes.push(
+      reactive({
+        id: shapes.length + 1,
+        x: x - size / 2, // Centre la forme
+        y: y - size / 2,
+        width: size,
+        height: size,
+        imgSrc,
+        color,
+        isDragging: false,
+      })
+  );
 };
 
 const handleClick = (event) => {
-  // Si un drag a eu lieu, on ignore le clic
-  if (clickPrevented) {
-    clickPrevented = false; // Réinitialisation pour le prochain cycle
-    return;
-  }
-
-  const canvas = canvasRef.value;
-  const rect = canvas.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
-
   if (props.currentSelectedItem?.icon) {
-    const img = new Image();
-    img.crossOrigin = "Anonymous";
-    img.src = props.currentSelectedItem.icon;
-
-    img.onload = () => {
-      const aspectRatio = img.width / img.height;
-      const newShape = reactive({
-        id: shapes.length + 1,
-        x: x,
-        y: y,
-        width: 50,
-        height: 50 / aspectRatio,
-        image: img,
-        isDragging: false,
-        offsetX: 0,
-        offsetY: 0,
-      });
-
-      shapes.push(newShape);
-      drawCanvas();
-    };
-
-    img.onerror = () => {
-      console.error('Erreur lors du chargement de l\'image :', props.currentSelectedItem.icon);
-    };
+    const rect = containerRef.value.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    addShape(x, y, props.currentSelectedItem.icon);
   }
 };
 
-onMounted(() => {
-  const canvas = canvasRef.value;
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+// Variables pour le drag and drop externe
+const isDragOver = ref(false);
 
-  drawCanvas();
+const handleDrop = (event) => {
+  event.preventDefault();
+  isDragOver.value = false;
 
-  canvas.addEventListener("mousedown", handleMouseDown);
-  canvas.addEventListener("mousemove", handleMouseMove);
-  canvas.addEventListener("mouseup", handleMouseUp);
-  canvas.addEventListener("click", handleClick);
-});
+  const rect = containerRef.value.getBoundingClientRect();
+  const x = event.clientX - rect.left;
+  const y = event.clientY - rect.top;
+
+  // Récupère les données de l'élément glissé
+  const data = event.dataTransfer.getData('application/json');
+  const item = JSON.parse(data);
+
+  if (item?.icon) {
+    addShape(x, y, item.icon);
+  }
+};
+
+const handleDragOver = (event) => {
+  if (!isDraggingInternal) {
+    event.preventDefault();
+  }
+};
+
+const handleDragEnter = () => {
+  isDragOver.value = true;
+};
+
+const handleDragLeave = () => {
+  isDragOver.value = false;
+};
+
+// Variables pour le déplacement des formes internes
+let currentDraggingShape = null;
+let isDraggingInternal = false;
+
+const onMouseMove = (event) => {
+  if (!currentDraggingShape) return;
+
+  const rect = containerRef.value.getBoundingClientRect();
+  currentDraggingShape.x = event.clientX - rect.left - currentDraggingShape.offsetX;
+  currentDraggingShape.y = event.clientY - rect.top - currentDraggingShape.offsetY;
+};
+
+const onMouseUp = () => {
+  if (currentDraggingShape) {
+    currentDraggingShape.isDragging = false;
+    currentDraggingShape = null;
+    isDraggingInternal = false;
+  }
+
+  window.removeEventListener('mousemove', onMouseMove);
+  window.removeEventListener('mouseup', onMouseUp);
+};
+
+const startDrag = (shape, event) => {
+  event.stopPropagation();
+  // event.preventDefault(); // Retirez ceci si nécessaire
+
+  isDraggingInternal = true;
+
+  currentDraggingShape = shape;
+  shape.isDragging = true;
+
+  const rect = containerRef.value.getBoundingClientRect();
+  shape.offsetX = event.clientX - rect.left - shape.x;
+  shape.offsetY = event.clientY - rect.top - shape.y;
+
+  window.addEventListener('mousemove', onMouseMove);
+  window.addEventListener('mouseup', onMouseUp);
+};
 </script>
 
 <template>
-  <canvas ref="canvasRef"></canvas>
+  <div
+      ref="containerRef"
+      class="container"
+      @click="handleClick"
+      @drop="handleDrop"
+      @dragover="handleDragOver"
+      @dragenter="handleDragEnter"
+      @dragleave="handleDragLeave"
+      draggable="false"
+  ></div>
+  <div
+      v-for="shape in shapes"
+      :key="shape.id"
+      :class="['shape', shape.imgSrc ? 'image-shape' : 'circle-shape']"
+      :style="{
+        top: shape.y + 'px',
+        left: shape.x + 'px',
+        width: shape.width + 'px',
+        height: shape.height + 'px',
+        backgroundImage: shape.imgSrc ? `url(${shape.imgSrc})` : 'none',
+        backgroundColor: shape.color || 'transparent',
+      }"
+      @mousedown="(e) => startDrag(shape, e)"
+      draggable="false"
+  ></div>
 </template>
 
 <style>
-html,
-body {
-  margin: 0;
-  padding: 0;
+.container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-color: #f0f0f0;
   overflow: hidden;
-  width: 100%;
-  height: 100%;
 }
 
-canvas {
-  display: block;
+.container.drag-over {
+  border: 2px dashed #aaa;
+}
+
+.shape {
+  position: absolute;
+  cursor: grab;
+  border-radius: 50%; /* Cercle par défaut */
+  transition: transform 0.1s;
+}
+
+.shape:active {
+  cursor: grabbing;
+}
+
+.image-shape {
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 0; /* Images rectangulaires */
+}
+
+.circle-shape {
+  background-color: lightblue; /* Couleur de secours */
 }
 </style>

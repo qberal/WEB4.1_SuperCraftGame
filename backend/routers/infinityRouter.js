@@ -2,9 +2,9 @@ const Infinity = require('../services/infinity');
 const express = require("express");  // Assurez-vous que le chemin d'importation est correct
 const router = express.Router();
 
-router.get("/generate/:item1/:item2", (req, res) => {
-    const item1 = req.params.item1;
-    const item2 = req.params.item2;
+router.get("/generate", (req, res) => {
+    const item1 = req.query.item1;
+    const item2 = req.query.item2;
 
     Infinity.getFusions(item1, item2, (err, fusions) => {
         if (err) {

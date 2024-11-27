@@ -83,6 +83,36 @@ class Fusion {
         );
     }
 
+    // Fonction simulée pour vérifier si une fusion est possible
+    static isFusionPossible(item1, item2, result) {
+        console.log("Checking fusion possibility...");
+    
+        // Vérification si les deux items sont fusionnables
+        db.get("SELECT fusionnable FROM items WHERE id = ?", [item1], (err, row1) => {
+            if (err) {
+                console.log("Error fetching item 1: ", err);
+                result(err, null);
+                return;
+            }
+    
+            db.get("SELECT fusionnable FROM items WHERE id = ?", [item2], (err, row2) => {
+                if (err) {
+                    console.log("Error fetching item 2: ", err);
+                    result(err, null);
+                    return;
+                }
+    
+                // Vérification de la possibilité de fusion
+                if (row1 && row2 && row1.fusionnable === 1 && row2.fusionnable === 1) {
+                    result(null, true);  // Fusion possible
+                } else {
+                    result(null, false); // Fusion non possible
+                }
+            });
+        });
+    }
+
+
     // Mettre à jour une fusion par ID
     static updateById(id, updatedFusion, result) {
         db.run(
@@ -104,6 +134,62 @@ class Fusion {
             }
         );
     }
+
+    static getFusionItems(item1, item2, result) {
+        console.log("Fetching items for fusion...");
+    
+        // Vérifier si les deux items sont fusionnables
+        db.get("SELECT fusionnable FROM items WHERE id = ?", [item1], (err, row1) => {
+            if (err) {
+                console.log("Error fetching item 1: ", err);
+                result(err, null);
+                return;
+            }
+    
+            db.get("SELECT fusionnable FROM items WHERE id = ?", [item2], (err, row2) => {
+                if (err) {
+                    console.log("Error fetching item 2: ", err);
+                    result(err, null);
+                    return;
+                }
+    
+                // Vérifier si les deux items sont fusionnables
+                if (row1 && row2 && row1.fusionnable === 1 && row2.fusionnable === 1) {
+                    // Chercher si cette fusion existe déjà dans la table fusions
+                    db.get("SELECT * FROM fusions WHERE item_id_1 = ? AND item_id_2 = ?", [item1, item2], (err, fusion) => {
+                        if (err) {
+                            console.log("Error fetching fusion: ", err);
+                            result(err, null);
+                            return;
+                        }
+    
+                        // Si la fusion existe, retourner l'item fusionné
+                        if (fusion) {
+                            db.get("SELECT * FROM items WHERE id = ?", [fusion.item_fusionne_id], (err, fusionItem) => {
+                                if (err) {
+                                    console.log("Error fetching fused item: ", err);
+                                    result(err, null);
+                                    return;
+                                }
+    
+                                // Retourner l'item fusionné
+                                result(null, fusionItem);
+                            });
+                        } else {
+                            result({ kind: "fusion_not_found" }, null);
+                        }
+                    });
+                } else {
+                    result({ kind: "fusion_not_possible" }, null);
+                }
+            });
+        });
+    }
+    
+
+    
 }
+
+
 
 module.exports = Fusion;

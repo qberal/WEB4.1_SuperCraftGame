@@ -55,20 +55,35 @@ class Item {
         });
     }
 
-    // Trouver les items si ils sont fusionnables
-    static findByFusionnable(fusionnable, result) {
-        db.all("SELECT * FROM items WHERE fusionnable = ?", [fusionnable], function (err, items) {
-            if (err) {
-                console.log("error: ", err);
-                result(err, null);
-                return;
+    // Trouver les items fusionnables
+    static findByFusionnable(result) {
+        db.all(
+            "SELECT * FROM items where fusionnable =1", 
+            [], 
+            function (err, fusions) {
+                if (err) {
+                    console.log("error: ", err);
+                    result(err, null);
+                    return;
+                }
+                result(null, fusions);
             }
-            if (items.length > 0) {
-                result(null, items);
-                return;
+        );
+    }
+
+    static getAll(result) {
+        db.all(
+            "SELECT * FROM items", 
+            [], 
+            function (err, fusions) {
+                if (err) {
+                    console.log("error: ", err);
+                    result(err, null);
+                    return;
+                }
+                result(null, fusions);
             }
-            result({kind: "not_found"}, null);
-        });
+        );
     }
 }
 

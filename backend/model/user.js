@@ -27,6 +27,7 @@ class User {
             result(null, {id: this.lastID, ...newUser});
         });
     }
+    
 
     //find user by id
     static findById(id, result) {

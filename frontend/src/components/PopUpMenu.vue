@@ -69,9 +69,4 @@ img {
   text-align: center;
 }
 
-.popup-content {
-
-}
-
-
 </style>

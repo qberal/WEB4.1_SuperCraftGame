@@ -18,18 +18,22 @@ const containerRef = ref(null);
 
 const addShape = (x, y, imgSrc = null, color = null) => {
   const size = 50; // Taille par défaut
-  shapes.push(
-      reactive({
-        id: shapes.length + 1,
-        x: x - size / 2, // Centre la forme
-        y: y - size / 2,
-        width: size,
-        height: size,
-        imgSrc,
-        color,
-        isDragging: false,
-      })
-  );
+  const newShape = reactive({
+    id: shapes.length + 1,
+    x: x - size / 2, // Centre la forme
+    y: y - size / 2,
+    width: size,
+    height: size,
+    imgSrc,
+    color,
+    isDragging: false,
+  });
+  shapes.push(newShape);
+
+  let other = isSuperposed(newShape);
+  if (other !== null) {
+    handleFusion(newShape, other);
+  }
 };
 
 const handleClick = (event) => {
@@ -39,6 +43,48 @@ const handleClick = (event) => {
     const y = event.clientY - rect.top;
     addShape(x, y, props.currentSelectedItem.icon);
   }
+};
+
+// Vérifie si deux formes se chevauchent
+const isOverlapping = (shape1, shape2, margin = 15) => {
+  return !(
+      shape1.x + shape1.width - margin <= shape2.x + margin || // shape1 est à gauche de shape2
+      shape1.x + margin >= shape2.x + shape2.width - margin || // shape1 est à droite de shape2
+      shape1.y + shape1.height - margin <= shape2.y + margin || // shape1 est au-dessus de shape2
+      shape1.y + margin >= shape2.y + shape2.height - margin    // shape1 est en dessous de shape2
+  );
+
+};
+
+// Vérifie si une forme donnée est superposée avec une autre
+const isSuperposed = (shape) => {
+  for (const otherShape of shapes) {
+    if (shape !== otherShape && isOverlapping(shape, otherShape)) {
+      return otherShape;
+    }
+  }
+  return null;
+};
+
+const handleFusion = (shape1, shape2) => {
+
+  //supprime les formes et les remplace par une nouvelle forme (un cercle pour l'exemple)
+  const newShape = reactive({
+    id: shapes.length + 1,
+    x: Math.min(shape1.x, shape2.x),
+    y: Math.min(shape1.y, shape2.y),
+    width: Math.max(shape1.x + shape1.width, shape2.x + shape2.width) - Math.min(shape1.x, shape2.x),
+    height: Math.max(shape1.y + shape1.height, shape2.y + shape2.height) - Math.min(shape1.y, shape2.y),
+    imgSrc: null,
+    color: 'red',
+    isDragging: false,
+  });
+
+  //delete shape 1 and shape 2
+  shapes.splice(shapes.indexOf(shape1), 1);
+  shapes.splice(shapes.indexOf(shape2), 1);
+
+  shapes.push(newShape);
 };
 
 // Variables pour le drag and drop externe
@@ -52,7 +98,6 @@ const handleDrop = (event) => {
   const x = event.clientX - rect.left;
   const y = event.clientY - rect.top;
 
-  // Récupère les données de l'élément glissé
   const data = event.dataTransfer.getData('application/json');
   const item = JSON.parse(data);
 
@@ -60,7 +105,6 @@ const handleDrop = (event) => {
     addShape(x, y, item.icon);
   }
 
-  // Réactive les interactions des formes
   shapes.forEach((shape) => (shape.pointerEvents = 'auto'));
 };
 
@@ -68,8 +112,6 @@ const handleDragOver = (event) => {
   if (!isDraggingInternal) {
     event.preventDefault();
   }
-
-  // Désactive temporairement les interactions des formes
   shapes.forEach((shape) => (shape.pointerEvents = 'none'));
 };
 
@@ -79,25 +121,7 @@ const handleDragEnter = () => {
 
 const handleDragLeave = () => {
   isDragOver.value = false;
-
-  // Réactive les interactions des formes
   shapes.forEach((shape) => (shape.pointerEvents = 'auto'));
-};
-
-// Gérer le drop sur les formes existantes
-const handleShapeDrop = (shape, event) => {
-  event.preventDefault();
-
-  const rect = containerRef.value.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
-
-  const data = event.dataTransfer.getData('application/json');
-  const item = JSON.parse(data);
-
-  if (item?.icon) {
-    shape.imgSrc = item.icon;
-  }
 };
 
 // Variables pour le déplacement des formes internes
@@ -115,6 +139,12 @@ const onMouseMove = (event) => {
 const onMouseUp = () => {
   if (currentDraggingShape) {
     currentDraggingShape.isDragging = false;
+
+    let other = isSuperposed(currentDraggingShape);
+    if (other !== null) {
+      handleFusion(currentDraggingShape, other);
+    }
+
     currentDraggingShape = null;
     isDraggingInternal = false;
   }
@@ -169,7 +199,6 @@ const startDrag = (shape, event) => {
     />
   </div>
 </template>
-
 <style>
 .container {
   width: 100vw;

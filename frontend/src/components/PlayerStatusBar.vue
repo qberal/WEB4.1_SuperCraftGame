@@ -6,8 +6,8 @@ import {ref} from "vue";
 defineProps({
   name: String,
   profilePicture: String,
-  score: Number,
-  maxScore: Number,
+  score: String,
+  maxScore: String,
 });
 
 let extraSettingOpened = ref(false);

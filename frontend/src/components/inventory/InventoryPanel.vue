@@ -1,25 +1,31 @@
 <script setup>
 import InventoryItem from "@/components/inventory/InventoryItem.vue";
-import {ref, computed} from 'vue';
+import {ref, computed, nextTick} from "vue";
 
 const props = defineProps({
   inventory: Array,
 });
 
-//search bar visibility
+// search bar visibility
 const isSearchVisible = ref(false);
+const searchQuery = ref("");
+const inputRef = ref(null); // Référence pour l'input
 
 const toggleSearch = () => {
   if (isSearchVisible.value) {
-    searchQuery.value = '';
+    searchQuery.value = ""; // Réinitialise la recherche
+    isSearchVisible.value = false;
+  } else {
+    isSearchVisible.value = true;
+
+    // Utilise nextTick pour s'assurer que l'input est dans le DOM
+    nextTick(() => {
+      inputRef.value?.focus();
+    });
   }
-  isSearchVisible.value = !isSearchVisible.value;
 };
 
-
-//search functionality
-const searchQuery = ref('');
-
+// search functionality
 const filteredInventory = computed(() => {
   let sortedInventory = [...props.inventory].sort((a, b) =>
       a.name.localeCompare(b.name)
@@ -27,22 +33,20 @@ const filteredInventory = computed(() => {
 
   if (!searchQuery.value) return sortedInventory;
 
-  return sortedInventory.filter(item =>
+  return sortedInventory.filter((item) =>
       item.name.toLowerCase().includes(searchQuery.value.toLowerCase())
   );
 });
-
 </script>
 
 <template>
   <div>
     <div class="inventory-header">
-
       <h3 v-if="!isSearchVisible">Inventory</h3>
 
       <transition name="fade">
-
         <input
+            ref="inputRef"
             type="text"
             v-if="isSearchVisible"
             placeholder="Search inventory"
@@ -55,7 +59,7 @@ const filteredInventory = computed(() => {
           src="../../assets/img/magnifyingglass.svg"
           alt="magnifying glass icon"
           @click="toggleSearch"
-      >
+      />
     </div>
 
     <div class="inventory">

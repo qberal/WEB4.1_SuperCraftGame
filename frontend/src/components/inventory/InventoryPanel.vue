@@ -6,20 +6,6 @@ const props = defineProps({
   inventory: Array,
 });
 
-const emit = defineEmits({
-  updateClickedItem: (id) => id,
-});
-
-// clicked item
-const clickedItemId = ref(null);
-
-
-const updateClickedItem = (id) => {
-  clickedItemId.value = id;
-  emit('updateClickedItem', id);
-};
-
-
 //search bar visibility
 const isSearchVisible = ref(false);
 
@@ -78,8 +64,6 @@ const filteredInventory = computed(() => {
           :key="item.id"
           :icon="item.icon"
           :name="item.name"
-          :isClicked="item.id === clickedItemId"
-          @click="updateClickedItem(item.id)"
       />
     </div>
   </div>

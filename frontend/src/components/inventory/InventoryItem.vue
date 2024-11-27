@@ -1,23 +1,32 @@
 <script setup>
-import {defineEmits } from "vue";
+import { defineEmits } from "vue";
 
 const props = defineProps({
   id: Number,
   name: String,
   icon: String,
-  isClicked: Boolean,
 });
 
-const emit = defineEmits(['click']);
+const emit = defineEmits(['click', 'drag-start']);
 
 const handleClick = () => {
   emit('click', props.id);
 };
+
+const handleDragStart = (event) => {
+  event.dataTransfer.setData('application/json', JSON.stringify(props));
+  emit('drag-start', props.id);
+};
 </script>
 
 <template>
-  <div class="inventory-item" :class="{ selected: isClicked }" @click="handleClick">
-    <img :src="icon" alt="icon for {{name}}"/>
+  <div
+      class="inventory-item"
+      @click="handleClick"
+      draggable="true"
+      @dragstart="handleDragStart"
+  >
+    <img :src="icon" :alt="`icon for ${name}`" />
     <h3>{{ name }}</h3>
   </div>
 </template>
@@ -32,16 +41,17 @@ const handleClick = () => {
   background: #F7F7F7;
   box-shadow: 0px -1px 4.2px 0px rgba(0, 0, 0, 0.10) inset;
   margin: 5px;
+  cursor: grab;
+}
+
+.inventory-item:active {
+  cursor: grabbing;
 }
 
 .inventory-item:hover {
   border: 1px solid #00cdb2;
 }
 
-.selected {
-  background: #e8e8e8;
-  box-shadow: 0px -3px 4.2px 0px rgba(0, 0, 0, 0.10) inset;
-}
 
 img {
   width: 50px;

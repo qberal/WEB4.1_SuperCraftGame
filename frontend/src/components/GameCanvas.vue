@@ -67,8 +67,11 @@ const isSuperposed = (shape) => {
 };
 
 const handleFusion = (shape1, shape2) => {
-
-  //supprime les formes et les remplace par une nouvelle forme (un cercle pour l'exemple)
+  /**
+   * C'est ici qu'on va tester si 2 items sont fusionnables ou pas. si oui, on va les fusionner et créer un nouvel item.
+   * On enverra cet item dans l'inventaire pour qu'il soit affiché.
+   * (On peut aussi faire une animation de fusion si on veut)
+   */
   const newShape = reactive({
     id: shapes.length + 1,
     x: Math.min(shape1.x, shape2.x),
@@ -195,6 +198,7 @@ const startDrag = (shape, event) => {
     pointerEvents: shape.pointerEvents || 'auto',
   }"
         @mousedown="(e) => startDrag(shape, e)"
+        @dblclick="addShape(shape.x + shape.width , shape.y + shape.height, shape.imgSrc)"
         draggable="false"
     />
   </div>

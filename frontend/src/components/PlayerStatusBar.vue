@@ -1,13 +1,11 @@
 <script setup>
-
-
 import {ref} from "vue";
 
 defineProps({
   name: String,
   profilePicture: String,
-  score: Number,
-  maxScore: Number,
+  score: String,
+  maxScore: String,
 });
 
 let extraSettingOpened = ref(false);
@@ -29,8 +27,8 @@ let extraSettingOpened = ref(false);
   </div>
 
   <div class="extra-settings" v-if="extraSettingOpened">
-    <a href="/leaderboard">Leaderboard</a>
-    <a href="/settings">Settings</a>
+    <a @click="$emit('open-leaderboard')">Leaderboard</a>
+    <a @click="$emit('open-settings')">Settings</a>
     <a href="/logout">Logout</a>
   </div>
 

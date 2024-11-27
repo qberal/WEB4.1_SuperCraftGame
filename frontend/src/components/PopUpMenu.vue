@@ -2,21 +2,20 @@
 
 import {ref} from "vue";
 
-defineProps({
+const props = defineProps({
   show: Boolean,
   title: String,
 });
 
-let show = ref(true);
 
 </script>
 
 <template>
 
-  <div v-if="show">
+  <div v-if="props.show">
     <div class="popup-menu">
 
-      <img src="../assets/img/xmark.svg" alt="close button" v-on:click="show = !show">
+      <img src="../assets/img/xmark.svg" alt="close button" @click="$emit('close')">
       <div class="popup-content">
         <h2 class="popup-title">{{ title }}</h2>
         <slot></slot>
@@ -68,10 +67,5 @@ img {
   margin-bottom: 20px;
   text-align: center;
 }
-
-.popup-content {
-
-}
-
 
 </style>

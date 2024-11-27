@@ -11,7 +11,7 @@ defineProps({
 
 <template>
   <div>
-    <button @click="onClick">
+    <button @click="$emit('cleanUp')">
       <img :src="icon" alt="icon for {{name}}">
     </button>
   </div>

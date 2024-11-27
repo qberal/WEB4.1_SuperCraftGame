@@ -14,10 +14,7 @@ watch(() => props.cleanUpAction, (newValue) => {
 
 const canvasRef = ref(null);
 
-let shapes = reactive([
-  {id: 1, x: 100, y: 100, radius: 30, color: "red", isDragging: false},
-  {id: 2, x: 200, y: 200, radius: 40, color: "blue", isDragging: false},
-]);
+let shapes = reactive([]);
 
 let selectedShape = null;
 
@@ -62,8 +59,6 @@ const getClickedShape = (x, y) => {
     return false;
   });
 };
-
-
 
 
 // Début du drag and drop

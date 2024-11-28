@@ -17,7 +17,6 @@ const inventory = reactive([
 
 const addToInventory = (item) => {
   if (inventory.find(i => i.name === item.name && i.icon === item.icon)) {
-    console.log('Item already in inventory:', item);
     return;
   }
 
@@ -26,7 +25,6 @@ const addToInventory = (item) => {
     icon: item.icon,
     name: item.name,
   });
-  console.log('Added to inventory:', item);
 };
 
 const players = [

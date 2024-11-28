@@ -4,7 +4,6 @@ const User = require('../model/user'); // Import du modèle utilisateur
 
 router.use(express.urlencoded({ extended: true }));
 
-// Route pour se connecter
 router.post('/login', function (req, res) {
     const { username, password } = req.body;
 
@@ -14,17 +13,22 @@ router.post('/login', function (req, res) {
     } //TODO : À afficher dans le front
 
     try {
-        // Vérifier si le username existe
         User.findByUsername(username, async (err, user) => {
+
+            // Vérifier si le username existe
             if (!user) {
                 return res.status(404).json({ message: "Nom d'utilisateur introuvable." });
             } //TODO : À afficher dans le front
 
             // Vérifier que le mot de passe correspond
-            if (user.password !== password) {
+            const isPasswordValid = await User.checkPassword(user, password);
+            if (!isPasswordValid) {
                 return res.status(401).json({ message: "Mot de passe incorrect." });
             } //TODO : À afficher dans le front
 
+            //Redirection
+            console.log("Conexion réussie !");
+            return res.status(200).json({ message: "Connexion réussie !" });
             // TODO : Rediriger vers un /play correspondant à la session de l'utilisateur
         });
     } catch (error) {

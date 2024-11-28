@@ -1,15 +1,30 @@
 <script setup>
 import BaseForm from './BaseForm.vue'
+import {useRouter} from "vue-router";
+
+const router = useRouter(); // Initialiser useRouter
+
+// Fonction pour gérer la redirection après la soumission du formulaire
+const handleFormSubmit = (response) => {
+  console.log("Réponse reçue du backend dans LoginForm : ", response);
+  if (response && response.status === 200) {
+    console.log("Redirection vers /guest après l'enregistrement réussi.");
+    router.push('/guest');
+  } else {
+    console.error("Erreur lors de l'enregistrement ou réponse inattendue.");
+  }
+};
+
 </script>
 
 <template>
-  <BaseForm title="Login" submitLabel="Login">
-    <template #fields>
+  <BaseForm endpoint="http://localhost:3000/login" title="Login" submitLabel="Login" @submit="handleFormSubmit">
+    <template #fields="{ formData }">
       <label for="username">Username
-        <input type="text" id="username" name="username" required />
+        <input type="text" v-model="formData.username" id="username" name="username" required />
       </label>
       <label for="password">Password
-        <input type="password" id="password" name="password" required />
+        <input type="password" v-model="formData.password" id="password" name="password" required />
       </label>
     </template>
 

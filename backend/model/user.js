@@ -12,7 +12,7 @@ class User {
     }
 
     //create user
-    static create(newUser, result) {
+    /*static create(newUser, result) {
 
         //hash password
         newUser.password = bcrypt.hash(newUser.password, 10);
@@ -26,6 +26,32 @@ class User {
             console.log("Created user: ", {id: this.lastID, ...newUser});
             result(null, {id: this.lastID, ...newUser});
         });
+    }*/
+
+    static async create(newUser, result) {
+        try {
+            // Hacher le mot de passe
+            const hashedPassword = await bcrypt.hash(newUser.password, 10);
+            newUser.password = hashedPassword;
+
+            // Insérer l'utilisateur dans la base de données
+            db.run(
+                "INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)",
+                [newUser.username, newUser.password, newUser.email, newUser.role],
+                function (err) {
+                    if (err) {
+                        console.log("error: ", err);
+                        result(err, null);
+                        return;
+                    }
+                    console.log("Created user: ", { id: this.lastID, ...newUser });
+                    result(null, { id: this.lastID, ...newUser });
+                }
+            );
+        } catch (error) {
+            console.log("Erreur lors du hachage du mot de passe :", error);
+            result(error, null);
+        }
     }
     
 
@@ -82,8 +108,16 @@ class User {
     }
 
     //check password
-    static checkPassword(user, password) {
-        return bcrypt.compare(password, user.password);
+    static async checkPassword(user, password) {
+        try {
+            console.log("Comparaison des mots de passe...");
+            const isValid = await bcrypt.compare(password, user.password);
+            console.log("Mot de passe valide ?", isValid);
+            return isValid;
+        } catch (error) {
+            console.error("Erreur lors de la comparaison des mots de passe :", error);
+            throw error;
+        }
     }
 
 }

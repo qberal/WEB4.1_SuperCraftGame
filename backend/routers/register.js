@@ -8,41 +8,40 @@ const validateEmail = (email) => {
     return re.test(String(email).toLowerCase());
 };
 
-router.get('/test', (req, res) => {
+//Test de la route
+/*router.get('/test', (req, res) => {
     console.log('API is reachable!');
     res.status(200).send('API is reachable!');
-});
+});*/
 
-// Route pour s'enregistrer
 router.post('/register', async (req, res) => {
+    console.log("Requête reçue pour l'enregistrement : ", req.body);
     const { username, email, password} = req.body;
 
     // Vérification des champs
     if (!username || !email || !password) {
-        return res.status(400).json({ message: "Tous les champs sont requis." });
-    }
+        return res.status(400).json({ message: "Tous les champs sont requis !" });
+    } // TODO : Gérer dans le front
 
     /*if (!validateEmail(email)) {
         return res.status(400).json({ message: "L'adresse email n'est pas valide." });
-    }
+    } // TODO : Gérer dans le front
 
     if (password !== confirmPassword) {
         return res.status(400).json({ message: "Les mots de passe ne correspondent pas." });
-    }*/ // TODO : Gérer dans le front
+    } // TODO : Gérer dans le front*/
 
     try {
         // Vérifier si le username existe
         User.findByUsername(username, async (err, existingUser) => {
-            console.log('Vérification username...');
             if (existingUser) {
-                return res.status(400).json({ message: "Ce nom d'utilisateur est déjà pris." });
+                return res.status(400).json({ message: "Ce nom d'utilisateur est déjà pris !" });
             } //TODO : À afficher dans le front
 
             // Vérifier si l'email existe
             User.findByEmail(email, async (err, existingEmail) => {
-                console.log('Vérification email...');
                 if (existingEmail) {
-                    return res.status(400).json({ message: "Cet email est déjà utilisé." });
+                    return res.status(400).json({ message: "Cet email est déjà utilisé !" });
                 } //TODO : À afficher dans le front
 
                 // Création d'un nouvel utilisateur
@@ -56,9 +55,8 @@ router.post('/register', async (req, res) => {
                     if (err) {
                         return res.status(500).json({ message: "Erreur lors de la création de l'utilisateur." });
                     }
-                    console.log('Utilisateur créé avec succès :', createdUser);
-                    res.status(201).json({ message: "Votre compte est créé !", user: createdUser });
-                }); //TODO : À rediriger vers la page de connexion dans le front
+                    res.status(201).json({ message : "Votre compte est créé ! Connectez-vous.", user: createdUser, redirectUrl: "http://localhost:5173/login" });
+                });
             });
         });
     } catch (error) {

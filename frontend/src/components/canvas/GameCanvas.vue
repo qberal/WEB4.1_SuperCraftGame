@@ -1,5 +1,6 @@
 <script setup>
 import {ref, reactive, watch} from 'vue';
+import CanvasItem from "@/components/canvas/CanvasItem.vue";
 
 const props = defineProps({
   cleanUpAction: Boolean,
@@ -184,23 +185,13 @@ const startDrag = (shape, event) => {
       @dragleave="handleDragLeave"
       draggable="false"
   >
-    <div
-        v-for="shape in shapes"
-        :key="shape.id"
-        :class="['shape', shape.imgSrc ? 'image-shape' : 'circle-shape']"
-        :style="{
-    top: shape.y + 'px',
-    left: shape.x + 'px',
-    width: shape.width + 'px',
-    height: shape.height + 'px',
-    backgroundImage: shape.imgSrc ? `url(${shape.imgSrc})` : 'none',
-    backgroundColor: shape.color || 'transparent',
-    pointerEvents: shape.pointerEvents || 'auto',
-  }"
-        @mousedown="(e) => startDrag(shape, e)"
-        @dblclick="addShape(shape.x + shape.width , shape.y + shape.height, shape.imgSrc)"
-        draggable="false"
-    />
+
+    <div v-for="shape in shapes">
+      <CanvasItem :data="shape"
+                  @mousedown="(e) => startDrag(shape, e)"
+                  @dblclick="addShape(shape.x + shape.width , shape.y + shape.height, shape.imgSrc)"
+                  draggable="false"/>
+    </div>
   </div>
 </template>
 <style>

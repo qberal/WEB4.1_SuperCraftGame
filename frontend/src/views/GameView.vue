@@ -6,7 +6,7 @@ import SimpleButton from "@/components/buttons/SimpleButton.vue";
 import {ref} from "vue";
 import PopUpMenu from "@/components/PopUpMenu.vue";
 import Leaderboard from "@/components/Leaderboard.vue";
-import GameCanvas from "@/components/GameCanvas.vue";
+import GameCanvas from "@/components/canvas/GameCanvas.vue";
 
 const inventory = [
   {id: 1, icon: "/wind.svg", name: "Air"},

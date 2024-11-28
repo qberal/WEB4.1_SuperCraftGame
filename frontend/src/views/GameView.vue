@@ -39,16 +39,9 @@ const players = [
 
 let cleanUpToggle = ref(false)
 
-let currentItem = ref(null)
-
 let openLeaderboard = ref(false)
 let openSettings = ref(false)
 
-
-function updateCurrentItem(id) {
-  currentItem.value = inventory.find(item => item.id === id)
-  console.log(currentItem.value)
-}
 
 </script>
 
@@ -68,12 +61,12 @@ function updateCurrentItem(id) {
 
     <!-- Inventaire à droite -->
     <div class="inventory">
-      <InventoryPanel :inventory="inventory" @update-clicked-item="updateCurrentItem"/>
+      <InventoryPanel :inventory="inventory"/>
     </div>
 
     <!-- Canvas de jeu -->
     <div class="game-canvas">
-      <GameCanvas :clean-up-action="cleanUpToggle" :current-selected-item="currentItem" @fusion-completed="addToInventory"/>
+      <GameCanvas :clean-up-action="cleanUpToggle" @fusion-completed="addToInventory"/>
     </div>
 
 

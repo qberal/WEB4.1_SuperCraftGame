@@ -1,11 +1,13 @@
 <script setup>
-import {ref, reactive, watch} from 'vue';
+import {ref, reactive, watch, defineEmits} from 'vue';
 import CanvasItem from "@/components/canvas/CanvasItem.vue";
 
 const props = defineProps({
   cleanUpAction: Boolean,
   currentSelectedItem: Object,
 });
+
+const emit = defineEmits(['fusion-completed']);
 
 watch(
     () => props.cleanUpAction,
@@ -17,7 +19,7 @@ watch(
 const shapes = reactive([]);
 const containerRef = ref(null);
 
-const addShape = (x, y, imgSrc = null, color = null) => {
+const addShape = (x, y, icon = null, name = null) => {
   const size = 50; // Taille par défaut
   const newShape = reactive({
     id: shapes.length + 1,
@@ -25,9 +27,9 @@ const addShape = (x, y, imgSrc = null, color = null) => {
     y: y - size / 2,
     width: size,
     height: size,
-    imgSrc,
-    color,
+    imgSrc: icon,
     isDragging: false,
+    name: name,
   });
   shapes.push(newShape);
 
@@ -42,7 +44,7 @@ const handleClick = (event) => {
     const rect = containerRef.value.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    addShape(x, y, props.currentSelectedItem.icon);
+    addShape(x, y, props.currentSelectedItem.icon, props.currentSelectedItem.name);
   }
 };
 
@@ -73,22 +75,29 @@ const handleFusion = (shape1, shape2) => {
    * On enverra cet item dans l'inventaire pour qu'il soit affiché.
    * (On peut aussi faire une animation de fusion si on veut)
    */
-  const newShape = reactive({
-    id: shapes.length + 1,
-    x: Math.min(shape1.x, shape2.x),
-    y: Math.min(shape1.y, shape2.y),
-    width: Math.max(shape1.x + shape1.width, shape2.x + shape2.width) - Math.min(shape1.x, shape2.x),
-    height: Math.max(shape1.y + shape1.height, shape2.y + shape2.height) - Math.min(shape1.y, shape2.y),
-    imgSrc: null,
-    color: 'red',
-    isDragging: false,
-  });
+
+  //here is the fetch request to the server to check if the fusion is possible
+
+  let fusionResult = {
+        icon: './favicon.svg',
+        name: 'WIP',
+      }
 
   //delete shape 1 and shape 2
   shapes.splice(shapes.indexOf(shape1), 1);
   shapes.splice(shapes.indexOf(shape2), 1);
 
-  shapes.push(newShape);
+  //compute the position of the new item
+  fusionResult.x = (shape1.x + shape2.x) / 2 + 25;
+  fusionResult.y = Math.min(shape1.y, shape2.y) + 25;
+
+  addShape(fusionResult.x, fusionResult.y, fusionResult.icon, fusionResult.name);
+
+  emit('fusion-completed', {
+    icon: fusionResult.imgSrc || './favicon.svg',
+    name: fusionResult.name || 'WIP',
+  });
+
 };
 
 // Variables pour le drag and drop externe
@@ -189,7 +198,7 @@ const startDrag = (shape, event) => {
     <div v-for="shape in shapes">
       <CanvasItem :data="shape"
                   @mousedown="(e) => startDrag(shape, e)"
-                  @dblclick="addShape(shape.x + shape.width , shape.y + shape.height, shape.imgSrc)"
+                  @dblclick="addShape(shape.x + shape.width , shape.y + shape.height, shape.imgSrc, shape.name)"
                   draggable="false"/>
     </div>
   </div>

@@ -3,17 +3,31 @@
 import PlayerStatusBar from "@/components/PlayerStatusBar.vue";
 import InventoryPanel from "@/components/inventory/InventoryPanel.vue";
 import SimpleButton from "@/components/buttons/SimpleButton.vue";
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import PopUpMenu from "@/components/PopUpMenu.vue";
 import Leaderboard from "@/components/Leaderboard.vue";
 import GameCanvas from "@/components/canvas/GameCanvas.vue";
 
-const inventory = [
+const inventory = reactive([
   {id: 1, icon: "/wind.svg", name: "Air"},
   {id: 2, icon: "/flame.svg", name: "Fire"},
   {id: 3, icon: "/globe.europe.africa.svg", name: "Earth"},
   {id: 4, icon: "/drop.svg", name: "Water"},
-];
+]);
+
+const addToInventory = (item) => {
+  if (inventory.find(i => i.name === item.name && i.icon === item.icon)) {
+    console.log('Item already in inventory:', item);
+    return;
+  }
+
+  inventory.push({
+    id: inventory.length + 1,
+    icon: item.icon,
+    name: item.name,
+  });
+  console.log('Added to inventory:', item);
+};
 
 const players = [
   {id: 1, name: "Player 1", score: 100},
@@ -59,7 +73,7 @@ function updateCurrentItem(id) {
 
     <!-- Canvas de jeu -->
     <div class="game-canvas">
-      <GameCanvas :clean-up-action="cleanUpToggle" :current-selected-item="currentItem"/>
+      <GameCanvas :clean-up-action="cleanUpToggle" :current-selected-item="currentItem" @fusion-completed="addToInventory"/>
     </div>
 
 

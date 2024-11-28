@@ -17,8 +17,9 @@ defineProps({
     }"
     >
       <img v-if="data.imgSrc" :src="data.imgSrc" alt="shape" draggable="false"/>
-      <div v-else class="shape circle-shape image-shape" draggable="false">
-        <p>fusion</p>
+      <div v-else class="infinity" draggable="false">
+        <p>{{data.emoji}}</p>
+        <p>{{data.name}}</p>
       </div>
 
     </div>
@@ -32,6 +33,14 @@ defineProps({
   cursor: grab;
   border-radius: 50%;
   transition: transform 0.1s;
+}
+
+.infinity {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border: 1px solid black;
+  width: 100px;
 }
 
 img {

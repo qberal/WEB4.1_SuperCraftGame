@@ -1,10 +1,10 @@
 <script setup>
 import {ref, reactive, watch, defineEmits} from 'vue';
 import CanvasItem from "@/components/canvas/CanvasItem.vue";
+import axios from 'axios';
 
 const props = defineProps({
   cleanUpAction: Boolean,
-  currentSelectedItem: Object,
 });
 
 const emit = defineEmits(['fusion-completed']);
@@ -19,7 +19,7 @@ watch(
 const shapes = reactive([]);
 const containerRef = ref(null);
 
-const addShape = (x, y, icon = null, name = null) => {
+const addShape = (x, y, icon = null, name = null, emoji = null) => {
   const size = 50; // Taille par défaut
   const newShape = reactive({
     id: shapes.length + 1,
@@ -29,6 +29,7 @@ const addShape = (x, y, icon = null, name = null) => {
     height: size,
     imgSrc: icon,
     isDragging: false,
+    emoji: emoji,
     name: name,
   });
   shapes.push(newShape);
@@ -69,19 +70,33 @@ const isSuperposed = (shape) => {
   return null;
 };
 
-const handleFusion = (shape1, shape2) => {
+const handleFusion = async (shape1, shape2) => {
   /**
    * C'est ici qu'on va tester si 2 items sont fusionnables ou pas. si oui, on va les fusionner et créer un nouvel item.
    * On enverra cet item dans l'inventaire pour qu'il soit affiché.
    * (On peut aussi faire une animation de fusion si on veut)
    */
 
-  //here is the fetch request to the server to check if the fusion is possible
-
   let fusionResult = {
-        icon: './favicon.svg',
-        name: 'WIP',
-      }
+    icon: './favicon.svg',
+    name: 'WIP',
+    emoji: null,
+  };
+
+  await axios.get('api/infinity/generate', {
+    params: {
+      item1: shape1.name,
+      item2: shape2.name,
+    },
+  }).then((response) => {
+    fusionResult.emoji = response.data.emoji;
+    fusionResult.name = response.data.fusion_name;
+    fusionResult.icon = null;
+  }).catch((error) => {
+    console.error('Error while generating fusion:', error);
+  });
+
+  console.log(fusionResult);
 
   //delete shape 1 and shape 2
   shapes.splice(shapes.indexOf(shape1), 1);
@@ -91,11 +106,12 @@ const handleFusion = (shape1, shape2) => {
   fusionResult.x = (shape1.x + shape2.x) / 2 + 25;
   fusionResult.y = Math.min(shape1.y, shape2.y) + 25;
 
-  addShape(fusionResult.x, fusionResult.y, fusionResult.icon, fusionResult.name);
+  addShape(fusionResult.x, fusionResult.y, fusionResult.icon, fusionResult.name, fusionResult.emoji);
 
   emit('fusion-completed', {
     icon: fusionResult.imgSrc || './favicon.svg',
     name: fusionResult.name || 'WIP',
+    emoji: fusionResult.emoji,
   });
 
 };
@@ -115,7 +131,7 @@ const handleDrop = (event) => {
   const item = JSON.parse(data);
 
   if (item?.icon) {
-    addShape(x, y, item.icon);
+    addShape(x, y, item.icon, item.name);
   }
 
   shapes.forEach((shape) => (shape.pointerEvents = 'auto'));
@@ -198,7 +214,7 @@ const startDrag = (shape, event) => {
     <div v-for="shape in shapes">
       <CanvasItem :data="shape"
                   @mousedown="(e) => startDrag(shape, e)"
-                  @dblclick="addShape(shape.x + shape.width , shape.y + shape.height, shape.imgSrc, shape.name)"
+                  @dblclick="addShape(shape.x + shape.width , shape.y + shape.height, shape.imgSrc, shape.name, shape.emoji)"
                   draggable="false"/>
     </div>
   </div>

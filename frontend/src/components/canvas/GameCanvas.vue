@@ -19,8 +19,8 @@ watch(
 const shapes = reactive([]);
 const containerRef = ref(null);
 
-const addShape = (x, y, icon = null, name = null, emoji = null) => {
-  const size = 50; // Taille par défaut
+const addShape = (x, y, icon = null, name = null) => {
+  const size = 75; // Taille par défaut
   const newShape = reactive({
     id: shapes.length + 1,
     x: x - size / 2, // Centre la forme
@@ -29,7 +29,6 @@ const addShape = (x, y, icon = null, name = null, emoji = null) => {
     height: size,
     imgSrc: icon,
     isDragging: false,
-    emoji: emoji,
     name: name,
   });
   shapes.push(newShape);
@@ -50,7 +49,7 @@ const handleClick = (event) => {
 };
 
 // Vérifie si deux formes se chevauchent
-const isOverlapping = (shape1, shape2, margin = 15) => {
+const isOverlapping = (shape1, shape2, margin = 25) => {
   return !(
       shape1.x + shape1.width - margin <= shape2.x + margin || // shape1 est à gauche de shape2
       shape1.x + margin >= shape2.x + shape2.width - margin || // shape1 est à droite de shape2
@@ -89,9 +88,8 @@ const handleFusion = async (shape1, shape2) => {
       item2: shape2.name,
     },
   }).then((response) => {
-    fusionResult.emoji = response.data.emoji;
     fusionResult.name = response.data.fusion_name;
-    fusionResult.icon = null;
+    fusionResult.icon = response.data.icon;
   }).catch((error) => {
     console.error('Error while generating fusion:', error);
   });
@@ -106,12 +104,11 @@ const handleFusion = async (shape1, shape2) => {
   fusionResult.x = (shape1.x + shape2.x) / 2 + 25;
   fusionResult.y = Math.min(shape1.y, shape2.y) + 25;
 
-  addShape(fusionResult.x, fusionResult.y, fusionResult.icon, fusionResult.name, fusionResult.emoji);
+  addShape(fusionResult.x, fusionResult.y, fusionResult.icon, fusionResult.name);
 
   emit('fusion-completed', {
-    icon: fusionResult.imgSrc || './favicon.svg',
-    name: fusionResult.name || 'WIP',
-    emoji: fusionResult.emoji,
+    icon: fusionResult.icon || './favicon.svg',
+    name: fusionResult.name || 'Error',
   });
 
 };
@@ -214,7 +211,7 @@ const startDrag = (shape, event) => {
     <div v-for="shape in shapes">
       <CanvasItem :data="shape"
                   @mousedown="(e) => startDrag(shape, e)"
-                  @dblclick="addShape(shape.x + shape.width , shape.y + shape.height, shape.imgSrc, shape.name, shape.emoji)"
+                  @dblclick="addShape(shape.x + shape.width , shape.y + shape.height, shape.imgSrc, shape.name)"
                   draggable="false"/>
     </div>
   </div>

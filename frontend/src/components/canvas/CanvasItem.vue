@@ -17,11 +17,6 @@ defineProps({
     }"
     >
       <img v-if="data.imgSrc" :src="data.imgSrc" alt="shape" draggable="false"/>
-      <div v-else class="infinity" draggable="false">
-        <p>{{data.emoji}}</p>
-        <p>{{data.name}}</p>
-      </div>
-
     </div>
 
 </template>

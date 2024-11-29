@@ -7,7 +7,9 @@ import GameView from "@/views/GameView.vue";
 
 const routes = [
     {path: '/', redirect: '/login'},
+    {path: '/play', component: GameView},
     {path: '/guest', component: GameView},
+    {path: '/infinity', component: GameView},
     {path: '/logout', redirect: '/login'},
     {
         path: '/',

@@ -9,7 +9,7 @@ const handleFormSubmit = (response) => {
   console.log("Réponse reçue du backend dans LoginForm : ", response);
   if (response && response.status === 200) {
     console.log("Redirection vers /guest après l'enregistrement réussi.");
-    router.push('/guest');
+    router.push('/play');
   } else {
     console.error("Erreur lors de l'enregistrement ou réponse inattendue.");
   }

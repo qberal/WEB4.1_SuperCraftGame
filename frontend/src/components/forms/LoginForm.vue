@@ -18,7 +18,7 @@ const handleFormSubmit = (response) => {
 </script>
 
 <template>
-  <BaseForm endpoint="http://localhost:3000/login" title="Login" submitLabel="Login" @submit="handleFormSubmit">
+  <BaseForm endpoint="/api/login" title="Login" submitLabel="Login" @submit="handleFormSubmit">
     <template #fields="{ formData }">
       <label for="username">Username
         <input type="text" v-model="formData.username" id="username" name="username" required />

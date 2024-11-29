@@ -20,6 +20,32 @@ watch(
 const shapes = reactive([]);
 const containerRef = ref(null);
 
+const saveCanvas = () => {
+  let canvasSize = {
+    width: containerRef.value.clientWidth,
+    height: containerRef.value.clientHeight,
+  };
+  console.log(JSON.stringify({canvasSize, shapes}));
+};
+
+const loadCanvas = (canvasData) => {
+  shapes.splice(0);
+
+  if (canvasData.canvasSize.width !== containerRef.value.clientWidth || canvasData.canvasSize.height !== containerRef.value.clientHeight) {
+    const ratioX = containerRef.value.clientWidth / canvasData.canvasSize.width;
+    const ratioY = containerRef.value.clientHeight / canvasData.canvasSize.height;
+    for (const shape of canvasData.shapes) {
+      shape.x *= ratioX;
+      shape.y *= ratioY;
+      shapes.push(shape);
+    }
+  } else {
+    for (const shape of canvasData.shapes) {
+      shapes.push(shape);
+    }
+  }
+};
+
 const addShape = (x, y, icon = null, name = null) => {
   const size = 75; // Taille par défaut
   const newShape = reactive({
@@ -106,6 +132,8 @@ const handleFusion = async (shape1, shape2) => {
   fusionResult.y = Math.min(shape1.y, shape2.y) + 25;
 
   addShape(fusionResult.x, fusionResult.y, fusionResult.icon, fusionResult.name);
+
+  console.log(saveCanvas())
 
   emit('fusion-completed', {
     icon: fusionResult.icon || './favicon.svg',

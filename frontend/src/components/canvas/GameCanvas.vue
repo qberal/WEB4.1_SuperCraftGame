@@ -54,7 +54,7 @@ const addShape = (x, y, icon = null, name = null) => {
     y: y - size / 2,
     width: size,
     height: size,
-    imgSrc: icon,
+    icon: icon,
     isDragging: false,
     name: name,
   });
@@ -115,7 +115,7 @@ const handleFusion = async (shape1, shape2) => {
       item2: shape2.name,
     },
   }).then((response) => {
-    fusionResult.name = response.data.fusion_name;
+    fusionResult.name = response.data.name;
     fusionResult.icon = response.data.icon;
   }).catch((error) => {
     console.error('Error while generating fusion:', error);
@@ -133,7 +133,7 @@ const handleFusion = async (shape1, shape2) => {
 
   addShape(fusionResult.x, fusionResult.y, fusionResult.icon, fusionResult.name);
 
-  console.log(saveCanvas())
+  saveCanvas();
 
   emit('fusion-completed', {
     icon: fusionResult.icon || './favicon.svg',
@@ -240,7 +240,7 @@ const startDrag = (shape, event) => {
     <div v-for="shape in shapes">
       <CanvasItem :data="shape"
                   @mousedown="(e) => startDrag(shape, e)"
-                  @dblclick="addShape(shape.x + shape.width , shape.y + shape.height, shape.imgSrc, shape.name)"
+                  @dblclick="addShape(shape.x + shape.width , shape.y + shape.height, shape.icon, shape.name)"
                   draggable="false"
                   :game-mode="gameMode"
       />

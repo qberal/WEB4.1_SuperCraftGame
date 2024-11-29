@@ -27,8 +27,8 @@ const handleDragStart = (event) => {
       draggable="true"
       @dragstart="handleDragStart"
   >
-    <img v-if="gameMode === 'normal'" class="icon" :src="icon" :alt="`icon for ${name}`" />
-    <p v-else-if="gameMode === 'infinity'" class="icon">{{icon}}</p>
+    <img v-if="gameMode !== 'infinity'" class="icon" :src="icon" :alt="`icon for ${name}`" />
+    <div v-else class="icon">{{icon}}</div>
     <h3>{{ name }}</h3>
   </div>
 </template>
@@ -58,9 +58,12 @@ const handleDragStart = (event) => {
 .icon {
   width: 50px;
   height: 50px;
-  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 10px;
   border-radius: 11px;
   border: 1px solid #BBB;
+  font-size: 20pt;
 }
 </style>

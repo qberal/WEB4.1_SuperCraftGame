@@ -40,6 +40,8 @@ let cleanUpToggle = ref(false)
 let openLeaderboard = ref(false)
 let openSettings = ref(false)
 
+let gameMode = "infinity"
+
 
 </script>
 
@@ -59,12 +61,12 @@ let openSettings = ref(false)
 
     <!-- Inventaire à droite -->
     <div class="inventory">
-      <InventoryPanel :inventory="inventory" game-mode="normal"/>
+      <InventoryPanel :inventory="inventory" :game-mode="gameMode"/>
     </div>
 
     <!-- Canvas de jeu -->
     <div class="game-canvas">
-      <GameCanvas :clean-up-action="cleanUpToggle" game-mode="normal" @fusion-completed="addToInventory"/>
+      <GameCanvas :clean-up-action="cleanUpToggle" :game-mode="gameMode" @fusion-completed="addToInventory"/>
     </div>
 
 

@@ -7,18 +7,22 @@ defineProps({
 </script>
 
 <template>
-    <div
-        class="shape"
-        :style="{
+  <div
+      class="shape"
+      :style="{
       top: data.y + 'px',
       left: data.x + 'px',
-      width: data.width + 'px',
-      height: data.height + 'px',
       pointerEvents: data.pointerEvents || 'auto',
     }"
-    >
-      <img class="icon" v-if="data.imgSrc" :src="data.imgSrc" alt="shape" draggable="false"/>
+  >
+    <img class="icon" v-if="gameMode !== 'infinity'" :src="data.icon" alt="shape" draggable="false"
+         :style="{width: data.width + 'px',
+                  height: data.height + 'px',}"/>
+    <div class="infinity" v-else>
+      <div>{{ data.icon }} - {{ data.name }}</div>
     </div>
+  </div>
+
 
 </template>
 
@@ -35,8 +39,11 @@ defineProps({
   display: flex;
   flex-direction: row;
   justify-content: center;
-  border: 1px solid black;
-  width: 100px;
+  border-radius: 11px;
+  border: 1px solid #BBB;
+  padding: 10px;
+  box-shadow: 0px -1px 4.2px 0px rgba(0, 0, 0, 0.10) inset;
+  background: #F9F9F9;
 }
 
 .icon {

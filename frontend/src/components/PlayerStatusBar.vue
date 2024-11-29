@@ -8,6 +8,8 @@ defineProps({
   maxScore: String,
 });
 
+defineEmits(['open-leaderboard', 'open-settings']);
+
 let extraSettingOpened = ref(false);
 
 

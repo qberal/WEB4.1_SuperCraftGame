@@ -7,6 +7,8 @@ const props = defineProps({
   title: String,
 });
 
+defineEmits(['close']);
+
 
 </script>
 

@@ -4,6 +4,7 @@ import {ref, computed, nextTick} from "vue";
 
 const props = defineProps({
   inventory: Array,
+  gameMode: String,
 });
 
 // search bar visibility
@@ -68,6 +69,8 @@ const filteredInventory = computed(() => {
           :key="item.id"
           :icon="item.icon"
           :name="item.name"
+          :gameMode="gameMode"
+          :color="item.color"
       />
     </div>
   </div>

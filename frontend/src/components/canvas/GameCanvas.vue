@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const props = defineProps({
   cleanUpAction: Boolean,
+  gameMode: String,
 });
 
 const emit = defineEmits(['fusion-completed']);
@@ -212,7 +213,9 @@ const startDrag = (shape, event) => {
       <CanvasItem :data="shape"
                   @mousedown="(e) => startDrag(shape, e)"
                   @dblclick="addShape(shape.x + shape.width , shape.y + shape.height, shape.imgSrc, shape.name)"
-                  draggable="false"/>
+                  draggable="false"
+                  :game-mode="gameMode"
+      />
     </div>
   </div>
 </template>

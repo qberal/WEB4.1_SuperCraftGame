@@ -59,12 +59,12 @@ let openSettings = ref(false)
 
     <!-- Inventaire à droite -->
     <div class="inventory">
-      <InventoryPanel :inventory="inventory"/>
+      <InventoryPanel :inventory="inventory" game-mode="normal"/>
     </div>
 
     <!-- Canvas de jeu -->
     <div class="game-canvas">
-      <GameCanvas :clean-up-action="cleanUpToggle" @fusion-completed="addToInventory"/>
+      <GameCanvas :clean-up-action="cleanUpToggle" game-mode="normal" @fusion-completed="addToInventory"/>
     </div>
 
 

@@ -1,6 +1,7 @@
 <script setup>
 defineProps({
   data: Object,
+  gameMode: String,
 });
 
 </script>
@@ -16,7 +17,7 @@ defineProps({
       pointerEvents: data.pointerEvents || 'auto',
     }"
     >
-      <img v-if="data.imgSrc" :src="data.imgSrc" alt="shape" draggable="false"/>
+      <img class="icon" v-if="data.imgSrc" :src="data.imgSrc" alt="shape" draggable="false"/>
     </div>
 
 </template>
@@ -38,11 +39,7 @@ defineProps({
   width: 100px;
 }
 
-img {
-  /*
-    * On veut que l'image prenne toute la place dans le conteneur
-    * et qu'elle ne soit pas déformée
-    */
+.icon {
   width: 100%;
   height: 100%;
   object-fit: contain;

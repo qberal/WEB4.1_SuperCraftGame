@@ -5,6 +5,7 @@ const props = defineProps({
   id: Number,
   name: String,
   icon: String,
+  gameMode: String,
 });
 
 const emit = defineEmits(['click', 'drag-start']);
@@ -26,7 +27,8 @@ const handleDragStart = (event) => {
       draggable="true"
       @dragstart="handleDragStart"
   >
-    <img :src="icon" :alt="`icon for ${name}`" />
+    <img v-if="gameMode === 'normal'" class="icon" :src="icon" :alt="`icon for ${name}`" />
+    <p v-else-if="gameMode === 'infinity'" class="icon">{{icon}}</p>
     <h3>{{ name }}</h3>
   </div>
 </template>
@@ -53,7 +55,7 @@ const handleDragStart = (event) => {
 }
 
 
-img {
+.icon {
   width: 50px;
   height: 50px;
   padding: 10px;

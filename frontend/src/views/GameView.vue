@@ -8,6 +8,10 @@ import PopUpMenu from "@/components/PopUpMenu.vue";
 import Leaderboard from "@/components/Leaderboard.vue";
 import GameCanvas from "@/components/canvas/GameCanvas.vue";
 
+const props = defineProps({
+  gameMode: String,
+});
+
 const inventory = reactive([
   {id: 1, icon: "/wind.svg", name: "Air"},
   {id: 2, icon: "/flame.svg", name: "Fire"},
@@ -40,7 +44,6 @@ let cleanUpToggle = ref(false)
 let openLeaderboard = ref(false)
 let openSettings = ref(false)
 
-let gameMode = "infinity"
 
 
 </script>
@@ -61,12 +64,12 @@ let gameMode = "infinity"
 
     <!-- Inventaire à droite -->
     <div class="inventory">
-      <InventoryPanel :inventory="inventory" :game-mode="gameMode"/>
+      <InventoryPanel :inventory="inventory" :game-mode="props.gameMode"/>
     </div>
 
     <!-- Canvas de jeu -->
     <div class="game-canvas">
-      <GameCanvas :clean-up-action="cleanUpToggle" :game-mode="gameMode" @fusion-completed="addToInventory"/>
+      <GameCanvas :clean-up-action="cleanUpToggle" :game-mode="props.gameMode" @fusion-completed="addToInventory"/>
     </div>
 
 

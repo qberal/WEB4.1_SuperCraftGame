@@ -15,7 +15,7 @@ defineProps({
       pointerEvents: data.pointerEvents || 'auto',
     }"
   >
-    <img class="icon" v-if="gameMode !== 'infinity'" :src="data.icon" alt="shape" draggable="false"
+    <img class="icon" v-if="gameMode !== 'infinity'" :src="data.icon" :alt="'icon of ' + data.name" draggable="false"
          :style="{width: data.width + 'px',
                   height: data.height + 'px',}"/>
     <div class="infinity" v-else>
@@ -49,7 +49,6 @@ defineProps({
 .icon {
   width: 100%;
   height: 100%;
-  object-fit: contain;
 }
 
 .shape:active {

@@ -22,8 +22,8 @@ app.use('/fusion', fusion);
 const item = require('./routers/item');  
 app.use('/item', item);
 
-//const infinity = require('./routers/infinityRouter');
-//app.use('/infinity', infinity);
+const infinity = require('./routers/infinityRouter');
+app.use('/infinity', infinity);
 
 
 

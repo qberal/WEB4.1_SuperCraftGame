@@ -3,7 +3,8 @@ const Groq = require("groq-sdk");
 const groq = new Groq({apiKey: process.env.GROQ_API_KEY});
 
 const responseSchema = {
-    "fusion_name": "string",
+    "name": "string",
+    "icon": "string",
 }
 
 class Infinity {
@@ -40,6 +41,7 @@ class Infinity {
                     You will be given to words and you will have to fusion them in an intelligent way.\n
                     For example, water+earth=mud.\n
                     NEVER give a something that is just a mix of the two words, except if it's totally legit (water+melon = watermelon)\n
+                    Then, also provide an emoji for the fusion.\n
                     'The JSON object must use the schema: ${jsonSchema}`,
                 },
                 {
@@ -54,11 +56,13 @@ class Infinity {
         });
 
         let res = JSON.parse(chat_completion.choices[0].message.content);
-        let link = await this.getIconFromGoogle(res.fusion_name);
+        //let link = await this.getIconFromGoogle(res.fusion_name);
 
-        console.log({fusion_name: res.fusion_name, icon: link});
+        //console.log({fusion_name: res.fusion_name, icon: link});
 
-        return {fusion_name: res.fusion_name, icon: `${link}`};
+        //return {fusion_name: res.fusion_name, icon: `${link}`};
+
+        return res;
     }
 }
 

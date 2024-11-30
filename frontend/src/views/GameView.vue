@@ -16,9 +16,14 @@ const inventory = reactive([]);
 if(props.gameMode === 'infinity') {
   inventory.push(
       {id: 1, icon: "💨", name: "Air"},
-      {id: 2, icon: "🔥", name: "Feu"},
-      {id: 3, icon: "🌍", name: "Terre"},
-      {id: 4, icon: "💧", name: "Eau"},
+      {id: 2, icon: "🔥", name: "Fire"},
+      {id: 3, icon: "🌍", name: "Earth"},
+      {id: 4, icon: "💧", name: "Water"},
+      {id: 5, icon: "🪙", name: "Metal"},
+      {id: 6, icon: "🪵️", name: "Wood"},
+      {id: 7, icon: "🧬", name: "Life"},
+      {id: 8, icon: "⌛", name: "Time"},
+
   );
 } else {
   inventory.push(
@@ -32,7 +37,7 @@ if(props.gameMode === 'infinity') {
 
 
 const addToInventory = (item) => {
-  if (inventory.find(i => i.name === item.name && i.icon === item.icon)) {
+  if (inventory.find(i => i.name === item.name)) {
     return;
   }
 

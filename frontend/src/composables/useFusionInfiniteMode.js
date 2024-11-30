@@ -24,7 +24,13 @@ export default function useFusionInfiniteMode(shapes, addShape, emit) {
             fusionResult.name = response.data.name;
             fusionResult.icon = response.data.icon;
         } catch (error) {
-            console.error('Erreur lors de la génération de la fusion :', error);
+            window.alert('Erreur lors de la génération de la fusion');
+            return;
+        }
+
+        if(fusionResult.name === 'Error') {
+            window.alert('Erreur lors de la génération de la fusion');
+            return;
         }
 
         console.log(fusionResult);

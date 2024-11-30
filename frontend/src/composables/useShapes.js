@@ -25,6 +25,9 @@ export default function useShapes(containerRef, gameMode) {
     };
 
     const saveCanvas = () => {
+
+        if(gameMode === 'guest') return;
+
         let canvasSize = {
             width: containerRef.value.clientWidth,
             height: containerRef.value.clientHeight,

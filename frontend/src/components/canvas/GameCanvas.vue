@@ -34,6 +34,10 @@ if (props.gameMode === 'infinity') {
   ({ handleFusion } = useFusionNormalMode(shapes, addShape, emit));
 }
 
+if (props.gameMode !== 'guest') {
+  loadCanvas();
+}
+
 // Utilisation du composable useDragAndDrop
 const {
   isDragOver,
@@ -49,8 +53,6 @@ const {
 const handleClick = (event) => {
   bringToFront()
 };
-
-loadCanvas();
 
 </script>
 

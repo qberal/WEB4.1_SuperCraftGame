@@ -4,8 +4,8 @@ import {ref} from "vue";
 defineProps({
   name: String,
   profilePicture: String,
-  score: String,
-  maxScore: String,
+  score: Number,
+  maxScore: Number,
 });
 
 defineEmits(['open-leaderboard', 'open-settings']);

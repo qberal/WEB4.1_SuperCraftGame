@@ -23,5 +23,10 @@ router.get("/generate", (req, res) => {
     });
 });
 
+router.get("/word", (req, res) => {
+    const word = Infinity.getWordOfTheDay();
+    res.json({"word" : word});
+});
+
 module.exports = router;
 

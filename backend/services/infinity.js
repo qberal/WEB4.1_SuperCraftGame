@@ -56,6 +56,10 @@ class Infinity {
 
         return JSON.parse(chat_completion.choices[0].message.content);
     }
+
+    static getWordOfTheDay() {
+        return "Internet";
+    }
 }
 
 module.exports = Infinity;

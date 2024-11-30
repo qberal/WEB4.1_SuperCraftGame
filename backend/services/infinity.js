@@ -42,13 +42,16 @@ class Infinity {
                 },
             ],
             model: "llama-3.1-70b-versatile",
-            temperature: 0.9, // Autorise une créativité modérée
+            temperature: 0.7,
             stream: false,
             response_format: {type: "json_object"},
         }).catch((error) => {
-            console.error(error);
-            return {name: "Error", icon: "❌"};
+            return 'Error';
         });
+
+        if (chat_completion === 'Error') {
+            return {"name": "Error", "icon": "❌"};
+        }
 
         return JSON.parse(chat_completion.choices[0].message.content);
     }

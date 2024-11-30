@@ -1,7 +1,7 @@
 // useDragAndDrop.js
 import { ref } from 'vue';
 
-export default function useDragAndDrop(shapes, containerRef, addShape, isSuperposed, handleFusion, bringToFront) {
+export default function useDragAndDrop(shapes, containerRef, addShape, isSuperposed, handleFusion, bringToFront, saveCanvas) {
     const isDragOver = ref(false);
     const isDraggingInternal = ref(false);
     let currentDraggingShape = null;
@@ -55,6 +55,8 @@ export default function useDragAndDrop(shapes, containerRef, addShape, isSuperpo
     const onMouseUp = () => {
         if (currentDraggingShape) {
             currentDraggingShape.isDragging = false;
+
+            saveCanvas();
 
             let other = isSuperposed(currentDraggingShape);
             if (other !== null) {

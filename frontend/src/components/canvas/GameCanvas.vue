@@ -9,7 +9,6 @@ import useDragAndDrop from "@/composables/useDragAndDrop";
 const props = defineProps({
   cleanUpAction: Boolean,
   gameMode: String,
-  currentSelectedItem: Object, // Assurez-vous que cette prop existe
 });
 
 const emit = defineEmits(['fusion-completed']);
@@ -17,7 +16,7 @@ const emit = defineEmits(['fusion-completed']);
 const containerRef = ref(null);
 
 // Utilisation du composable useShapes
-const {shapes, addShape, saveCanvas, loadCanvas, isSuperposed, bringToFront} = useShapes(containerRef);
+const {shapes, addShape, saveCanvas, loadCanvas, isSuperposed, bringToFront} = useShapes(containerRef, props.gameMode);
 
 watch(
     () => props.cleanUpAction,
@@ -44,12 +43,14 @@ const {
   handleDragLeave,
   startDrag,
   isDraggingInternal,
-} = useDragAndDrop(shapes, containerRef, addShape, isSuperposed, handleFusion, bringToFront);
+} = useDragAndDrop(shapes, containerRef, addShape, isSuperposed, handleFusion, bringToFront, saveCanvas);
 
 // Gestion du clic pour ajouter des formes
 const handleClick = (event) => {
   bringToFront()
 };
+
+loadCanvas();
 
 </script>
 

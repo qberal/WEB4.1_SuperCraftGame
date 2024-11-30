@@ -1,7 +1,7 @@
 // useShapes.js
-import { reactive } from 'vue';
+import {reactive} from 'vue';
 
-export default function useShapes(containerRef) {
+export default function useShapes(containerRef, gameMode) {
     const shapes = reactive([]);
 
     // Vérifie si deux formes se chevauchent
@@ -29,31 +29,46 @@ export default function useShapes(containerRef) {
             width: containerRef.value.clientWidth,
             height: containerRef.value.clientHeight,
         };
-        console.log(JSON.stringify({ canvasSize, shapes }));
+
+        //save in local storage
+        const canvasData = {
+            canvasSize,
+            shapes: shapes.map((shape) => {
+                return {
+                    x: shape.x,
+                    y: shape.y,
+                    icon: shape.icon,
+                    name: shape.name,
+                };
+            }),
+        };
+
+        //save in local storage
+
+        console.log('canvas saved: ', canvasData);
+
+        localStorage.setItem(gameMode, JSON.stringify(canvasData));
     };
 
-    const loadCanvas = (canvasData) => {
+    const loadCanvas = () => {
+        console.log('canvas loaded: ', gameMode);
+
+        let canvasData = JSON.parse(localStorage.getItem(gameMode));
+        if (!canvasData) return;
+
+        //TODO: Remove all shapes that are not in the user's inventory to prevent cheating, and avoid errors
+
+
+
+
         shapes.splice(0);
 
-        if (
-            canvasData.canvasSize.width !== containerRef.value.clientWidth ||
-            canvasData.canvasSize.height !== containerRef.value.clientHeight
-        ) {
-            const ratioX = containerRef.value.clientWidth / canvasData.canvasSize.width;
-            const ratioY = containerRef.value.clientHeight / canvasData.canvasSize.height;
-            for (const shape of canvasData.shapes) {
-                shape.x *= ratioX;
-                shape.y *= ratioY;
-                shapes.push(shape);
-            }
-        } else {
-            for (const shape of canvasData.shapes) {
-                shapes.push(shape);
-            }
+        for (const shape of canvasData.shapes) {
+            addShape(shape.x+37.5, shape.y+37.5, shape.icon, shape.name, true);
         }
     };
 
-    const addShape = (x, y, icon = null, name = null) => {
+    const addShape = (x, y, icon = null, name = null, load = false) => {
         const size = 75; // Taille par défaut
         const newShape = reactive({
             id: shapes.length + 1,
@@ -66,6 +81,7 @@ export default function useShapes(containerRef) {
             name: name,
         });
         shapes.push(newShape);
+        if(!load) saveCanvas();
         return newShape;
     };
 

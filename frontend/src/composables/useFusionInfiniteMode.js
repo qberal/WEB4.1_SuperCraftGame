@@ -33,7 +33,6 @@ export default function useFusionInfiniteMode(shapes, addShape, emit) {
             return;
         }
 
-        console.log(fusionResult);
 
         // Supprimer les formes fusionnées
         shapes.splice(shapes.indexOf(shape1), 1);

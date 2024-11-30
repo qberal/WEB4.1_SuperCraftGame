@@ -29,7 +29,7 @@ watch(
 
 let handleFusion;
 
-if (props.gameMode !== 'normal') {
+if (props.gameMode === 'infinity') {
   ({ handleFusion } = useFusionInfiniteMode(shapes, addShape, emit));
 } else {
   ({ handleFusion } = useFusionNormalMode(shapes, addShape, emit));

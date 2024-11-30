@@ -106,7 +106,7 @@ let openSettings = ref(false)
       />
     </div>
 
-    <div class="game-mode-status-bar">
+    <div v-if="gameMode !== 'guest'" class="game-mode-status-bar">
       <GameModeSelection
           :game-mode=gameMode
       />

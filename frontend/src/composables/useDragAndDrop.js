@@ -1,7 +1,7 @@
 // useDragAndDrop.js
 import { ref } from 'vue';
 
-export default function useDragAndDrop(shapes, containerRef, addShape, isSuperposed, handleFusion) {
+export default function useDragAndDrop(shapes, containerRef, addShape, isSuperposed, handleFusion, bringToFront) {
     const isDragOver = ref(false);
     const isDraggingInternal = ref(false);
     let currentDraggingShape = null;
@@ -76,6 +76,8 @@ export default function useDragAndDrop(shapes, containerRef, addShape, isSuperpo
 
         currentDraggingShape = shape;
         shape.isDragging = true;
+
+        bringToFront(shape);
 
         const rect = containerRef.value.getBoundingClientRect();
         shape.offsetX = event.clientX - rect.left - shape.x;

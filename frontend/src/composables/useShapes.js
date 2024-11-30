@@ -69,6 +69,16 @@ export default function useShapes(containerRef) {
         return newShape;
     };
 
+    const bringToFront = (shape) => {
+        // Retire la forme du tableau
+        const index = shapes.indexOf(shape);
+        if (index !== -1) {
+            shapes.splice(index, 1);
+            // Ajoute la forme à la fin du tableau
+            shapes.push(shape);
+        }
+    };
+
     return {
         shapes,
         saveCanvas,
@@ -76,5 +86,6 @@ export default function useShapes(containerRef) {
         addShape,
         isOverlapping,
         isSuperposed,
+        bringToFront,
     };
 }

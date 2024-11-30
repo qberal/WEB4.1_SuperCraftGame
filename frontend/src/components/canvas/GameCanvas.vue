@@ -17,7 +17,7 @@ const emit = defineEmits(['fusion-completed']);
 const containerRef = ref(null);
 
 // Utilisation du composable useShapes
-const {shapes, addShape, saveCanvas, loadCanvas, isSuperposed} = useShapes(containerRef);
+const {shapes, addShape, saveCanvas, loadCanvas, isSuperposed, bringToFront} = useShapes(containerRef);
 
 watch(
     () => props.cleanUpAction,
@@ -35,21 +35,6 @@ if (props.gameMode !== 'normal') {
   ({ handleFusion } = useFusionNormalMode(shapes, addShape, emit));
 }
 
-// Gestion du clic pour ajouter des formes
-const handleClick = (event) => {
-  if (props.currentSelectedItem?.icon) {
-    const rect = containerRef.value.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const newShape = addShape(x, y, props.currentSelectedItem.icon, props.currentSelectedItem.name);
-
-    let other = isSuperposed(newShape);
-    if (other !== null) {
-      handleFusion(newShape, other);
-    }
-  }
-};
-
 // Utilisation du composable useDragAndDrop
 const {
   isDragOver,
@@ -59,7 +44,12 @@ const {
   handleDragLeave,
   startDrag,
   isDraggingInternal,
-} = useDragAndDrop(shapes, containerRef, addShape, isSuperposed, handleFusion);
+} = useDragAndDrop(shapes, containerRef, addShape, isSuperposed, handleFusion, bringToFront);
+
+// Gestion du clic pour ajouter des formes
+const handleClick = (event) => {
+  bringToFront()
+};
 
 </script>
 

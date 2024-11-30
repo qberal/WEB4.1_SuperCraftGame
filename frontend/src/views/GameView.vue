@@ -12,6 +12,7 @@ const props = defineProps({
   gameMode: String,
 });
 
+// Inventory items
 const inventory = reactive([]);
 if(props.gameMode === 'infinity') {
   inventory.push(
@@ -35,6 +36,13 @@ if(props.gameMode === 'infinity') {
 }
 
 
+//Player status
+const player = ref({
+  name: "Player 1",
+  profilePicture: "src/assets/img/person.fill.placeholder.svg",
+  score: 0,
+  maxScore: null,
+});
 
 const addToInventory = (item) => {
   if (inventory.find(i => i.name === item.name)) {
@@ -46,6 +54,8 @@ const addToInventory = (item) => {
     icon: item.icon,
     name: item.name,
   });
+
+  player.value.score += 1;
 };
 
 const players = [
@@ -70,10 +80,10 @@ let openSettings = ref(false)
     <!-- Barre de statut en bas à gauche -->
     <div class="status-bar">
       <PlayerStatusBar
-          name="Player 1"
-          profilePicture="src/assets/img/person.fill.placeholder.svg"
-          score="100"
-          maxScore="100"
+          :name=player.name
+          :profilePicture=player.profilePicture
+          :score=player.score
+          :maxScore=player.maxScore
           @open-leaderboard="openLeaderboard = !openLeaderboard"
           @open-settings="openSettings = !openSettings"
       />

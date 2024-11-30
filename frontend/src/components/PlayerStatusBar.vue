@@ -13,7 +13,6 @@ defineEmits(['open-leaderboard', 'open-settings']);
 let extraSettingOpened = ref(false);
 
 
-
 </script>
 
 <template>
@@ -24,7 +23,10 @@ let extraSettingOpened = ref(false);
       <p>{{ name }}</p>
     </div>
     <div class="score">
-    <p>{{ score }} / {{ maxScore }}</p>
+      <p>{{ score }}</p>
+      <div >
+        <p v-if="maxScore !== null">/ {{ maxScore }}</p>
+      </div>
     </div>
   </div>
 
@@ -57,7 +59,7 @@ let extraSettingOpened = ref(false);
   gap: 10px;
 }
 
-img{
+img {
   width: 30px;
   height: 30px;
   border-radius: 22px;
@@ -86,6 +88,13 @@ a {
 a:hover {
   cursor: pointer;
   font-size: 1.1em;
+}
+
+.score {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
 }
 
 </style>

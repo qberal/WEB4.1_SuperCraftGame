@@ -1,228 +1,66 @@
 <script setup>
-import {ref, reactive, watch, defineEmits} from 'vue';
+import {ref, watch, defineEmits} from 'vue';
 import CanvasItem from "@/components/canvas/CanvasItem.vue";
-import axios from 'axios';
+import useShapes from "@/composables/useShapes";
+import useFusionInfiniteMode from "@/composables/useFusionInfiniteMode";
+import useFusionNormalMode from "@/composables/useFusionNormalMode";
+import useDragAndDrop from "@/composables/useDragAndDrop";
 
 const props = defineProps({
   cleanUpAction: Boolean,
   gameMode: String,
+  currentSelectedItem: Object, // Assurez-vous que cette prop existe
 });
 
 const emit = defineEmits(['fusion-completed']);
 
+const containerRef = ref(null);
+
+// Utilisation du composable useShapes
+const {shapes, addShape, saveCanvas, loadCanvas, isSuperposed} = useShapes(containerRef);
+
 watch(
     () => props.cleanUpAction,
     () => {
-      shapes.splice(0); // Efface les formes
+      shapes.splice(0);
     }
 );
 
-const shapes = reactive([]);
-const containerRef = ref(null);
 
-const saveCanvas = () => {
-  let canvasSize = {
-    width: containerRef.value.clientWidth,
-    height: containerRef.value.clientHeight,
-  };
-  console.log(JSON.stringify({canvasSize, shapes}));
-};
+let handleFusion;
 
-const loadCanvas = (canvasData) => {
-  shapes.splice(0);
+if (props.gameMode !== 'normal') {
+  ({ handleFusion } = useFusionInfiniteMode(shapes, addShape, emit));
+} else {
+  ({ handleFusion } = useFusionNormalMode(shapes, addShape, emit));
+}
 
-  if (canvasData.canvasSize.width !== containerRef.value.clientWidth || canvasData.canvasSize.height !== containerRef.value.clientHeight) {
-    const ratioX = containerRef.value.clientWidth / canvasData.canvasSize.width;
-    const ratioY = containerRef.value.clientHeight / canvasData.canvasSize.height;
-    for (const shape of canvasData.shapes) {
-      shape.x *= ratioX;
-      shape.y *= ratioY;
-      shapes.push(shape);
-    }
-  } else {
-    for (const shape of canvasData.shapes) {
-      shapes.push(shape);
-    }
-  }
-};
-
-const addShape = (x, y, icon = null, name = null) => {
-  const size = 75; // Taille par défaut
-  const newShape = reactive({
-    id: shapes.length + 1,
-    x: x - size / 2, // Centre la forme
-    y: y - size / 2,
-    width: size,
-    height: size,
-    icon: icon,
-    isDragging: false,
-    name: name,
-  });
-  shapes.push(newShape);
-
-  let other = isSuperposed(newShape);
-  if (other !== null) {
-    handleFusion(newShape, other);
-  }
-};
-
+// Gestion du clic pour ajouter des formes
 const handleClick = (event) => {
   if (props.currentSelectedItem?.icon) {
     const rect = containerRef.value.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-    addShape(x, y, props.currentSelectedItem.icon, props.currentSelectedItem.name);
-  }
-};
+    const newShape = addShape(x, y, props.currentSelectedItem.icon, props.currentSelectedItem.name);
 
-// Vérifie si deux formes se chevauchent
-const isOverlapping = (shape1, shape2, margin = 25) => {
-  return !(
-      shape1.x + shape1.width - margin <= shape2.x + margin || // shape1 est à gauche de shape2
-      shape1.x + margin >= shape2.x + shape2.width - margin || // shape1 est à droite de shape2
-      shape1.y + shape1.height - margin <= shape2.y + margin || // shape1 est au-dessus de shape2
-      shape1.y + margin >= shape2.y + shape2.height - margin    // shape1 est en dessous de shape2
-  );
-
-};
-
-// Vérifie si une forme donnée est superposée avec une autre
-const isSuperposed = (shape) => {
-  for (const otherShape of shapes) {
-    if (shape !== otherShape && isOverlapping(shape, otherShape)) {
-      return otherShape;
-    }
-  }
-  return null;
-};
-
-const handleFusion = async (shape1, shape2) => {
-  /**
-   * C'est ici qu'on va tester si 2 items sont fusionnables ou pas. si oui, on va les fusionner et créer un nouvel item.
-   * On enverra cet item dans l'inventaire pour qu'il soit affiché.
-   * (On peut aussi faire une animation de fusion si on veut)
-   */
-
-  let fusionResult = {
-    icon: './favicon.svg',
-    name: 'WIP',
-    emoji: null,
-  };
-
-  await axios.get('api/infinity/generate', {
-    params: {
-      item1: shape1.name,
-      item2: shape2.name,
-    },
-  }).then((response) => {
-    fusionResult.name = response.data.name;
-    fusionResult.icon = response.data.icon;
-  }).catch((error) => {
-    console.error('Error while generating fusion:', error);
-  });
-
-  console.log(fusionResult);
-
-  //delete shape 1 and shape 2
-  shapes.splice(shapes.indexOf(shape1), 1);
-  shapes.splice(shapes.indexOf(shape2), 1);
-
-  //compute the position of the new item
-  fusionResult.x = (shape1.x + shape2.x) / 2 + 25;
-  fusionResult.y = Math.min(shape1.y, shape2.y) + 25;
-
-  addShape(fusionResult.x, fusionResult.y, fusionResult.icon, fusionResult.name);
-
-  saveCanvas();
-
-  emit('fusion-completed', {
-    icon: fusionResult.icon || './favicon.svg',
-    name: fusionResult.name || 'Error',
-  });
-
-};
-
-// Variables pour le drag and drop externe
-const isDragOver = ref(false);
-
-const handleDrop = (event) => {
-  event.preventDefault();
-  isDragOver.value = false;
-
-  const rect = containerRef.value.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
-
-  const data = event.dataTransfer.getData('application/json');
-  const item = JSON.parse(data);
-
-  if (item?.icon) {
-    addShape(x, y, item.icon, item.name);
-  }
-
-  shapes.forEach((shape) => (shape.pointerEvents = 'auto'));
-};
-
-const handleDragOver = (event) => {
-  if (!isDraggingInternal) {
-    event.preventDefault();
-  }
-  shapes.forEach((shape) => (shape.pointerEvents = 'none'));
-};
-
-const handleDragEnter = () => {
-  isDragOver.value = true;
-};
-
-const handleDragLeave = () => {
-  isDragOver.value = false;
-  shapes.forEach((shape) => (shape.pointerEvents = 'auto'));
-};
-
-// Variables pour le déplacement des formes internes
-let currentDraggingShape = null;
-let isDraggingInternal = false;
-
-const onMouseMove = (event) => {
-  if (!currentDraggingShape) return;
-
-  const rect = containerRef.value.getBoundingClientRect();
-  currentDraggingShape.x = event.clientX - rect.left - currentDraggingShape.offsetX;
-  currentDraggingShape.y = event.clientY - rect.top - currentDraggingShape.offsetY;
-};
-
-const onMouseUp = () => {
-  if (currentDraggingShape) {
-    currentDraggingShape.isDragging = false;
-
-    let other = isSuperposed(currentDraggingShape);
+    let other = isSuperposed(newShape);
     if (other !== null) {
-      handleFusion(currentDraggingShape, other);
+      handleFusion(newShape, other);
     }
-
-    currentDraggingShape = null;
-    isDraggingInternal = false;
   }
-
-  window.removeEventListener('mousemove', onMouseMove);
-  window.removeEventListener('mouseup', onMouseUp);
 };
 
-const startDrag = (shape, event) => {
-  event.stopPropagation();
+// Utilisation du composable useDragAndDrop
+const {
+  isDragOver,
+  handleDrop,
+  handleDragOver,
+  handleDragEnter,
+  handleDragLeave,
+  startDrag,
+  isDraggingInternal,
+} = useDragAndDrop(shapes, containerRef, addShape, isSuperposed, handleFusion);
 
-  isDraggingInternal = true;
-
-  currentDraggingShape = shape;
-  shape.isDragging = true;
-
-  const rect = containerRef.value.getBoundingClientRect();
-  shape.offsetX = event.clientX - rect.left - shape.x;
-  shape.offsetY = event.clientY - rect.top - shape.y;
-
-  window.addEventListener('mousemove', onMouseMove);
-  window.addEventListener('mouseup', onMouseUp);
-};
 </script>
 
 <template>
@@ -236,17 +74,18 @@ const startDrag = (shape, event) => {
       @dragleave="handleDragLeave"
       draggable="false"
   >
-
-    <div v-for="shape in shapes">
-      <CanvasItem :data="shape"
-                  @mousedown="(e) => startDrag(shape, e)"
-                  @dblclick="addShape(shape.x + shape.width , shape.y + shape.height, shape.icon, shape.name)"
-                  draggable="false"
-                  :game-mode="gameMode"
+    <div v-for="shape in shapes" :key="shape.id">
+      <CanvasItem
+          :data="shape"
+          @mousedown="(e) => startDrag(shape, e)"
+          @dblclick="addShape(shape.x + shape.width, shape.y + shape.height, shape.icon, shape.name)"
+          draggable="false"
+          :game-mode="gameMode"
       />
     </div>
   </div>
 </template>
+
 <style>
 .container {
   width: 100vw;
@@ -263,7 +102,7 @@ const startDrag = (shape, event) => {
 .shape {
   position: absolute;
   cursor: grab;
-  border-radius: 50%; /* Cercle par défaut */
+  border-radius: 50%;
   transition: transform 0.1s;
 }
 
@@ -274,10 +113,10 @@ const startDrag = (shape, event) => {
 .image-shape {
   background-size: contain;
   background-repeat: no-repeat;
-  border-radius: 0; /* Images rectangulaires */
+  border-radius: 0;
 }
 
 .circle-shape {
-  background-color: lightblue; /* Couleur de secours */
+  background-color: lightblue;
 }
 </style>

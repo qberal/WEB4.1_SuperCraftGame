@@ -7,14 +7,19 @@ import {reactive, ref} from "vue";
 import PopUpMenu from "@/components/PopUpMenu.vue";
 import Leaderboard from "@/components/Leaderboard.vue";
 import GameCanvas from "@/components/canvas/GameCanvas.vue";
+import GameModeSelection from "@/components/GameModeSelection.vue";
+import axios from "axios";
 
 const props = defineProps({
   gameMode: String,
 });
 
+const todaysWord = ref("");
+
 // Inventory items
 const inventory = reactive([]);
-if(props.gameMode === 'infinity') {
+if (props.gameMode === 'infinity') {
+
   inventory.push(
       {id: 1, icon: "💨", name: "Air"},
       {id: 2, icon: "🔥", name: "Fire"},
@@ -24,8 +29,12 @@ if(props.gameMode === 'infinity') {
       {id: 6, icon: "🪵️", name: "Wood"},
       {id: 7, icon: "🧬", name: "Life"},
       {id: 8, icon: "⌛", name: "Time"},
-
   );
+
+  axios.get("/api/infinity/word").then((response) => {
+    todaysWord.value = response.data.word;
+  });
+
 } else {
   inventory.push(
       {id: 1, icon: "/wind.svg", name: "Air"},
@@ -55,6 +64,15 @@ const addToInventory = (item) => {
     name: item.name,
   });
 
+  if (props.gameMode === 'infinity') {
+    if (item.name === todaysWord.value) {
+      setTimeout(() => {
+        alert("You found the word! You win. Your score is: " + player.value.score);
+      }, 1000);
+      return;
+    }
+  }
+
   player.value.score += 1;
 };
 
@@ -70,7 +88,6 @@ let cleanUpToggle = ref(false)
 
 let openLeaderboard = ref(false)
 let openSettings = ref(false)
-
 
 
 </script>
@@ -89,33 +106,42 @@ let openSettings = ref(false)
       />
     </div>
 
-    <!-- Inventaire à droite -->
-    <div class="inventory">
-      <InventoryPanel :inventory="inventory" :game-mode="props.gameMode"/>
+    <div class="game-mode-status-bar">
+      <GameModeSelection
+          :game-mode=gameMode
+      />
     </div>
 
-    <!-- Canvas de jeu -->
-    <div class="game-canvas">
-      <GameCanvas :clean-up-action="cleanUpToggle" :game-mode="props.gameMode" @fusion-completed="addToInventory"/>
+    <div v-if="props.gameMode === 'infinity'" class="todays-word">
+      <h3>Today's word: {{todaysWord}}</h3>
     </div>
+      <!-- Inventaire à droite -->
+      <div class="inventory">
+        <InventoryPanel :inventory="inventory" :game-mode="props.gameMode"/>
+      </div>
+
+      <!-- Canvas de jeu -->
+      <div class="game-canvas">
+        <GameCanvas :clean-up-action="cleanUpToggle" :game-mode="props.gameMode" @fusion-completed="addToInventory"/>
+      </div>
 
 
-    <!-- Bouton en bas avant l'inventaire -->
-    <div class="button-container">
-      <SimpleButton icon="src/assets/img/paintbrush.svg" @cleanUp="cleanUpToggle = !cleanUpToggle"/>
+      <!-- Bouton en bas avant l'inventaire -->
+      <div class="button-container">
+        <SimpleButton icon="src/assets/img/paintbrush.svg" @cleanUp="cleanUpToggle = !cleanUpToggle"/>
+      </div>
+
+      <!-- PopUps -->
+      <PopUpMenu title="Leaderboard" :show="openLeaderboard" @close="openLeaderboard = false">
+        <Leaderboard :players="players"/>
+      </PopUpMenu>
+
+      <PopUpMenu title="Settings" :show="openSettings" @close="openSettings = false">
+        <p>Settings (WIP)</p>
+      </PopUpMenu>
+
+
     </div>
-
-    <!-- PopUps -->
-    <PopUpMenu title="Leaderboard" :show="openLeaderboard" @close="openLeaderboard = false">
-      <Leaderboard :players="players"/>
-    </PopUpMenu>
-
-    <PopUpMenu title="Settings" :show="openSettings" @close="openSettings = false">
-      <p>Settings (WIP)</p>
-    </PopUpMenu>
-
-
-  </div>
 </template>
 
 <style scoped>
@@ -169,6 +195,26 @@ body {
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
+}
+
+.game-mode-status-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  width: 20vw;
+  z-index: 90;
+}
+
+.todays-word {
+  position: absolute;
+  top: 0;
+  left: 20vw;
+  padding: 20px;
+  width: 60vw;
+  z-index: 90;
+  text-align: center;
+  text-shadow: 0px 4px 16.3px rgba(49, 49, 49, 0.25);
 }
 
 </style>

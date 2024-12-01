@@ -34,7 +34,10 @@ class Leaderboard {
     }
 
     //mode normal: juste à compter l'inventaire normal de chaque utilisateur par count ascendant
-    $
+    static getNormalLeaderboard(result) {
+
+    }
+
 }
 
 module.exports = Leaderboard;

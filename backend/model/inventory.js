@@ -10,7 +10,7 @@ class Inventory {
             SELECT items.id AS item_id, items.nom AS item_name, items.img AS item_image
             FROM inventory
             INNER JOIN items ON inventory.item_id = items.id
-            WHERE inventory.user_id = ?;
+            WHERE inventory.user_id = ? OR inventory.user_id = 0;
         `;
 
         return new Promise((resolve, reject) => {
@@ -18,6 +18,24 @@ class Inventory {
                 if (err) {
                     console.error('Erreur lors de la récupération de l\'inventaire :', err);
                     reject(new Error('Erreur lors de la récupération de l\'inventaire.'));
+                } else {
+                    resolve(rows);
+                }
+            });
+        });
+    }
+
+    static getAllItems() {
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT id, nom, img
+                FROM items;
+            `;
+
+            db.all(query, (err, rows) => {
+                if (err) {
+                    console.error('Erreur lors de la récupération des items :', err);
+                    reject(new Error('Erreur lors de la récupération des items.'));
                 } else {
                     resolve(rows);
                 }
@@ -104,7 +122,7 @@ class Inventory {
         const query = `
             SELECT 1
             FROM inventory
-            WHERE user_id = ? AND item_id IN (?, ?)
+            WHERE user_id = ? OR user_id = 0 AND item_id IN (?, ?)
             LIMIT 2;
         `;
     

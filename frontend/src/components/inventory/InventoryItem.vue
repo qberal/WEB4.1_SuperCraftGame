@@ -15,6 +15,7 @@ const handleClick = () => {
 };
 
 const handleDragStart = (event) => {
+  console.log(JSON.stringify(props));
   event.dataTransfer.setData('application/json', JSON.stringify(props));
   emit('drag-start', props.id);
 };

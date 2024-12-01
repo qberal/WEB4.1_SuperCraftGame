@@ -67,6 +67,7 @@ const filteredInventory = computed(() => {
       <InventoryItem
           v-for="item in filteredInventory"
           :key="item.id"
+          :id="item.id"
           :icon="item.icon"
           :name="item.name"
           :gameMode="gameMode"

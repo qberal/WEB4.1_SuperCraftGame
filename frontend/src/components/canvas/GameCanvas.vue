@@ -22,6 +22,7 @@ watch(
     () => props.cleanUpAction,
     () => {
       shapes.splice(0);
+      saveCanvas();
     }
 );
 
@@ -71,7 +72,7 @@ const handleClick = (event) => {
       <CanvasItem
           :data="shape"
           @mousedown="(e) => startDrag(shape, e)"
-          @dblclick="addShape(shape.x + shape.width, shape.y + shape.height, shape.icon, shape.name)"
+          @dblclick="addShape(shape.x + shape.width, shape.y + shape.height, shape.icon, shape.name,false, shape.id)"
           draggable="false"
           :game-mode="gameMode"
       />

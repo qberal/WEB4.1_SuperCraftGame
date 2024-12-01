@@ -30,7 +30,7 @@ const inventory = reactive([]);
 axios.get(`/api/${props.gameMode}/getInventory`).then((response) => {
   response.data.forEach((item) => {
     inventory.push({
-      id: inventory.id || inventory.length + 1,
+      id: item.id || inventory.length + 1,
       icon: item.icon,
       name: item.name,
     });

@@ -86,7 +86,7 @@ class Inventory {
             const query = `
                 SELECT COUNT(*) AS item_count
                 FROM inventory
-                WHERE user_id = ?;
+                WHERE user_id = ? AND user_id = 0;
             `;
 
             db.get(query, [userId], (err, row) => {
@@ -105,7 +105,7 @@ class Inventory {
         const query = `
             SELECT 1
             FROM inventory
-            WHERE user_id = ? AND item_id = ?
+            WHERE user_id = ? OR user_id = 0 AND item_id = ?
             LIMIT 1;
         `;
     

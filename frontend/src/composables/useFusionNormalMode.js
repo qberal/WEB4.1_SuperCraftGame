@@ -23,7 +23,8 @@ export default function useFusionNormalMode(shapes, addShape, emit) {
                 },
             });
 
-            if(response.data.message) {
+            //if 400 error, return
+            if(response.status === 400) {
                 console.error('Error while fusing:', response.data.message);
                 return;
             }
@@ -48,7 +49,7 @@ export default function useFusionNormalMode(shapes, addShape, emit) {
         const y = Math.min(shape1.y, shape2.y) + 25;
 
         // Ajouter la nouvelle forme résultant de la fusion
-        addShape(x, y, fusionResult.icon, fusionResult.name);
+        addShape(x, y, fusionResult.icon, fusionResult.name, false, fusionResult.id);
 
         // Émettre l'événement de fusion complétée
         emit('fusion-completed', {

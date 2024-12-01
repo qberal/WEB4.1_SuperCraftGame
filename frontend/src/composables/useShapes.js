@@ -38,6 +38,7 @@ export default function useShapes(containerRef, gameMode) {
             canvasSize,
             shapes: shapes.map((shape) => {
                 return {
+                    id: shape.id,
                     x: shape.x,
                     y: shape.y,
                     icon: shape.icon,
@@ -67,14 +68,14 @@ export default function useShapes(containerRef, gameMode) {
         shapes.splice(0);
 
         for (const shape of canvasData.shapes) {
-            addShape(shape.x+37.5, shape.y+37.5, shape.icon, shape.name, true);
+            addShape(shape.x+37.5, shape.y+37.5, shape.icon, shape.name, true, shape.id);
         }
     };
 
-    const addShape = (x, y, icon = null, name = null, load = false) => {
+    const addShape = (x, y, icon = null, name = null, load = false, id = null) => {
         const size = 75; // Taille par défaut
         const newShape = reactive({
-            id: shapes.length + 1,
+            id: id || shapes.length + 1,
             x: x - size / 2, // Centre la forme
             y: y - size / 2,
             width: size,

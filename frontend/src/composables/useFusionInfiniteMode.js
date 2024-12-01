@@ -21,6 +21,7 @@ export default function useFusionInfiniteMode(shapes, addShape, emit) {
                     item2: shape2.name,
                 },
             });
+
             fusionResult.name = response.data.name;
             fusionResult.icon = response.data.icon;
         } catch (error) {
@@ -43,7 +44,7 @@ export default function useFusionInfiniteMode(shapes, addShape, emit) {
         const y = Math.min(shape1.y, shape2.y) + 25;
 
         // Ajouter la nouvelle forme résultant de la fusion
-        addShape(x, y, fusionResult.icon, fusionResult.name);
+        addShape(x, y, fusionResult.icon, fusionResult.name, false, shapes.length + 1);
 
         // Émettre l'événement de fusion complétée
         emit('fusion-completed', {

@@ -1,5 +1,7 @@
 <script setup>
 import {ref} from "vue";
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 defineProps({
   name: String,
@@ -12,6 +14,20 @@ defineEmits(['open-leaderboard', 'open-settings']);
 
 let extraSettingOpened = ref(false);
 
+const router = useRouter();
+
+const logoutUser = async () => {
+  try {
+    const response = await axios.post('/api/logout');
+    if (response.status === 200) {
+      router.push('/login');
+    } else {
+      console.error("Erreur lors de la déconnexion : ", response.data.message);
+    }
+  } catch (error) {
+    console.error("Déconnexion échouée : ", error);
+  }
+}
 
 </script>
 
@@ -33,8 +49,10 @@ let extraSettingOpened = ref(false);
   <div class="extra-settings" v-if="extraSettingOpened">
     <a @click="$emit('open-leaderboard')">Leaderboard</a>
     <a @click="$emit('open-settings')">Settings</a>
-    <a href="/logout">Logout</a>
+    <a @click="logoutUser">Logout</a>
   </div>
+
+
 
 </template>
 

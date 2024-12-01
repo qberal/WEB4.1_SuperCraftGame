@@ -19,8 +19,6 @@ router.get('/getInventory', async (req, res) => {
             };
         });
 
-        console.log(`Inventaire de l'utilisateur ${user_id} :`, userInventory);
-
         res.json(userInventory);
     } catch (err) {
         console.error('Erreur lors de la récupération de l\'inventaire :', err);
@@ -55,7 +53,7 @@ router.get('/getFusion', (req, res) => {
                 fusionRes = {
                     "id": fusionItem.id,
                     "name": fusionItem.nom,
-                    "icon": fusionItem.image
+                    "icon": fusionItem.img
                 }
 
                 return res.status(200).json( fusionRes );

@@ -15,7 +15,7 @@ defineProps({
       pointerEvents: data.pointerEvents || 'auto',
     }"
   >
-    <img class="icon" v-if="gameMode !== 'infinity'" :src="data.icon" :alt="'icon of ' + data.name" draggable="false"
+    <img class="icon" v-if="gameMode !== 'infinity'" :src="'api/images/'+data.icon" :alt="'icon of ' + data.name" draggable="false"
          :style="{width: data.width + 'px',
                   height: data.height + 'px',}"/>
     <div class="infinity" v-else>

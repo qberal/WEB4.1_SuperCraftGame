@@ -27,7 +27,7 @@ const handleDragStart = (event) => {
       draggable="true"
       @dragstart="handleDragStart"
   >
-    <img v-if="gameMode !== 'infinity'" class="icon" :src="icon" :alt="`icon for ${name}`" />
+    <img v-if="gameMode !== 'infinity'" class="icon" :src="'api/images/' + icon" :alt="`icon for ${name}`" />
     <div v-else class="icon-infinity">{{icon}}</div>
     <h3>{{ name }}</h3>
   </div>

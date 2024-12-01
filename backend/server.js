@@ -7,8 +7,9 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(express.static('../frontend'));
 app.use(cors());
+
+app.use('/images', express.static('public/images'));
 
 const register = require('./routers/register');
 app.use('/', register);

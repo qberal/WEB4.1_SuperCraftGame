@@ -26,17 +26,35 @@ const player = ref({
 
 // Inventory items
 const inventory = reactive([]);
-if (props.gameMode === 'infinity') {
 
-  axios.get("/api/infinity/getInventory").then((response) => {
-    response.data.forEach((item) => {
-      inventory.push({
-        id: inventory.length + 1,
-        icon: item.icon,
-        name: item.name,
-      });
+axios.get(`/api/${props.gameMode}/getInventory`).then((response) => {
+  response.data.forEach((item) => {
+    inventory.push({
+      id: inventory.id || inventory.length + 1,
+      icon: item.icon,
+      name: item.name,
     });
   });
+});
+
+if(props.gameMode !== 'guest') {
+
+  axios.get(`/api/${props.gameMode}/getScore`).then((response) => {
+    player.value.score = response.data.score;
+    player.value.maxScore = response.data.maxScore || null;
+  });
+
+} else {
+
+  inventory.push(
+      {id: 1, icon: "/wind.svg", name: "Air"},
+      {id: 2, icon: "/flame.svg", name: "Fire"},
+      {id: 3, icon: "/globe.europe.africa.svg", name: "Earth"},
+      {id: 4, icon: "/drop.svg", name: "Water"},
+  );
+}
+
+if (props.gameMode === 'infinity') {
 
   axios.get("/api/infinity/getWordOfTheDay").then((response) => {
     todaysWord.value = response.data.word;
@@ -46,13 +64,6 @@ if (props.gameMode === 'infinity') {
     player.value.score = response.data.score;
   });
 
-} else {
-  inventory.push(
-      {id: 1, icon: "/wind.svg", name: "Air"},
-      {id: 2, icon: "/flame.svg", name: "Fire"},
-      {id: 3, icon: "/globe.europe.africa.svg", name: "Earth"},
-      {id: 4, icon: "/drop.svg", name: "Water"},
-  );
 }
 
 
@@ -65,7 +76,7 @@ const addToInventory = (item) => {
   }
 
   inventory.push({
-    id: inventory.length + 1,
+    id: item.id || inventory.length + 1,
     icon: item.icon,
     name: item.name,
   });

@@ -22,6 +22,12 @@ export default function useFusionNormalMode(shapes, addShape, emit) {
                     item2: shape2.id,
                 },
             });
+
+            if(response.data.message) {
+                console.error('Error while fusing:', response.data.message);
+                return;
+            }
+
             fusionResult.id = response.data.id;
             fusionResult.name = response.data.name;
             fusionResult.icon = response.data.icon;
@@ -29,7 +35,6 @@ export default function useFusionNormalMode(shapes, addShape, emit) {
             console.log('Fusion result:', fusionResult);
 
         } catch (error) {
-            window.alert('Erreur lors de la génération de la fusion');
             return;
         }
 

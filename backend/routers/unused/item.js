@@ -1,5 +1,5 @@
 const express = require('express');
-const Item = require('../model/item');  // Assurez-vous que le chemin d'importation est correct
+const Item = require('../../model/item');  // Assurez-vous que le chemin d'importation est correct
 const router = express.Router();
 
 // Trouver un item par ID

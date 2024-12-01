@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Fusion = require('../model/fusion');  // Assure-toi que ce chemin est correct
-const Inventory = require('../model/inventory');  // Assure-toi que ce chemin est correct
+const Fusion = require('../../model/fusion');  // Assure-toi que ce chemin est correct
+const Inventory = require('../../model/inventory');  // Assure-toi que ce chemin est correct
 
 
 // Route pour obtenir l'item fusionné de deux items, si la fusion est possible (les 2 items dans linventaire , et compatible pr une fusion), alors le nouveau item est ajouté á linventaire

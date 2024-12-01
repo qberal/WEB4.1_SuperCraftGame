@@ -13,12 +13,12 @@ class InfinityInventory {
     //vérifier si un item est déjà dans l'inventaire
     static checkItem(user_id, item_name) {
         return new Promise((resolve, reject) => {
-            db.get("SELECT * FROM infinity_inventory WHERE user_id = ? AND item_name = ?", [user_id, item_name], function (err, item) {
+            db.get("SELECT * FROM infinity_inventory WHERE (user_id = ? OR user_id = 0) AND item_name = ?", [user_id, item_name], function (err, item) {
                 if (err) {
                     console.error("Error fetching item:", err);
-                    reject(err); // Rejette l'erreur si elle survient
+                    reject(err);
                 } else {
-                    resolve(item); // Résout avec l'item trouvé
+                    resolve(item);
                 }
             });
         });
@@ -32,7 +32,6 @@ class InfinityInventory {
             return;
         }
 
-
         db.run("INSERT INTO infinity_inventory (user_id, item_name, icon) VALUES (?, ?, ?)", [user_id, item_name, icon], function (err) {
             if (err) {
                 console.log("error: ", err);
@@ -44,7 +43,7 @@ class InfinityInventory {
 
     // Trouver les items d'un utilisateur
     static findByUserId(user_id, result) {
-        db.all("SELECT * FROM infinity_inventory WHERE user_id = ?", [user_id], function (err, inventory) {
+        db.all("SELECT * FROM infinity_inventory WHERE user_id = ? OR user_id = 0", [user_id], function (err, inventory) {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
@@ -79,5 +78,4 @@ class InfinityInventory {
 
 }
 
-module
-    .exports = InfinityInventory;
+module.exports = InfinityInventory;

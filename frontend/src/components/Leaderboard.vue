@@ -3,11 +3,20 @@
 import {computed} from "vue";
 
 const props = defineProps({
-  players: Array,
+  gameMode: String,
 });
 
+//TODO: récuperer les joueurs du backend
+const players = [
+  {id: 1, name: "Player 1", score: 100},
+  {id: 2, name: "Player 2", score: 200},
+  {id: 3, name: "Player 3", score: 300},
+  {id: 4, name: "Player 4", score: 400},
+  {id: 5, name: "Player 5", score: 500},
+];
+
 const sortedPlayers = computed(() => {
-  return [...props.players].sort((a, b) => b.score - a.score);
+  return [...players].sort((a, b) => b.score - a.score);
 });
 
 </script>

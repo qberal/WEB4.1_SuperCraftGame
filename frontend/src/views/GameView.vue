@@ -16,23 +16,34 @@ const props = defineProps({
 
 const todaysWord = ref("");
 
+//Player status
+const player = ref({
+  name: "Player 1",
+  profilePicture: "src/assets/img/person.fill.placeholder.svg",
+  score: 0,
+  maxScore: null,
+});
+
 // Inventory items
 const inventory = reactive([]);
 if (props.gameMode === 'infinity') {
 
-  inventory.push(
-      {id: 1, icon: "💨", name: "Air"},
-      {id: 2, icon: "🔥", name: "Fire"},
-      {id: 3, icon: "🌍", name: "Earth"},
-      {id: 4, icon: "💧", name: "Water"},
-      {id: 5, icon: "🪙", name: "Metal"},
-      {id: 6, icon: "🪵️", name: "Wood"},
-      {id: 7, icon: "🧬", name: "Life"},
-      {id: 8, icon: "⌛", name: "Time"},
-  );
+  axios.get("/api/infinity/getInventory").then((response) => {
+    response.data.forEach((item) => {
+      inventory.push({
+        id: inventory.length + 1,
+        icon: item.icon,
+        name: item.name,
+      });
+    });
+  });
 
-  axios.get("/api/infinity/word").then((response) => {
+  axios.get("/api/infinity/getWordOfTheDay").then((response) => {
     todaysWord.value = response.data.word;
+  });
+
+  axios.get("/api/infinity/getScore").then((response) => {
+    player.value.score = response.data.score;
   });
 
 } else {
@@ -45,13 +56,8 @@ if (props.gameMode === 'infinity') {
 }
 
 
-//Player status
-const player = ref({
-  name: "Player 1",
-  profilePicture: "src/assets/img/person.fill.placeholder.svg",
-  score: 0,
-  maxScore: null,
-});
+
+
 
 const addToInventory = (item) => {
   if (inventory.find(i => i.name === item.name)) {
@@ -76,13 +82,6 @@ const addToInventory = (item) => {
   player.value.score += 1;
 };
 
-const players = [
-  {id: 1, name: "Player 1", score: 100},
-  {id: 2, name: "Player 2", score: 200},
-  {id: 3, name: "Player 3", score: 300},
-  {id: 4, name: "Player 4", score: 400},
-  {id: 5, name: "Player 5", score: 500},
-];
 
 let cleanUpToggle = ref(false)
 
@@ -133,7 +132,7 @@ let openSettings = ref(false)
 
       <!-- PopUps -->
       <PopUpMenu title="Leaderboard" :show="openLeaderboard" @close="openLeaderboard = false">
-        <Leaderboard :players="players"/>
+        <Leaderboard :game-mode="props.gameMode"/>
       </PopUpMenu>
 
       <PopUpMenu title="Settings" :show="openSettings" @close="openSettings = false">

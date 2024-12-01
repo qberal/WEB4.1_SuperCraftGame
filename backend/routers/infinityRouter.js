@@ -81,5 +81,23 @@ router.get("/getLeaderboard", (req, res) => {
     });
 });
 
+router.get("/getScore", (req, res) => {
+    const user_id = req.params.user_id || 1;
+
+    Leaderboard.getInfinityScore(user_id, (err, leaderboard) => {
+        if (err) {
+            console.log("Error fetching leaderboard:", err);
+            res.status(500).send("Error fetching leaderboard.");
+            return;
+        }
+
+        if (leaderboard) {
+            res.json(leaderboard);
+        } else {
+            res.status(404).send("Leaderboard not found.");
+        }
+    });
+});
+
 module.exports = router;
 

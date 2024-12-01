@@ -22,8 +22,19 @@ class Leaderboard {
         });
     }
 
+    static getInfinityScore(user_id, result) {
+        db.get("SELECT COUNT(*) as score FROM infinity_inventory WHERE user_id = ?", [user_id], function (err, score) {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+            result(null, score);
+        });
+    }
+
     //mode normal: juste à compter l'inventaire normal de chaque utilisateur par count ascendant
-$
+    $
 }
 
 module.exports = Leaderboard;

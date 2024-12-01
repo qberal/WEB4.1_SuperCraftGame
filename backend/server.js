@@ -16,17 +16,24 @@ app.use('/', register);
 const login = require('./routers/login');
 app.use('/', login);
 
-const fusion = require('./routers/fusion');  
+const infinity = require('./routers/infinity');
+app.use('/infinity', infinity);
+
+const normal = require('./routers/normal');
+app.use('/normal', normal);
+
+/*
+Sont utilisés dans /normal.js
+
+const fusion = require('./routers/fusion');
 app.use('/fusion', fusion);
 
 const item = require('./routers/item');  
 app.use('/item', item);
 
-const infinity = require('./routers/infinityRouter');
-app.use('/infinity', infinity);
-
 const inventory = require('./routers/inventory');
 app.use('/inventory', inventory);
+*/
 
 
 //const mergeWords = require('./words.js');

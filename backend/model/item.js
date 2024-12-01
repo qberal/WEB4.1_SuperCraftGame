@@ -39,38 +39,6 @@ class Item {
         });
     }
 
-    // Trouver un item par nom
-    static findByNom(nom, result) {
-        db.get("SELECT * FROM items WHERE nom = ?", [nom], function (err, item) {
-            if (err) {
-                console.log("error: ", err);
-                result(err, null);
-                return;
-            }
-            if (item) {
-                result(null, item);
-                return;
-            }
-            result({kind: "not_found"}, null);
-        });
-    }
-
-    // Trouver les items fusionnables
-    static findByFusionnable(result) {
-        db.all(
-            "SELECT * FROM items where fusionnable =1", 
-            [], 
-            function (err, fusions) {
-                if (err) {
-                    console.log("error: ", err);
-                    result(err, null);
-                    return;
-                }
-                result(null, fusions);
-            }
-        );
-    }
-
     static getAll(result) {
         db.all(
             "SELECT * FROM items", 

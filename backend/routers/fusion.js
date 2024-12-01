@@ -1,54 +1,42 @@
 const express = require('express');
 const router = express.Router();
 const Fusion = require('../model/fusion');  // Assure-toi que ce chemin est correct
+const Inventory = require('../model/inventory');  // Assure-toi que ce chemin est correct
 
 
+// Route pour obtenir l'item fusionné de deux items, si la fusion est possible (les 2 items dans linventaire , et compatible pr une fusion), alors le nouveau item est ajouté á linventaire
+router.get('/normal', (req, res) => {
+    // Récupérer l'ID de l'utilisateur, item1 et item2 depuis les paramètres de requête
+    const userId = req.query.user_id || 1;
+    const itemId1 = req.query.item1;
+    const itemId2 = req.query.item2;
 
-// pour savoir si 2 items sont fusionnables
-router.get('/check/:item1/:item2', (req, res) => {
-    const item1 = req.params.item1;
-    const item2 = req.params.item2;
+    // Vérifier que les paramètres sont bien fournis
+    if (!userId || !itemId1 || !itemId2) {
+        return res.status(400).json({ message: 'Paramètres manquants (userId, item1, item2)' });
+    }
 
-    Fusion.isFusionPossible(item1, item2, (err, isPossible) => {
+    // Appeler la fonction FusionService pour obtenir les détails de l'item fusionné
+    Fusion.getFusionItemDetails(userId, itemId1, itemId2, (err, fusionItem) => {
         if (err) {
-            console.log("Error checking fusion possibility:", err);
-            res.status(500).send("Server error");
-            return;
+            return res.status(400).json({ message: err });
         }
 
-        if (isPossible) {
-            res.send("Fusion possible !");
-        } else {
-            res.send("Fusion non possible.");
-        }
+        // Ajouter l'item fusionné à l'inventaire
+        Inventory.addItemToInventory(userId, fusionItem.id)
+            .then(() => {
+                console.log(`Item fusionné ajouté à l'inventaire : ${fusionItem.id} -> ${fusionItem.nom}`); // Exemple d'info log
+                return res.status(200).json({ fusionItem });
+            })
+            .catch((error) => {
+                console.error("Erreur lors de l'ajout de l'item à l'inventaire :", error);
+                return res.status(500).json({ message: "Erreur lors de l'ajout de l'item à l'inventaire." });
+            });
     });
 });
-
-
-// retourne litem de la fusion de 2 items
-router.get('/:item1/:item2', (req, res) => {
-    const item1 = req.params.item1;
-    const item2 = req.params.item2;
-
-    Fusion.getFusionItems(item1, item2, (err, fusionItem) => {
-        if (err) {
-            console.log("Error fetching fusion items:", err);
-            res.status(500).send("Error fetching fusion items.");
-            return;
-        }
-
-        if (fusionItem) {
-            res.json(fusionItem);
-        } else {
-            res.status(404).send("Fusion items not found.");
-        }
-    });
-});
-
-
 
 // Route pour récupérer toutes les fusions
-router.get('/', (req, res) => {
+router.get('/All', (req, res) => {
     Fusion.getAll((err, fusions) => {
         if (err) {
             res.status(500).json({ message: 'Erreur de récupération des fusions', error: err });
@@ -58,10 +46,12 @@ router.get('/', (req, res) => {
     });
 });
 
+
+
 // Route pour récupérer une fusion par ID
-router.get('/:id', (req, res) => {
-    const { id } = req.params;
-    Fusion.findById(id, (err, fusion) => {
+router.get('/', (req, res) => {
+    const fusionId  = req.query.fusionId;
+    Fusion.findById(fusionId, (err, fusion) => {
         if (err) {
             res.status(500).json({ message: 'Erreur de récupération de la fusion', error: err });
         } else if (fusion) {
@@ -72,18 +62,6 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// Route pour supprimer une fusion par ID
-router.delete('/:id', (req, res) => {
-    const { id } = req.params;
-    Fusion.deleteById(id, (err, result) => {
-        if (err) {
-            res.status(500).json({ message: 'Erreur de suppression de la fusion', error: err });
-        } else if (result && result.kind === 'not_found') {
-            res.status(404).json({ message: 'Fusion non trouvée' });
-        } else {
-            res.json({ message: `Fusion supprimée avec succès, ID: ${id}` });
-        }
-    });
-});
+
 
 module.exports = router;

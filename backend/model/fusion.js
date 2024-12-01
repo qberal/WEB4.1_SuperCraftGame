@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const Inventory = require('./inventory'); // Assurez-vous de bien importer votre modèle Inventory
 
 class Fusion {
     constructor(fusion) {
@@ -61,126 +62,84 @@ class Fusion {
         );
     }
 
-    // Supprimer une fusion par ID
-    static deleteById(id, result) {
-        db.run(
-            "DELETE FROM fusions WHERE id = ?", 
-            [id], 
-            function (err) {
-                if (err) {
-                    console.log("error: ", err);
-                    result(err, null);
-                    return;
-                }
-                if (this.changes === 0) {
-                    // Pas de ligne supprimée
-                    result({ kind: "not_found" }, null);
-                } else {
-                    console.log("Deleted fusion with id: ", id);
-                    result(null, this.changes);
-                }
+    static getFusionItemId(userId, itemId1, itemId2, callback) {
+        // Vérifier si les deux items sont présents dans l'inventaire de l'utilisateur
+        Inventory.areItemsInInventory(userId, itemId1, itemId2, (areInInventory) => {
+            if (!areInInventory) {
+                // Si les items ne sont pas dans l'inventaire, retourner une erreur
+                return callback("Les items ne sont pas tous dans l'inventaire.", null);
             }
-        );
-    }
 
-    // Fonction simulée pour vérifier si une fusion est possible
-    static isFusionPossible(item1, item2, result) {
-        console.log("Checking fusion possibility...");
-    
-        // Vérification si les deux items sont fusionnables
-        db.get("SELECT fusionnable FROM items WHERE id = ?", [item1], (err, row1) => {
-            if (err) {
-                console.log("Error fetching item 1: ", err);
-                result(err, null);
-                return;
-            }
-    
-            db.get("SELECT fusionnable FROM items WHERE id = ?", [item2], (err, row2) => {
+            // Si les items sont dans l'inventaire, on cherche la fusion correspondante
+            const query = `
+                SELECT item_id
+                FROM fusions
+                WHERE (item_id_1 = ? AND item_id_2 = ?) OR (item_id_1 = ? AND item_id_2 = ?)
+            `;
+
+            db.get(query, [itemId1, itemId2, itemId2, itemId1], (err, fusion) => {
                 if (err) {
-                    console.log("Error fetching item 2: ", err);
-                    result(err, null);
-                    return;
+                    console.log("Erreur lors de la recherche de la fusion :", err);
+                    return callback("Erreur lors de la recherche de la fusion.", null);
                 }
-    
-                // Vérification de la possibilité de fusion
-                if (row1 && row2 && row1.fusionnable === 1 && row2.fusionnable === 1) {
-                    result(null, true);  // Fusion possible
+
+                if (fusion) {
+                    // Retourner l'item fusionné trouvé
+                    callback(null, fusion.item_id);
                 } else {
-                    result(null, false); // Fusion non possible
+                    // Si aucune fusion n'est trouvée, retourner une erreur
+                    callback("Aucune fusion trouvée pour ces items.", null);
                 }
             });
         });
     }
 
-
-    // Mettre à jour une fusion par ID
-    static updateById(id, updatedFusion, result) {
-        db.run(
-            "UPDATE fusions SET item_id_1 = ?, item_id_2 = ?, item_fusionne_id = ? WHERE id = ?", 
-            [updatedFusion.item_id_1, updatedFusion.item_id_2, updatedFusion.item_fusionne_id, id],
-            function (err) {
-                if (err) {
-                    console.log("error: ", err);
-                    result(err, null);
-                    return;
-                }
-                if (this.changes === 0) {
-                    // Pas de ligne mise à jour
-                    result({ kind: "not_found" }, null);
-                } else {
-                    console.log("Updated fusion: ", { id: id, ...updatedFusion });
-                    result(null, { id: id, ...updatedFusion });
-                }
-            }
-        );
-    }
-
-    static getFusionItems(item1, item2, result) {
-        console.log("Fetching items for fusion...");
-    
-        // Vérifier si les deux items sont fusionnables
-        db.get("SELECT fusionnable FROM items WHERE id = ?", [item1], (err, row1) => {
-            if (err) {
-                console.log("Error fetching item 1: ", err);
-                result(err, null);
-                return;
+    static getFusionItemDetails(userId, itemId1, itemId2, callback) {
+        // Vérifier si les deux items sont présents dans l'inventaire de l'utilisateur
+        Inventory.areItemsInInventory(userId, itemId1, itemId2, (areInInventory) => {
+            if (!areInInventory) {
+                // Si les items ne sont pas dans l'inventaire, retourner une erreur
+                return callback("Les items ne sont pas tous dans l'inventaire.", null);
             }
     
-            db.get("SELECT fusionnable FROM items WHERE id = ?", [item2], (err, row2) => {
+            // Si les items sont dans l'inventaire, on cherche la fusion correspondante
+            const query = `
+                SELECT item_id
+                FROM fusions
+                WHERE (item_id_1 = ? AND item_id_2 = ?) OR (item_id_1 = ? AND item_id_2 = ?)
+            `;
+    
+            db.get(query, [itemId1, itemId2, itemId2, itemId1], (err, fusion) => {
                 if (err) {
-                    console.log("Error fetching item 2: ", err);
-                    result(err, null);
-                    return;
+                    console.log("Erreur lors de la recherche de la fusion :", err);
+                    return callback("Erreur lors de la recherche de la fusion.", null);
                 }
     
-                // Vérifier si les deux items sont fusionnables
-                if (row1 && row2 && row1.fusionnable === 1 && row2.fusionnable === 1) {
-                    // Chercher si cette fusion existe déjà dans la table fusions
-                    db.get("SELECT * FROM fusions WHERE item_id_1 = ? AND item_id_2 = ?", [item1, item2], (err, fusion) => {
+                if (fusion) {
+                    // Vérification du item_id dans fusion
+                    console.log("Fusion Item ID:", fusion.item_id); // Pour debug
+    
+                    // Chercher l'item correspondant à l'ID de la fusion dans la table items
+                    const itemQuery = `
+                        SELECT * FROM items WHERE id = ?
+                    `;
+    
+                    db.get(itemQuery, [fusion.item_id], (err, item) => {
                         if (err) {
-                            console.log("Error fetching fusion: ", err);
-                            result(err, null);
-                            return;
+                            console.log("Erreur lors de la recherche de l'item :", err);
+                            return callback("Erreur lors de la recherche de l'item.", null);
                         }
     
-                        // Si la fusion existe, retourner l'item fusionné
-                        if (fusion) {
-                            db.get("SELECT * FROM items WHERE id = ?", [fusion.item_fusionne_id], (err, fusionItem) => {
-                                if (err) {
-                                    console.log("Error fetching fused item: ", err);
-                                    result(err, null);
-                                    return;
-                                }
-    
-                                // Retourner l'item fusionné
-                                result(null, fusionItem);
-                            });
+                        if (item) {
+                            // Retourner l'objet de l'item fusionné
+                            callback(null, item);
                         } else {
-                            result({ kind: "fusion_not_found" }, null);
+                            callback("L'item fusionné n'a pas été trouvé dans la table des items.", null);
                         }
                     });
                 } else {
-                    result({ kind: "fusion_not_possible" }, null);
+                    // Si aucune fusion n'est trouvée, retourner une erreur
+                    callback("Aucune fusion trouvée pour ces items.", null);
                 }
             });
         });
@@ -188,7 +147,10 @@ class Fusion {
     
 
     
+    
 }
+
+
 
 
 

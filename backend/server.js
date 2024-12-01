@@ -25,6 +25,8 @@ app.use('/item', item);
 const infinity = require('./routers/infinityRouter');
 app.use('/infinity', infinity);
 
+const inventory = require('./routers/inventory');
+app.use('/inventory', inventory);
 
 
 //const mergeWords = require('./words.js');

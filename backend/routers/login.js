@@ -27,7 +27,10 @@ router.post('/login', function (req, res) {
             } //TODO : À afficher dans le front
 
             //Redirection
-            console.log("Conexion réussie !");
+
+            req.session.user = { id: user.id, username: user.username, role: user.role };
+
+            console.log("Connexion réussie !");
             return res.status(200).json({ message: "Connexion réussie !" });
             // TODO : Rediriger vers un /play correspondant à la session de l'utilisateur
         });
@@ -37,6 +40,12 @@ router.post('/login', function (req, res) {
     }
 });
 
-// TODO : Faire un token jwt pour la connexion
+router.get('/protected', (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({ message: "Non autorisé. Veuillez vous connecter." });
+    }
+
+    res.json({ message: `Bienvenue, ${req.session.user.username}!` });
+});
 
 module.exports = router;

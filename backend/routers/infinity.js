@@ -1,14 +1,12 @@
 const Infinity = require('../services/infinity');
 const InfinityInventory = require('../model/infinityInventory');
 const Leaderboard = require('../model/leaderboard');
-const express = require("express");  // Assurez-vous que le chemin d'importation est correct
+const express = require("express");
+const { isAuthenticated } = require('../services/auth');
 const router = express.Router();
 
-router.get("/generate", async (req, res) => {
+router.get("/generate", isAuthenticated, async (req, res) => {
     try {
-        if (!req.session.user) {
-            return res.status(401).send("Non autorisé. Veuillez vous connecter.");
-        }
         const user_id = req.session.user.id;
         const item1 = req.query.item1;
         const item2 = req.query.item2;
@@ -44,11 +42,7 @@ router.get("/getWordOfTheDay", (req, res) => {
     res.json({"word": word});
 });
 
-router.get("/getInventory", (req, res) => {
-    //TODO: ce sera pas ici mais dans le middleware d'authentification que l'on va chercher l'id de l'utilisateur
-    if (!req.session.user) {
-        return res.status(401).send("Non autorisé. Veuillez vous connecter.");
-    }
+router.get("/getInventory", isAuthenticated, (req, res) => {
     const user_id = req.session.user.id;
 
     InfinityInventory.findByUserId(user_id, (err, inventory) => {
@@ -87,10 +81,7 @@ router.get("/getLeaderboard", (req, res) => {
     });
 });
 
-router.get("/getScore", (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).json({ message: "Non autorisé. Veuillez vous connecter." });
-    }
+router.get("/getScore", isAuthenticated, (req, res) => {
     const user_id = req.session.user.id;
 
     Leaderboard.getInfinityScore(user_id, (err, leaderboard) => {

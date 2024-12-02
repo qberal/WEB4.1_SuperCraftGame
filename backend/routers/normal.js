@@ -3,9 +3,10 @@ const express = require('express');
 const router = express.Router();
 const Inventory = require('../model/inventory');
 const Fusion = require('../model/fusion');
+const { isAuthenticated } = require('../services/auth');
 
 
-router.get('/getInventory', async (req, res) => {
+router.get('/getInventory', isAuthenticated, async (req, res) => {
     if (!req.session.user) {
         return res.status(401).json({ message: "Non autorisé. Veuillez vous connecter." });
     }
@@ -31,11 +32,8 @@ router.get('/getInventory', async (req, res) => {
 
 
 // Route pour obtenir l'item fusionné de deux items, si la fusion est possible (les 2 items dans linventaire , et compatible pr une fusion), alors le nouveau item est ajouté á linventaire
-router.get('/getFusion', (req, res) => {
+router.get('/getFusion', isAuthenticated, (req, res) => {
     // Récupérer l'ID de l'utilisateur, item1 et item2 depuis les paramètres de requête
-    if (!req.session.user) {
-        return res.status(401).json({ message: "Non autorisé. Veuillez vous connecter." });
-    }
     const user_id = req.session.user.id;
     const item1 = req.query.item1;
     const item2 = req.query.item2;
@@ -72,10 +70,7 @@ router.get('/getFusion', (req, res) => {
 });
 
 
-router.get('/getScore', (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).json({ message: "Non autorisé. Veuillez vous connecter." });
-    }
+router.get('/getScore', isAuthenticated, (req, res) => {
     const user_id = req.session.user.id;
 
     //returns score and max score, score = number of items in inventory, max score = number of items in the game

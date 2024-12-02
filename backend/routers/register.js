@@ -16,33 +16,33 @@ const validateEmail = (email) => {
 
 router.post('/register', async (req, res) => {
     console.log("Requête reçue pour l'enregistrement : ", req.body);
-    const { username, email, password} = req.body;
+    const { username, email, password, passwordConfirm} = req.body;
 
     // Vérification des champs
     if (!username || !email || !password) {
         return res.status(400).json({ message: "Tous les champs sont requis !" });
-    } // TODO : Gérer dans le front
+    }
 
-    /*if (!validateEmail(email)) {
+    if (!validateEmail(email)) {
         return res.status(400).json({ message: "L'adresse email n'est pas valide." });
-    } // TODO : Gérer dans le front
+    }
 
-    if (password !== confirmPassword) {
+    if (password !== passwordConfirm) {
         return res.status(400).json({ message: "Les mots de passe ne correspondent pas." });
-    } // TODO : Gérer dans le front*/
+    }
 
     try {
         // Vérifier si le username existe
         User.findByUsername(username, async (err, existingUser) => {
             if (existingUser) {
                 return res.status(400).json({ message: "Ce nom d'utilisateur est déjà pris !" });
-            } //TODO : À afficher dans le front
+            }
 
             // Vérifier si l'email existe
             User.findByEmail(email, async (err, existingEmail) => {
                 if (existingEmail) {
                     return res.status(400).json({ message: "Cet email est déjà utilisé !" });
-                } //TODO : À afficher dans le front
+                }
 
                 // Création d'un nouvel utilisateur
                 const newUser = {

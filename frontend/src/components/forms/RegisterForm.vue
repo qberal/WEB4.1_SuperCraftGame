@@ -28,8 +28,8 @@ const handleFormSubmit = (response) => {
       <label for="password">Password
         <input type="password" v-model="formData.password" id="password" name="password" required />
       </label>
-      <label for="password-confirm">Confirm Password
-        <input type="password" id="password-confirm" name="password-confirm" required />
+      <label for="passwordConfirm">Confirm Password
+        <input type="password" v-model="formData.passwordConfirm" id="passwordConfirm" name="passwordConfirm" required />
       </label>
     </template>
 

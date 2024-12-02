@@ -14,7 +14,7 @@ if (props.gameMode === 'infinity') {
   name = 'Infinity Mode';
   description = 'Find the word to win the game!';
   otherMode = 'Classic Mode';
-  otherModeLink = '/play';
+  otherModeLink = '/normal';
 
 } else {
   name = 'Classic Mode';

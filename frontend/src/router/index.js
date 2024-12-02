@@ -8,7 +8,7 @@ import axios from "axios";
 
 const routes = [
     {path: '/', redirect: '/login'},
-    {path: '/play', component: GameView, props: {gameMode: 'normal'}, meta: {requiresAuth: true}},
+    {path: '/normal', component: GameView, props: {gameMode: 'normal'}, meta: {requiresAuth: true}},
     {path: '/guest', component: GameView, props: {gameMode: 'guest'}},
     {path: '/infinity', component: GameView, props: {gameMode: 'infinity'}, meta: {requiresAuth: true}},
     {path: '/logout', redirect: '/login', meta: {requiresAuth: true}},

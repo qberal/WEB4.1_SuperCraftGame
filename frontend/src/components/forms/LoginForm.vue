@@ -7,7 +7,7 @@ const router = useRouter();
 // Fonction qui gère la redirection après la soumission du formulaire
 const handleFormSubmit = (response) => {
   if (response && response.status === 200) {
-    router.push('/play');
+    router.push('/normal');
   } else {
     console.error("Erreur lors de l'enregistrement ou réponse inattendue.");
   }

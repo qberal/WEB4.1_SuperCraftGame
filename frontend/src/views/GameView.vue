@@ -18,7 +18,7 @@ const todaysWord = ref("");
 
 //Player status
 const player = ref({
-  name: "Player 1",
+  name: "Guest",
   profilePicture: "src/assets/img/person.fill.placeholder.svg",
   score: 0,
   maxScore: null,
@@ -44,6 +44,10 @@ if(props.gameMode !== 'guest') {
     player.value.maxScore = response.data.maxScore || null;
   });
 
+  axios.get("/api/getUsername").then((response) => {
+    player.value.name = response.data.username;
+  });
+
 } else {
 
   inventory.push(
@@ -63,7 +67,6 @@ if (props.gameMode === 'infinity') {
   axios.get("/api/infinity/getScore").then((response) => {
     player.value.score = response.data.score;
   });
-
 }
 
 

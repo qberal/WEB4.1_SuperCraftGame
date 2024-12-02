@@ -63,10 +63,6 @@ if (props.gameMode === 'infinity') {
   axios.get("/api/infinity/getWordOfTheDay").then((response) => {
     todaysWord.value = response.data.word;
   });
-
-  axios.get("/api/infinity/getScore").then((response) => {
-    player.value.score = response.data.score;
-  });
 }
 
 

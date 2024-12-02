@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
+const {isAuthenticated} = require('./services/auth');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -34,13 +35,13 @@ const login = require('./routers/login');
 app.use('/', login);
 
 const logout = require('./routers/logout');
-app.use('/', logout);
+app.use('/', logout, isAuthenticated);
 
 const infinity = require('./routers/infinity');
-app.use('/infinity', infinity);
+app.use('/infinity', isAuthenticated, infinity);
 
 const normal = require('./routers/normal');
-app.use('/normal', normal);
+app.use('/normal',isAuthenticated, normal);
 
 app.listen(port, () => {
     console.log(`Express app listening on port ${port}`);

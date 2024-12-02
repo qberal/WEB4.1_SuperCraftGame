@@ -48,4 +48,11 @@ router.get('/protected', (req, res) => {
     res.json({ message: `Bienvenue, ${req.session.user.username}!` });
 });
 
+router.get('/getUsername', (req, res) => {
+    if (!req.session.user) {
+        return res.status(401).json({ message: "Non autorisé" });
+    }
+    res.json({ username: req.session.user.username });
+});
+
 module.exports = router;

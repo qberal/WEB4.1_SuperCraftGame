@@ -110,9 +110,7 @@ class User {
     //check password
     static async checkPassword(user, password) {
         try {
-            console.log("Comparaison des mots de passe...");
             const isValid = await bcrypt.compare(password, user.password);
-            console.log("Mot de passe valide ?", isValid);
             return isValid;
         } catch (error) {
             console.error("Erreur lors de la comparaison des mots de passe :", error);

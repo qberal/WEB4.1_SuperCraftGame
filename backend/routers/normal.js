@@ -6,7 +6,10 @@ const Fusion = require('../model/fusion');
 
 
 router.get('/getInventory', async (req, res) => {
-    const user_id = req.query.user_id || 1; // Utilise le user_id passé en query, ou 1 par défaut
+    if (!req.session.user) {
+        return res.status(401).json({ message: "Non autorisé. Veuillez vous connecter." });
+    }
+    const user_id = req.session.user.id;
 
     try {
         let userInventory = await Inventory.getUserInventory(user_id);
@@ -30,23 +33,26 @@ router.get('/getInventory', async (req, res) => {
 // Route pour obtenir l'item fusionné de deux items, si la fusion est possible (les 2 items dans linventaire , et compatible pr une fusion), alors le nouveau item est ajouté á linventaire
 router.get('/getFusion', (req, res) => {
     // Récupérer l'ID de l'utilisateur, item1 et item2 depuis les paramètres de requête
-    const userId = req.query.user_id || 1;
-    const itemId1 = req.query.item1;
-    const itemId2 = req.query.item2;
+    if (!req.session.user) {
+        return res.status(401).json({ message: "Non autorisé. Veuillez vous connecter." });
+    }
+    const user_id = req.session.user.id;
+    const item1 = req.query.item1;
+    const item2 = req.query.item2;
 
     // Vérifier que les paramètres sont bien fournis
-    if (!userId || !itemId1 || !itemId2) {
+    if (!user_id || !item1 || !item2) {
         return res.status(400).json({ message: 'Paramètres manquants (userId, item1, item2)' });
     }
 
     // Appeler la fonction FusionService pour obtenir les détails de l'item fusionné
-    Fusion.getFusionItemDetails(userId, itemId1, itemId2, (err, fusionItem) => {
+    Fusion.getFusionItemDetails(user_id, item1, item2, (err, fusionItem) => {
         if (err) {
             return res.status(400).json({ message: err });
         }
 
         // Ajouter l'item fusionné à l'inventaire
-        Inventory.addItemToInventory(userId, fusionItem.id)
+        Inventory.addItemToInventory(user_id, fusionItem.id)
             .then(() => {
                 console.log(`Item fusionné ajouté à l'inventaire : ${fusionItem.id} -> ${fusionItem.nom}`); // Exemple d'info log
 
@@ -67,10 +73,13 @@ router.get('/getFusion', (req, res) => {
 
 
 router.get('/getScore', (req, res) => {
-    const userId = req.query.user_id || 1;
+    if (!req.session.user) {
+        return res.status(401).json({ message: "Non autorisé. Veuillez vous connecter." });
+    }
+    const user_id = req.session.user.id;
 
     //returns score and max score, score = number of items in inventory, max score = number of items in the game
-    Inventory.getUserInventory(userId)
+    Inventory.getUserInventory(user_id)
         .then(inventory => {
 
             let score = inventory.length;

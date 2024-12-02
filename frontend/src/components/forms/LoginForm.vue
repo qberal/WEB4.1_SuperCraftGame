@@ -2,13 +2,11 @@
 import BaseForm from './BaseForm.vue'
 import {useRouter} from "vue-router";
 
-const router = useRouter(); // Initialiser useRouter
+const router = useRouter();
 
-// Fonction pour gérer la redirection après la soumission du formulaire
+// Fonction qui gère la redirection après la soumission du formulaire
 const handleFormSubmit = (response) => {
-  console.log("Réponse reçue du backend dans LoginForm : ", response);
   if (response && response.status === 200) {
-    console.log("Redirection vers /guest après l'enregistrement réussi.");
     router.push('/play');
   } else {
     console.error("Erreur lors de l'enregistrement ou réponse inattendue.");

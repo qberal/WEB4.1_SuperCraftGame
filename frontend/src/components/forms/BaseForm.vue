@@ -19,18 +19,13 @@ const loading = ref(false);
 
 const handleSubmit = async () => {
 
-  console.log("Formulaire soumis : ", { formData });
-  console.log("Valeur de endpoint :", props.endpoint);
-
   loading.value = true;
   errors.value = null;
 
   try {
     const response = await axios.post(props.endpoint, formData);
-    console.log("Réponse du backend :", response.data);
     emit('submit', response);
   } catch (error) {
-    console.error("Erreur lors de la soumission :", error);
     errors.value = error.response?.data?.message || "Une erreur est survenue.";
   } finally {
     loading.value = false;

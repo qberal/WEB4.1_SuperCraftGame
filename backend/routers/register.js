@@ -8,14 +8,7 @@ const validateEmail = (email) => {
     return re.test(String(email).toLowerCase());
 };
 
-//Test de la route
-/*router.get('/test', (req, res) => {
-    console.log('API is reachable!');
-    res.status(200).send('API is reachable!');
-});*/
-
 router.post('/register', async (req, res) => {
-    console.log("Requête reçue pour l'enregistrement : ", req.body);
     const { username, email, password, passwordConfirm} = req.body;
 
     // Vérification des champs
@@ -23,10 +16,12 @@ router.post('/register', async (req, res) => {
         return res.status(400).json({ message: "Tous les champs sont requis !" });
     }
 
+    // Vérification de l'email
     if (!validateEmail(email)) {
         return res.status(400).json({ message: "L'adresse email n'est pas valide." });
     }
 
+    // Vérification des mots de passe
     if (password !== passwordConfirm) {
         return res.status(400).json({ message: "Les mots de passe ne correspondent pas." });
     }
@@ -60,7 +55,6 @@ router.post('/register', async (req, res) => {
             });
         });
     } catch (error) {
-        console.error("Erreur lors de l'inscription :", error);
         res.status(500).json({ message: "Erreur serveur." });
     }
 });

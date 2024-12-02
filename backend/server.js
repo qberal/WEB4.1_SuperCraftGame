@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 
 app.use(
     session({
-        secret: 'your-secret-key',
+        secret: process.env.SESSION_SECRET_KEY,
         resave: true,
         saveUninitialized: true,
         cookie: {
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors({
     credentials: true,
-    origin: true
+    origin: true,
 }));
 
 app.use('/images', express.static('public/images'));
@@ -41,22 +41,6 @@ app.use('/infinity', infinity);
 
 const normal = require('./routers/normal');
 app.use('/normal', normal);
-
-/*
-Sont utilisés dans /normal.js
-
-const fusion = require('./routers/fusion');
-app.use('/fusion', fusion);
-
-const item = require('./routers/item');  
-app.use('/item', item);
-
-const inventory = require('./routers/inventory');
-app.use('/inventory', inventory);
-*/
-
-
-//const mergeWords = require('./words.js');
 
 app.listen(port, () => {
     console.log(`Express app listening on port ${port}`);

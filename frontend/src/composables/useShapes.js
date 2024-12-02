@@ -73,7 +73,7 @@ export default function useShapes(containerRef, gameMode) {
     };
 
     const addShape = (x, y, icon = null, name = null, load = false, id = null) => {
-        const size = 75; // Taille par défaut
+        const size = 100; // Taille par défaut
         const newShape = reactive({
             id: id || shapes.length + 1,
             x: x - size / 2, // Centre la forme

@@ -71,7 +71,7 @@ const handleDragStart = (event) => {
 .icon {
   width: 50px;
   height: 50px;
-  padding: 10px;
+  padding: 2px;
   margin: 10px;
   border-radius: 11px;
   border: 1px solid #BBB;

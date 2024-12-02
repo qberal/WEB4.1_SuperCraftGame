@@ -110,6 +110,7 @@ let openSettings = ref(false)
           :profilePicture=player.profilePicture
           :score=player.score
           :maxScore=player.maxScore
+          :gameMode=props.gameMode
           @open-leaderboard="openLeaderboard = !openLeaderboard"
           @open-settings="openSettings = !openSettings"
       />

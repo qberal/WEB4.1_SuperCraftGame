@@ -8,6 +8,7 @@ defineProps({
   profilePicture: String,
   score: Number,
   maxScore: Number,
+  gameMode: String,
 });
 
 defineEmits(['open-leaderboard', 'open-settings']);
@@ -47,9 +48,10 @@ const logoutUser = async () => {
   </div>
 
   <div class="extra-settings" v-if="extraSettingOpened">
-    <a @click="$emit('open-leaderboard')">Leaderboard</a>
-    <a @click="$emit('open-settings')">Settings</a>
-    <a @click="logoutUser">Logout</a>
+    <a v-if="gameMode !== 'guest'" @click="$emit('open-leaderboard')">Leaderboard</a>
+    <a v-if="gameMode !== 'guest'" @click="$emit('open-settings')">Settings</a>
+    <a v-if="gameMode !== 'guest'" @click="logoutUser">Logout</a>
+    <a v-if="gameMode === 'guest'" @click="router.push('/login')">Login</a>
   </div>
 
 

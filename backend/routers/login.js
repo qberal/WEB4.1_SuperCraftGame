@@ -49,4 +49,8 @@ router.get('/getUsername', (req, res) => {
     res.json({ username: req.session.user.username });
 });
 
+router.get('/getSession', (req, res) => {
+    res.json({ authenticated: (req.session && req.session.user) });
+});
+
 module.exports = router;

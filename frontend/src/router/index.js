@@ -29,20 +29,24 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-    if (to.meta.requiresAuth) {
-        try {
-            const response = await axios.get('/api/getSession');
-            if (response.data.authenticated) {
-                next();
-            } else {
-                next('/login');
-            }
-        } catch (error) {
-            console.error("Erreur lors de la vérification de la session :", error);
+    try {
+        const response = await axios.get('/api/getSession');
+        const isAuthenticated = response.data.authenticated;
+
+        if (to.meta.requiresAuth && !isAuthenticated) {
+            // Redirige vers /login si la route nécessite une authentification et que l'utilisateur n'est pas connecté
             next('/login');
+        } else if (to.path === '/login' && isAuthenticated) {
+            // Redirige vers /normal si l'utilisateur est connecté et essaie d'aller sur /login
+            next('/normal');
+        } else {
+            // Sinon, continue normalement
+            next();
         }
-    } else {
-        next(); // Pas besoin d'authentification, continue
+    } catch (error) {
+        console.error("Erreur lors de la vérification de la session :", error);
+        // Redirige vers /login en cas d'erreur de vérification
+        next('/login');
     }
 });
 

@@ -21,6 +21,7 @@ const routes = [
             {path: 'forgot-password', component: ForgotPasswordForm},
         ],
     },
+    {path: '/:pathMatch(.*)*', redirect: '/login'},
 ];
 
 const router = createRouter({

@@ -17,7 +17,7 @@ defineEmits(['close']);
   <div v-if="props.show">
     <div class="popup-menu">
 
-      <img src="../assets/img/xmark.svg" alt="close button" @click="$emit('close')">
+      <img src="/assets/xmark.svg" alt="close button" @click="$emit('close')">
       <div class="popup-content">
         <h2 class="popup-title">{{ title }}</h2>
         <slot></slot>

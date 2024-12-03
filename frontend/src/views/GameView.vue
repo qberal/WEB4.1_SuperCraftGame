@@ -19,7 +19,7 @@ const todaysWord = ref("");
 //Player status
 const player = ref({
   name: "Guest",
-  profilePicture: "src/assets/img/person.fill.placeholder.svg",
+  profilePicture: "/assets/person.svg",
   score: 0,
   maxScore: null,
 });
@@ -138,7 +138,7 @@ let openSettings = ref(false)
 
       <!-- Bouton en bas avant l'inventaire -->
       <div class="button-container">
-        <SimpleButton icon="src/assets/img/paintbrush.svg" @cleanUp="cleanUpToggle = !cleanUpToggle"/>
+        <SimpleButton icon="/assets/clean.svg" @cleanUp="cleanUpToggle = !cleanUpToggle"/>
       </div>
 
       <!-- PopUps -->

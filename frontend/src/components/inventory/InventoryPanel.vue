@@ -57,7 +57,7 @@ const filteredInventory = computed(() => {
 
       <img
           class="search-button"
-          src="../../assets/img/magnifyingglass.svg"
+          src="/assets/search.svg"
           alt="magnifying glass icon"
           @click="toggleSearch"
       />

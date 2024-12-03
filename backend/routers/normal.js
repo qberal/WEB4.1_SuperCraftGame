@@ -4,6 +4,7 @@ const router = express.Router();
 const Inventory = require('../model/inventory');
 const Fusion = require('../model/fusion');
 const { isAuthenticated } = require('../services/auth');
+const {getNormalLeaderboard} = require("../model/leaderboard");
 
 
 router.get('/getInventory', isAuthenticated, async (req, res) => {
@@ -95,6 +96,16 @@ router.get('/getScore', isAuthenticated, (req, res) => {
             console.error('Erreur lors de la récupération de l\'inventaire :', err);
             res.status(500).json({ error: 'Erreur lors de la récupération de l\'inventaire.' });
         });
+});
+
+router.get('/getLeaderboard', isAuthenticated, (req, res) => {
+    getNormalLeaderboard((err, scores) => {
+        if (err) {
+            console.error('Erreur lors de la récupération du leaderboard :', err);
+            return res.status(500).json({ message: 'Erreur lors de la récupération du leaderboard.' });
+        }
+        res.json(scores);
+    });
 });
 
 

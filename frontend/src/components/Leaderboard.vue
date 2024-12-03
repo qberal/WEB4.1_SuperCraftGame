@@ -1,77 +1,40 @@
 <script setup>
-
-import {computed} from "vue";
+import { ref, onMounted } from "vue";
+import axios from "axios";
+//import eltable
 
 const props = defineProps({
   gameMode: String,
 });
 
-//TODO: récuperer les joueurs du backend
-const players = [
-  {id: 1, name: "Player 1", score: 100},
-  {id: 2, name: "Player 2", score: 200},
-  {id: 3, name: "Player 3", score: 300},
-  {id: 4, name: "Player 4", score: 400},
-  {id: 5, name: "Player 5", score: 500},
-];
+// Variable réactive pour les joueurs
+const players = ref([]);
 
-const sortedPlayers = computed(() => {
-  return [...players].sort((a, b) => b.score - a.score);
+// Fonction pour récupérer les joueurs depuis l'API
+const fetchPlayers = async () => {
+  try {
+    const response = await axios.get(`/api/${props.gameMode}/getLeaderboard`);
+    players.value = response.data; // Met à jour les joueurs
+  } catch (error) {
+    console.error("Erreur lors de la récupération des joueurs :", error);
+  }
+};
+
+// Récupération des données lors du montage du composant
+onMounted(() => {
+  fetchPlayers();
 });
-
 </script>
 
 <template>
-  <div class="leaderboard">
-
-  <div class="leaderboard-header">
-    <h2>Rank</h2>
-    <h2>Name</h2>
-    <h2>Score</h2>
-  </div>
-    <div class="leaderboard-body">
-  <div v-for="(player, index) in sortedPlayers" :key="player.id" class="leaderboard-items">
-    <p>{{ index + 1 }}</p>
-    <p>{{ player.name }}</p>
-    <p>{{ player.score }}</p>
-  </div>
-    </div>
-
-  </div>
-
+  <el-table :data="players" style="width: 100%" stripe>
+    <el-table-column prop="username" label="Name"></el-table-column>
+    <el-table-column prop="count" label="Score" sortable></el-table-column>
+  </el-table>
 </template>
 
-<style scoped>
+<style>
 
-.leaderboard {
-  padding: 20px;
-}
 
-.leaderboard-items, .leaderboard-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-
-.leaderboard-items {
-  padding: 10px;
-  border-bottom: 1px solid #BBB;
-  max-height: 80vh;
-  overflow: scroll;
-}
-
-.leaderboard-header {
-  font-weight: bold;
-  border-bottom: 1px solid#BBBBBB;
-}
-
-.leaderboard-items:nth-child(odd) {
-  background: #ECECEC;
-}
-
-.leaderboard-body {
-  max-height: 60vh; /* Limite la hauteur de la partie items */
-  overflow-y: auto; /* Permet le défilement vertical */
-}
 
 </style>

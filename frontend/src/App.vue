@@ -1,9 +1,4 @@
 <script setup>
-
-import InventoryPanel from "@/components/inventory/InventoryPanel.vue";
-import PlayerStatusBar from "@/components/PlayerStatusBar.vue";
-import GameView from "@/views/GameView.vue";
-
 </script>
 
 <template>

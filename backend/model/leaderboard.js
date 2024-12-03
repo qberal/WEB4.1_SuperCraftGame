@@ -35,7 +35,14 @@ class Leaderboard {
 
     //mode normal: juste à compter l'inventaire normal de chaque utilisateur par count ascendant
     static getNormalLeaderboard(result) {
-
+        db.all("SELECT username, COUNT(*) as count FROM inventory JOIN users ON users.id = inventory.user_id GROUP BY username ORDER BY COUNT ASC", function (err, scores) {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+            result(null, scores);
+        });
     }
 
 }

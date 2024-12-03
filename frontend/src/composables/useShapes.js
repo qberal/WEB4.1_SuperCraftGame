@@ -114,6 +114,7 @@ export default function useShapes(containerRef, gameMode) {
         }
     };
 
+
     return {
         shapes,
         saveCanvas,

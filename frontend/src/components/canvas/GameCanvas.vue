@@ -2,9 +2,10 @@
 import {ref, watch, defineEmits} from 'vue';
 import CanvasItem from "@/components/canvas/CanvasItem.vue";
 import useShapes from "@/composables/useShapes";
-import useFusionInfiniteMode from "@/composables/useFusionInfiniteMode";
-import useFusionNormalMode from "@/composables/useFusionNormalMode";
+import useFusionInfiniteMode from "@/composables/fusion/useFusionInfiniteMode.js";
+import useFusionNormalMode from "@/composables/fusion/useFusionNormalMode.js";
 import useDragAndDrop from "@/composables/useDragAndDrop";
+import useFusionGuestMode from "@/composables/fusion/useFusionGuestMode.js";
 
 const props = defineProps({
   cleanUpAction: Boolean,
@@ -31,8 +32,10 @@ let handleFusion;
 
 if (props.gameMode === 'infinity') {
   ({ handleFusion } = useFusionInfiniteMode(shapes, addShape, emit));
-} else {
+} else if(props.gameMode === 'normal') {
   ({ handleFusion } = useFusionNormalMode(shapes, addShape, emit));
+} else {
+  ({ handleFusion } = useFusionGuestMode(shapes, addShape, emit));
 }
 
 if (props.gameMode !== 'guest') {

@@ -1,5 +1,6 @@
 // useFusionInfiniteMode.js
 import axios from 'axios';
+import useCreateFusion from "@/composables/fusion/useCreateFusion.js";
 
 export default function useFusionInfiniteMode(shapes, addShape, emit) {
     const handleFusion = async (shape1, shape2) => {
@@ -35,22 +36,9 @@ export default function useFusionInfiniteMode(shapes, addShape, emit) {
         }
 
 
-        // Supprimer les formes fusionnées
-        shapes.splice(shapes.indexOf(shape1), 1);
-        shapes.splice(shapes.indexOf(shape2), 1);
+        const {createFusion} = useCreateFusion(shapes, shape1, shape2, addShape, fusionResult, emit);
 
-        // Calculer la position du nouvel élément
-        const x = (shape1.x + shape2.x) / 2 + 25;
-        const y = Math.min(shape1.y, shape2.y) + 25;
-
-        // Ajouter la nouvelle forme résultant de la fusion
-        addShape(x, y, fusionResult.icon, fusionResult.name, false, shapes.length + 1);
-
-        // Émettre l'événement de fusion complétée
-        emit('fusion-completed', {
-            icon: fusionResult.icon || './favicon.svg',
-            name: fusionResult.name || 'Error',
-        });
+        createFusion(shapes, shape1, shape2, addShape, fusionResult, emit);
     };
 
     return {

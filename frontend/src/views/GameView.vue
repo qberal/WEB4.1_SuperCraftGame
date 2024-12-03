@@ -8,6 +8,7 @@ import PopUpMenu from "@/components/PopUpMenu.vue";
 import Leaderboard from "@/components/Leaderboard.vue";
 import GameCanvas from "@/components/canvas/GameCanvas.vue";
 import GameModeSelection from "@/components/GameModeSelection.vue";
+import useGuestMode from "@/composables/useGuestMode";
 import axios from "axios";
 
 const props = defineProps({
@@ -27,17 +28,17 @@ const player = ref({
 // Inventory items
 const inventory = reactive([]);
 
-axios.get(`/api/${props.gameMode}/getInventory`).then((response) => {
-  response.data.forEach((item) => {
-    inventory.push({
-      id: item.id || inventory.length + 1,
-      icon: item.icon,
-      name: item.name,
+if(props.gameMode !== 'guest') {
+
+  axios.get(`/api/${props.gameMode}/getInventory`).then((response) => {
+    response.data.forEach((item) => {
+      inventory.push({
+        id: item.id || inventory.length + 1,
+        icon: item.icon,
+        name: item.name,
+      });
     });
   });
-});
-
-if(props.gameMode !== 'guest') {
 
   axios.get(`/api/${props.gameMode}/getScore`).then((response) => {
     player.value.score = response.data.score;
@@ -50,12 +51,11 @@ if(props.gameMode !== 'guest') {
 
 } else {
 
-  inventory.push(
-      {id: 1, icon: "/wind.svg", name: "Air"},
-      {id: 2, icon: "/flame.svg", name: "Fire"},
-      {id: 3, icon: "/globe.europe.africa.svg", name: "Earth"},
-      {id: 4, icon: "/drop.svg", name: "Water"},
-  );
+  const {setDefaultInventory} = useGuestMode(inventory);
+
+  setDefaultInventory()
+
+
 }
 
 if (props.gameMode === 'infinity') {

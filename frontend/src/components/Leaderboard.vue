@@ -27,14 +27,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <el-table :data="players" style="width: 100%" stripe>
+  <el-table :data="players" style="width: 98%" stripe>
     <el-table-column prop="username" label="Name"></el-table-column>
     <el-table-column prop="count" label="Score" sortable></el-table-column>
   </el-table>
 </template>
 
-<style>
-
-
+<style scoped>
+.el-table {
+  padding: 10px;
+  background-color: #F7F7F7;
+  border-radius: 20px;
+}
 
 </style>

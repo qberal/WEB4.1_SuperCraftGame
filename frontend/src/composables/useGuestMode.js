@@ -2,10 +2,10 @@ export default function useGuestMode(inventory) {
 
     function setDefaultInventory() {
         inventory.push(
-            {id: 1, icon: "/wind.svg", name: "Air"},
-            {id: 2, icon: "/flame.svg", name: "Fire"},
-            {id: 3, icon: "/globe.europe.africa.svg", name: "Earth"},
-            {id: 4, icon: "/drop.svg", name: "Water"},
+            {id: 1, icon: "air.png", name: "Air"},
+            {id: 2, icon: "flame.png", name: "Fire"},
+            {id: 3, icon: "dirt.png", name: "Earth"},
+            {id: 4, icon: "water.png", name: "Water"},
         );
     }
 

@@ -1,5 +1,6 @@
 // useShapes.js
 import {reactive} from 'vue';
+import axios from "axios";
 
 export default function useShapes(containerRef, gameMode) {
     const shapes = reactive([]);
@@ -24,9 +25,13 @@ export default function useShapes(containerRef, gameMode) {
         return null;
     };
 
-    const saveCanvas = () => {
+    const saveCanvas = async () => {
 
-        if(gameMode === 'guest') return;
+        if (gameMode === 'guest') return;
+
+        let username = await axios.get('/api/getSession').then((response) => {
+            return response.data.authenticated.username;
+        });
 
         let canvasSize = {
             width: containerRef.value.clientWidth,
@@ -47,28 +52,31 @@ export default function useShapes(containerRef, gameMode) {
             }),
         };
 
-        //save in local storage
+        //save in local storage : username/gameMode
 
-        console.log('canvas saved: ', canvasData);
-
-        localStorage.setItem(gameMode, JSON.stringify(canvasData));
+        localStorage.setItem(username + gameMode, JSON.stringify(canvasData));
     };
 
-    const loadCanvas = () => {
+    const loadCanvas = async () => {
         console.log('canvas loaded: ', gameMode);
 
-        let canvasData = JSON.parse(localStorage.getItem(gameMode));
+        let username = await axios.get('/api/getSession').then((response) => {
+            return response.data.authenticated.username;
+        });
+
+        //load from local storage : username/gameMode
+
+        let canvasData = JSON.parse(localStorage.getItem(username + gameMode));
+
         if (!canvasData) return;
 
         //TODO: Remove all shapes that are not in the user's inventory to prevent cheating, and avoid errors
 
 
-
-
         shapes.splice(0);
 
         for (const shape of canvasData.shapes) {
-            addShape(shape.x+37.5, shape.y+37.5, shape.icon, shape.name, true, shape.id);
+            addShape(shape.x + 37.5, shape.y + 37.5, shape.icon, shape.name, true, shape.id);
         }
     };
 

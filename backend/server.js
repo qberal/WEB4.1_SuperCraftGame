@@ -43,6 +43,12 @@ app.use('/infinity', isAuthenticated, infinity);
 const normal = require('./routers/normal');
 app.use('/normal',isAuthenticated, normal);
 
+
+/*
+const mail = require('./services/mail');
+mail.passwordReset('quentin.beral34@orange.fr', 'Test', 'Test');
+*/
+
 app.listen(port, () => {
     console.log(`Express app listening on port ${port}`);
 });

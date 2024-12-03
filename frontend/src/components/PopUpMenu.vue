@@ -1,36 +1,43 @@
 <script setup>
-
-import {ref} from "vue";
-
 const props = defineProps({
   show: Boolean,
   title: String,
 });
 
 defineEmits(['close']);
-
-
 </script>
 
 <template>
-
-  <div v-if="props.show">
-    <div class="popup-menu">
-
-      <img src="/assets/xmark.svg" alt="close button" @click="$emit('close')">
-      <div class="popup-content">
-        <h2 class="popup-title">{{ title }}</h2>
-        <slot></slot>
+  <Transition
+      name="custom-classes"
+      enter-active-class="animate__animated animate__bounceIn"
+      leave-active-class="animate__animated animate__bounceOut"
+  >
+    <div v-if="props.show" class="popup-container">
+      <div class="popup-menu">
+        <img src="/assets/xmark.svg" alt="close button" @click="$emit('close')"/>
+        <div class="popup-content">
+          <h2 class="popup-title">{{ title }}</h2>
+          <slot></slot>
+        </div>
       </div>
-
     </div>
-    <div class="blur-background"></div>
-  </div>
-
-
+  </Transition>
+  <div v-if="show" class="blur-background"></div>
 </template>
 
 <style scoped>
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
 
 .popup-menu {
   position: absolute;
@@ -60,7 +67,7 @@ img {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
-  z-index: 99;
+  z-index: 95;
 }
 
 .popup-title {
@@ -69,5 +76,4 @@ img {
   margin-bottom: 20px;
   text-align: center;
 }
-
 </style>

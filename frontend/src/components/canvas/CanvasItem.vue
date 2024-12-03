@@ -7,6 +7,7 @@ defineProps({
 </script>
 
 <template>
+  <Transition name="custom-classes" enter-active-class="animate__animated animate__bounceIn">
   <div
       class="shape"
       :style="{
@@ -22,6 +23,7 @@ defineProps({
       <div>{{ data.icon }} - {{ data.name }}</div>
     </div>
   </div>
+  </Transition>
 
 
 </template>

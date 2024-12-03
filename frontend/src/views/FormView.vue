@@ -3,8 +3,6 @@
 </script>
 
 <template>
-
-
   <div class="form">
     <h1>Super Craft Game</h1>
     <slot></slot>
@@ -12,9 +10,6 @@
   </div>
   <div class="background">
   </div>
-
-
-
 </template>
 
 <style scoped>

@@ -76,4 +76,11 @@ const handleDragStart = (event) => {
   border-radius: 11px;
   border: 1px solid #BBB;
 }
+
+@media (max-width: 768px) {
+  h3 {
+    display: none;
+  }
+}
+
 </style>

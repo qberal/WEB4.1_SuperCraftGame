@@ -88,7 +88,7 @@ const filteredInventory = computed(() => {
 .inventory {
   display: flex;
   flex-direction: column;
-  max-height: 80vh;
+  max-height: 90vh;
   overflow-y: auto;
 }
 
@@ -136,5 +136,6 @@ h3 {
   opacity: 0;
   transform: translateY(-10px);
 }
+
 
 </style>

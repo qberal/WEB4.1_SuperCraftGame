@@ -23,7 +23,11 @@ defineEmits(['close']);
       </div>
     </div>
   </Transition>
-  <div v-if="show" class="blur-background"></div>
+  <Transition name="custom-classes"
+              enter-active-class="animate__animated animate__faceIn"
+              leave-active-class="animate__animated animate__fadeOut">
+    <div v-if="show" class="blur-background"></div>
+  </Transition>
 </template>
 
 <style scoped>

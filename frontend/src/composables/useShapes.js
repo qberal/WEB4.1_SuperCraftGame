@@ -64,13 +64,20 @@ export default function useShapes(containerRef, gameMode) {
             return response.data.authenticated.username;
         });
 
-        //load from local storage : username/gameMode
 
         let canvasData = JSON.parse(localStorage.getItem(username + gameMode));
 
         if (!canvasData) return;
 
-        //TODO: Remove all shapes that are not in the user's inventory to prevent cheating, and avoid errors
+        let userInventory = await axios.get(`/api/${gameMode}/getInventory`).then((response) => {
+            return response.data;
+        });
+
+        if(gameMode === 'infinity') {
+            canvasData.shapes = canvasData.shapes.filter(shape => userInventory.find(item => item.name === shape.name));
+        } else if(gameMode === 'normal') {
+            canvasData.shapes = canvasData.shapes.filter(shape => userInventory.find(item => item.id === shape.id));
+        }
 
 
         shapes.splice(0);

@@ -116,9 +116,6 @@ class Fusion {
                 }
     
                 if (fusion) {
-                    // Vérification du item_id dans fusion
-                    console.log("Fusion Item ID:", fusion.item_id); // Pour debug
-    
                     // Chercher l'item correspondant à l'ID de la fusion dans la table items
                     const itemQuery = `
                         SELECT * FROM items WHERE id = ?
@@ -131,8 +128,23 @@ class Fusion {
                         }
     
                         if (item) {
-                            // Retourner l'objet de l'item fusionné
-                            callback(null, item);
+                            // Vérifier si l'item fusionné est lui-même fusionnable
+                            const fusionnableQuery = `
+                                SELECT COUNT(*) AS count
+                                FROM fusions
+                                WHERE item_id_1 = ? OR item_id_2 = ?
+                            `;
+    
+                            db.get(fusionnableQuery, [fusion.item_id, fusion.item_id], (err, result) => {
+                                if (err) {
+                                    console.log("Erreur lors de la vérification de fusion :", err);
+                                    return callback("Erreur lors de la vérification de fusion.", null);
+                                }
+    
+                                // Ajouter l'attribut fusionnable au résultat
+                                const isFusionnable = result.count > 0;
+                                callback(null, { ...item, fusionnable: isFusionnable });
+                            });
                         } else {
                             callback("L'item fusionné n'a pas été trouvé dans la table des items.", null);
                         }
@@ -144,9 +156,6 @@ class Fusion {
             });
         });
     }
-    
-
-    
     
 }
 

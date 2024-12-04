@@ -59,7 +59,13 @@ const addToInventory = (item) => {
 };
 
 // Initialisation avec onMounted
-onMounted(() => {
+onMounted(async () => {
+
+  if (props.gameMode === "infinity") {
+    let res = await axios.get("/api/infinity/getWordOfTheDay")
+    todaysWord.value = res.data.word;
+  }
+
   if (props.gameMode !== "guest") {
 
     axios.get(`/api/${props.gameMode}/getInventory`)
@@ -93,15 +99,6 @@ onMounted(() => {
     const {setDefaultInventory} = useGuestMode(inventory);
     setDefaultInventory();
     player.value.score = inventory.length;
-  }
-
-
-  if (props.gameMode === "infinity") {
-    axios.get("/api/infinity/getWordOfTheDay")
-        .then((response) => {
-          todaysWord.value = response.data.word || "";
-        })
-        .catch((error) => console.error("Failed to fetch word of the day:", error));
   }
 });
 </script>

@@ -76,6 +76,18 @@ class InfinityInventory {
         });
     }
 
+    static resetInfiniteInventory(result) {
+        db.run("DELETE FROM infinity_inventory WHERE user_id != 0", (err) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+            console.log("Inventory reset.");
+            result(null, { message: "Inventory reset successfully." });
+        });
+    }
+
 }
 
 module.exports = InfinityInventory;

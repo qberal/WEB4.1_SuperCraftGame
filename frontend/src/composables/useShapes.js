@@ -29,11 +29,11 @@ export default function useShapes(containerRef, gameMode) {
 
         if (gameMode === 'guest') return;
 
-        let username = await axios.get('/api/getSession').then((response) => {
+        const username = await axios.get('/api/getSession').then((response) => {
             return response.data.authenticated.username;
         });
 
-        let canvasSize = {
+        const canvasSize = {
             width: containerRef.value.clientWidth,
             height: containerRef.value.clientHeight,
         };
@@ -41,33 +41,45 @@ export default function useShapes(containerRef, gameMode) {
         //save in local storage
         const canvasData = {
             canvasSize,
-            shapes: shapes.map((shape) => {
-                return {
+            shapes: shapes.map((shape) => ({
                     id: shape.id,
                     x: shape.x,
                     y: shape.y,
                     icon: shape.icon,
                     name: shape.name,
-                };
-            }),
+            })),
         };
+
+        if (gameMode === 'infinity') {
+            canvasData.expiration = new Date().setHours(24, 0, 0, 0);// Expire à minuit
+        }
 
         //save in local storage : username/gameMode
 
-        localStorage.setItem(username + gameMode, JSON.stringify(canvasData));
+        const storageKey = `${username}_${gameMode}`;
+        localStorage.setItem(storageKey, JSON.stringify(canvasData));
     };
 
     const loadCanvas = async () => {
         console.log('canvas loaded: ', gameMode);
 
-        let username = await axios.get('/api/getSession').then((response) => {
+        const username = await axios.get('/api/getSession').then((response) => {
             return response.data.authenticated.username;
         });
 
-
-        let canvasData = JSON.parse(localStorage.getItem(username + gameMode));
+        const storageKey = `${username}_${gameMode}`;
+        const canvasData = JSON.parse(localStorage.getItem(storageKey));
 
         if (!canvasData) return;
+
+        if (gameMode === 'infinity') {
+            const now = Date.now();
+            if (canvasData.expiration && now > canvasData.expiration) {
+                console.log('Les données du localStorage ont expiré pour le mode infini.');
+                localStorage.removeItem(storageKey);
+                return;
+            }
+        }
 
         let userInventory = await axios.get(`/api/${gameMode}/getInventory`).then((response) => {
             return response.data;

@@ -108,3 +108,17 @@ INSERT INTO inventory (user_id, item_id) VALUES
     (1, 3), -- L'utilisateur 2 possède l'item avec id 3 (Eau)
     (1, 4), -- L'utilisateur 2 possède l'item avec id 3 (Eau)
     (1, 5); -- L'utilisateur 2 possède l'item avec id 3 (Eau)
+
+-- Créer la table words (si elle n'existe pas déjà)
+CREATE TABLE IF NOT EXISTS words (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word TEXT NOT NULL UNIQUE
+);
+
+-- Créer la table current_word (si elle n'existe pas déjà)
+CREATE TABLE IF NOT EXISTS current_word (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    word_id INTEGER NOT NULL,
+    date TEXT NOT NULL,
+    FOREIGN KEY(word_id) REFERENCES words(id)
+);

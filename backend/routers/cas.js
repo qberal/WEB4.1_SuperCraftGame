@@ -7,8 +7,6 @@ router.use(express.urlencoded({ extended: true }));
 router.get('/cas-callback', function (req, res) {
     // TODO: Production servers should make sure they override these headers
 
-    console.log("test");
-
     let email = req.headers['x-insa-auth-email'];
     let username = req.headers['x-insa-auth-uid'];
 

@@ -122,3 +122,25 @@ CREATE TABLE IF NOT EXISTS current_word (
     date TEXT NOT NULL,
     FOREIGN KEY(word_id) REFERENCES words(id)
 );
+
+-- Insertion des mots dans la table words
+INSERT INTO words (word) VALUES
+     ('Forest'), ('Volcano'), ('Horizon'), ('Desert'), ('Island'), ('Canyon'),
+     ('Lightning'), ('Ember'), ('Blaze'), ('Furnace'), ('Inferno'), ('Eruption'),
+     ('Frost'), ('Glacier'), ('Stream'), ('Tide'), ('Harbor'), ('Lagoon'),
+     ('Plateau'), ('Prairie'), ('Savanna'), ('Jungle'), ('Oasis'), ('Grove'),
+     ('Pebble'), ('Quartz'), ('Amber'), ('Granite'), ('Crystal'), ('Charcoal'),
+     ('Hearth'), ('Anvil'), ('Alloy'), ('Rust'), ('Helmet'), ('Anchor'),
+     ('Mechanism'), ('Circuit'), ('Gear'), ('Gadget'), ('Engine'), ('Cliff'),
+     ('Spire'), ('Eclipse'), ('Sunrise'), ('Starlight'), ('Galaxy'), ('Comet'),
+     ('Meteor'), ('Planet'), ('Universe'), ('Aurora'), ('Spectrum'), ('Prism'),
+     ('Velocity'), ('Momentum'), ('Eon'), ('Epoch'), ('Countdown'), ('Clockwork'),
+     ('Pendulum'), ('Sundial'), ('Vortex'), ('Tornado'), ('Zephyr'), ('Monsoon'),
+     ('Cyclone'), ('Whirlpool'), ('Cascade'), ('Trickle'), ('Drizzle'),
+     ('Dewdrop'), ('Mist'), ('Reflection'), ('Ripple'), ('Shade'), ('Echo'),
+     ('Resonance'), ('Pulse'), ('Voltage'), ('Current'), ('Magnet'), ('Gravity'),
+     ('Orbit'), ('Satellite'), ('Electron'), ('Atom'), ('Molecule'), ('Photon'),
+     ('Network'), ('Framework'), ('Algorithm'), ('Protocol'), ('Database'),
+     ('Archive'), ('Interface'), ('Keyboard'), ('Monitor'), ('Byte'), ('Packet'),
+     ('Pipeline'), ('Module'), ('Compile'), ('Encrypt'), ('Render'), ('Syntax'),
+     ('Function'), ('Cluster'), ('Console'), ('Vector'), ('Canvas'), ('Palette');

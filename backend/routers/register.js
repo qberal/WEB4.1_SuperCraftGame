@@ -50,7 +50,7 @@ router.post('/register', async (req, res) => {
                     if (err) {
                         return res.status(500).json({ message: "Erreur lors de la création de l'utilisateur." });
                     }
-                    res.status(201).json({ message : "Votre compte est créé ! Connectez-vous.", user: createdUser, redirectUrl: "http://localhost:5173/login" });
+                    res.status(201).json({ message : "Votre compte est créé ! Connectez-vous.", user: createdUser, redirectUrl: "/login" });
                 });
             });
         });

@@ -34,6 +34,9 @@ app.use('/', register);
 const login = require('./routers/login');
 app.use('/', login);
 
+const cas = require('./routers/cas');
+app.use('/', cas);
+
 const logout = require('./routers/logout');
 app.use('/', logout, isAuthenticated);
 

@@ -1,6 +1,7 @@
 <script setup>
 import BaseForm from './BaseForm.vue'
 import {useRouter} from "vue-router";
+import { onMounted } from "vue";
 
 const router = useRouter();
 
@@ -13,6 +14,14 @@ const handleFormSubmit = (response) => {
   }
 };
 
+onMounted(() => {
+  let casLoginLink = document.getElementById('cas-login-link');
+  let selfDomain = window.location.origin;
+  let next = `${selfDomain}/api/cas-callback`;
+  let encodedNext = encodeURIComponent(next);
+  let target = `https://auth.insa.lol/login?next=${encodedNext}`;
+  casLoginLink.href = target;
+});
 </script>
 
 <template>
@@ -27,7 +36,7 @@ const handleFormSubmit = (response) => {
     </template>
 
     <template #links>
-      <p><a href="/cas/login">Login via CAS</a></p>
+      <p><a id="cas-login-link" href="">Login via CAS</a></p>
       <p>Don't have an account? <a href="/register">Sign up</a></p>
       <p>Forgot your password? <a href="/forgot-password">Reset password</a></p>
       <p>or <a href="/guest">continue as guest</a></p>

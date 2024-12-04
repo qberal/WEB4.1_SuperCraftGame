@@ -66,4 +66,15 @@ defineProps({
 .circle-shape {
   background-color: lightblue;
 }
+
+.infinity:hover {
+  border: 1px solid #00cdb2;
+  box-shadow: 0px -1px 4.2px 0px rgba(0, 0, 0, 0.40) inset;
+}
+
+.icon:hover {
+  filter: drop-shadow(1px 2px 1px rgba(0, 0, 0, 0.20));
+  transition: all 0.1s ease-in-out;
+}
+
 </style>

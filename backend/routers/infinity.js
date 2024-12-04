@@ -37,8 +37,8 @@ router.get("/generate", isAuthenticated, async (req, res) => {
     }
 });
 
-router.get("/getWordOfTheDay", (req, res) => {
-    const word = Infinity.getWordOfTheDay();
+router.get("/getWordOfTheDay", async (req, res) => {
+    const word = await Infinity.getWordOfTheDay();
     res.json({"word": word});
 });
 

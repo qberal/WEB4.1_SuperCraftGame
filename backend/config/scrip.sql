@@ -20,34 +20,35 @@ INSERT INTO items (nom, img) VALUES
     ('Feu', 'feu.png'),             -- id = 4
     ('Air', 'air.png'),             -- id = 5
     ('Terre','terre.png'),         -- id = 6
-    ('Magma', 'magma.png'),         -- id = 7
+    ('Lave', 'lave.png'),         -- id = 7
+
     ('Sable', 'sable.png'),         -- id = 8
-    ('Marécage', 'marecage.png'),   -- id = 9
-    ('Cendre', 'cendre.png'),       -- id = 10
-    ('Vent', 'vent.png'),           -- id = 11
-    ('Vapeur', 'vapeur.png'),       -- id = 12
-    ('Brume', 'brume.png'),         -- id = 13
-    ('Tempête', 'tempete.png'),     -- id = 14
-    ('Boueuse', 'boueuse.png'),     -- id = 15
-    ('Lave', 'lave.png'),           -- id = 16
-    ('Solstice', 'solstice.png'),   -- id = 17
-    ('Limoneuse', 'limoneuse.png'), -- id = 18
-    ('Volcanique', 'volcanique.png'), -- id = 19
-    ('Tornade', 'tornade.png'),     -- id = 20
-    ('Volcanique II', 'volcanique_2.png'), -- id = 21
-    ('Fumée', 'fumee.png'),         -- id = 22
-    ('Oasis', 'oasis.png'),         -- id = 23
-    ('Température', 'temperature.png'), -- id = 24
-    ('Obsidienne', 'obsidienne.png'), -- id = 25
-    ('Marécageuse', 'marecageuse.png'), -- id = 26
-    ('Tornado de Cendres', 'tornado_cendres.png'), -- id = 27
-    ('Dune', 'dune.png'),           -- id = 28
-    ('Feu et Vent', 'feu_vent.png'), -- id = 29
-    ('Fumée Volcanique', 'fumee_volcanique.png'), -- id = 30
-    ('Cyclone', 'cyclone.png'),     -- id = 31
-    ('Incendie', 'incendie.png'),   -- id = 32
-    ('Explosion', 'explosion.png'), -- id = 33
-    ('Cristal', 'cristal.png');     -- id = 34
+    ('Cendre', 'cendre.png'),       -- id = 9
+
+    ('Vapeur', 'vapeur.png'),       -- id = 10
+    ('Brume', 'brume.png'),         -- id = 11
+
+    ('Boue', 'boue.png'),           -- id = 12
+    ('Volcan', 'volcan.png'),     -- id = 13
+
+    ('Oasis', 'oasis.png'),         -- id = 14
+    ('Verre','verre.png'),          -- id = 15
+
+    ('Plante','plante.png'), -- id = 16
+    ('Fumee','Fumee.png'),  -- id = 17
+
+    ('Brouillard','brouillard.png'),  -- id = 18
+    ('Nuage','nuage.png'),  -- id = 19
+
+    ('Vague','vague.png'),  -- id = 20
+    ('Marais','marais.png'),  -- id = 21
+
+    ('Arbre','arbre.png'),  -- id = 22
+    ('Charbon','charbon.png'),  -- id = 23
+
+    ('Chaleur','chaleur.png');  -- id = 24
+
+
 
 -- Créer la table fusions (si elle n'existe pas déjà)
 CREATE TABLE IF NOT EXISTS fusions (
@@ -63,34 +64,42 @@ CREATE TABLE IF NOT EXISTS fusions (
 -- Insérer les fusions avec les nouveaux id cohérents
 INSERT INTO fusions (item_id_1, item_id_2, item_id) VALUES
     (1, 2, 6),         -- Pierre + Feuille => Terre
-    (1, 4, 7),         -- Pierre + Feu => Magma
-    (1, 5, 8),         -- Pierre + Air => Sable
-    (2, 3, 9),        -- Feuille + Eau => Marécage
-    (2, 4, 10),        -- Feuille + Feu => Cendre
-    (2, 5, 11),        -- Feuille + Air => Vent
-    (3, 4, 12),        -- Eau + Feu => Vapeur
-    (3, 5, 13),        -- Eau + Air => Brume
-    (4, 5, 14),        -- Feu + Air => Tempête
-    (1, 6, 15),        -- Terre + Eau => Boueuse
-    (1, 7, 16),        -- Terre + Feu => Lave
-    (1, 8, 17),        -- Terre + Air => Solstice
-    (2, 6, 18),        -- Eau + Terre => Limoneuse
-    (2, 7, 29),        -- Feu + Terre => Volcanique
-    (2, 8, 20),        -- Air + Terre => Tornade
-    (9, 10, 21),       -- Magma + Cendre => Volcanique II
-    (9, 11, 22),       -- Marécage + Cendre => Fumée
-    (10, 11, 23),      -- Sable + Eau => Oasis
-    (11, 12, 24),      -- Vapeur + Vent => Température
-    (13, 14, 25),      -- Boue + Lave => Obsidienne
-    (13, 15, 26),      -- Boue + Brume => Marécageuse
-    (14, 16, 27),      -- Cendre + Tempête => Tornado de Cendres
-    (17, 18, 28),      -- Solstice + Sable => Dune
-    (18, 19, 29),      -- Lave + Tempête => Feu et Vent
-    (19, 20, 30),      -- Volcanique II + Brume => Fumée Volcanique
-    (20, 21, 31),      -- Brume + Tornade => Cyclone
-    (21, 22, 32),      -- Lave + Tornade => Incendie
-    (22, 23, 33),      -- Tempête + Lave => Explosion
-    (24, 25, 34);      -- Obsidienne + Oasis => Crista
+    (1, 4, 7),         -- Pierre + Feu => Lave
+
+    (1, 3, 8),         -- Pierre + Eau => Sable
+    (2, 4, 9),         -- Feuille + Feu => Cendre
+
+    (3, 4, 10),        -- Eau + Feu => Vapeur
+    (3, 5, 11),        -- Eau + Air => Brume
+
+    (6, 3, 12),        -- Terre + Eau => Boue
+    (4, 6, 13),        -- Feu + Terre => Volcan
+
+    (8, 3, 14),        -- Sable + Eau => Oasis
+    (4,8,15),          -- feu + sable => Verre
+
+    (2,3,16),          -- feuille + eau => plante
+    (4,5,17),        -- vent + feu => fumee
+
+    (17,3,18),  -- fumee + eau => brouillard
+    (18,5,19),  -- brouillard + air => nuage
+
+    (3,5,20), -- eau + air => vague
+    (3,16,21), -- plante + eau => marais
+
+    (16,3,22),  -- plante + eau => arbre
+    (22,4,23),  -- arbre +feu => charbon
+
+    (23,4,24),  -- charbon +feu => chaleur
+    (24,3,10),  -- chaleur +eau => vapeur
+
+    (6,7,13);  -- terre +lave => volcan
+
+
+
+
+
+
 
 
 -- Créer la table inventory
@@ -108,39 +117,3 @@ INSERT INTO inventory (user_id, item_id) VALUES
     (1, 3), -- L'utilisateur 2 possède l'item avec id 3 (Eau)
     (1, 4), -- L'utilisateur 2 possède l'item avec id 3 (Eau)
     (1, 5); -- L'utilisateur 2 possède l'item avec id 3 (Eau)
-
--- Créer la table words (si elle n'existe pas déjà)
-CREATE TABLE IF NOT EXISTS words (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    word TEXT NOT NULL UNIQUE
-);
-
--- Créer la table current_word (si elle n'existe pas déjà)
-CREATE TABLE IF NOT EXISTS current_word (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    word_id INTEGER NOT NULL,
-    date TEXT NOT NULL,
-    FOREIGN KEY(word_id) REFERENCES words(id)
-);
-
--- Insertion des mots dans la table words
-INSERT INTO words (word) VALUES
-     ('Forest'), ('Volcano'), ('Horizon'), ('Desert'), ('Island'), ('Canyon'),
-     ('Lightning'), ('Ember'), ('Blaze'), ('Furnace'), ('Inferno'), ('Eruption'),
-     ('Frost'), ('Glacier'), ('Stream'), ('Tide'), ('Harbor'), ('Lagoon'),
-     ('Plateau'), ('Prairie'), ('Savanna'), ('Jungle'), ('Oasis'), ('Grove'),
-     ('Pebble'), ('Quartz'), ('Amber'), ('Granite'), ('Crystal'), ('Charcoal'),
-     ('Hearth'), ('Anvil'), ('Alloy'), ('Rust'), ('Helmet'), ('Anchor'),
-     ('Mechanism'), ('Circuit'), ('Gear'), ('Gadget'), ('Engine'), ('Cliff'),
-     ('Spire'), ('Eclipse'), ('Sunrise'), ('Starlight'), ('Galaxy'), ('Comet'),
-     ('Meteor'), ('Planet'), ('Universe'), ('Aurora'), ('Spectrum'), ('Prism'),
-     ('Velocity'), ('Momentum'), ('Eon'), ('Epoch'), ('Countdown'), ('Clockwork'),
-     ('Pendulum'), ('Sundial'), ('Vortex'), ('Tornado'), ('Zephyr'), ('Monsoon'),
-     ('Cyclone'), ('Whirlpool'), ('Cascade'), ('Trickle'), ('Drizzle'),
-     ('Dewdrop'), ('Mist'), ('Reflection'), ('Ripple'), ('Shade'), ('Echo'),
-     ('Resonance'), ('Pulse'), ('Voltage'), ('Current'), ('Magnet'), ('Gravity'),
-     ('Orbit'), ('Satellite'), ('Electron'), ('Atom'), ('Molecule'), ('Photon'),
-     ('Network'), ('Framework'), ('Algorithm'), ('Protocol'), ('Database'),
-     ('Archive'), ('Interface'), ('Keyboard'), ('Monitor'), ('Byte'), ('Packet'),
-     ('Pipeline'), ('Module'), ('Compile'), ('Encrypt'), ('Render'), ('Syntax'),
-     ('Function'), ('Cluster'), ('Console'), ('Vector'), ('Canvas'), ('Palette');

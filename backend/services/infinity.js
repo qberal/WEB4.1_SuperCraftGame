@@ -52,7 +52,7 @@ class Infinity {
                     content: `Fusion ${sanitizedItem1} and ${sanitizedItem2}.`,
                 },
             ],
-            model: "llama-3.1-70b-versatile",
+            model: "llama-3.3-70b-specdec",
             temperature: 0.7,
             stream: false,
             response_format: {type: "json_object"},

@@ -225,6 +225,7 @@ body {
 }
 
 .todays-word {
+  pointer-events: none;
   position: absolute;
   top: 0;
   left: 20vw;

@@ -44,6 +44,8 @@ const addToInventory = (item) => {
     name: item.name,
   });
 
+  player.value.score += 1;
+
   if (props.gameMode === "infinity" && item.name === todaysWord.value) {
     setTimeout(() => {
       alert("You found the word! You win. Your score is: " + player.value.score);
@@ -55,7 +57,6 @@ const addToInventory = (item) => {
     openDemoFinished.value = true;
   }
 
-  player.value.score += 1;
 };
 
 // Initialisation avec onMounted

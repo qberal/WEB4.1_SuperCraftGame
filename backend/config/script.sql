@@ -16,6 +16,63 @@ INSERT INTO items (id, nom, img) VALUES (1, 'Water', 'water.png');
 INSERT INTO items (id, nom, img) VALUES (2, 'Fire', 'flame.png');
 INSERT INTO items (id, nom, img) VALUES (3, 'Earth', 'dirt.png');
 INSERT INTO items (id, nom, img) VALUES (4, 'Air', 'air.png');
+INSERT INTO items (id, nom, img) VALUES (5, 'Stone', 'stone.png');
+-- items de base -------
+
+
+-- Fusion 6 : Water + Earth => Plant
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (6, 'plant', 'plant.png');
+-- Fusion 7 : Pierre + Feu => Lave
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (7, 'Lava', 'lava.png');
+-- Fusion 8 : Pierre + Eau => Sable
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (8, 'Sand', 'sand.png');
+-- Fusion  9 : plante + Feu => Cendre
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (9, 'ash', 'ash.png');
+-- Fusion 10 : Eau + Feu => Vapeur
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (10, 'steam', 'steam.png');
+-- Fusion 11 : Eau + Air => Brume
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (11, 'mist', 'mist.png');
+
+-- Fusion 12 : Feu + Terre => Volcan
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (12, 'Volcano', 'volcano.png');
+-- Fusion 13 : Sable + Eau => Oasis
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (13, 'Oasis', 'oasis.png');
+-- Fusion 14 : Feu + Sable => Verre
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (14, 'Glass', 'glass.png');
+
+
+
+-- Fusion 15 : Vent + Feu => Fumée
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (15, 'Smoke', 'smoke.png');
+-- Fusion 16 : Fumée + Eau => Brouillard
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (16, 'Fog', 'fog.png');
+-- Fusion 17 : Brouillard + Air => Nuage
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (17, 'Cloud', 'cloud.png');
+-- Fusion 18 : Eau + Air => Vague
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (18, 'Wave', 'wave.png');
+
+-- Fusion 19 : Plante + Eau => Arbre
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (19, 'Tree', 'tree.png');
+-- Fusion 20 : Arbre + Feu => Charbon
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (20, 'Coal', 'coal.png');
+-- Fusion 21 : Charbon + Feu => Chaleur
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (21, 'Heat', 'heat.png');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 INSERT INTO items (id, nom, img) VALUES (39, 'Alien', 'alien.png');
 INSERT INTO items (id, nom, img) VALUES (40, 'Ash', 'ashes.png');
 INSERT INTO items (id, nom, img) VALUES (41, 'Axe', 'axe.png');
@@ -123,37 +180,25 @@ CREATE TABLE IF NOT EXISTS fusions (
 );
 
 INSERT INTO fusions (item_id_1, item_id_2, item_id) VALUES
-    (1, 2, 6),         -- Pierre + Feuille => Terre
-    (1, 4, 7),         -- Pierre + Feu => Lave
 
-    (1, 3, 8),         -- Pierre + Eau => Sable
-    (2, 4, 9),         -- Feuille + Feu => Cendre
-
-    (3, 4, 10),        -- Eau + Feu => Vapeur
-    (3, 5, 11),        -- Eau + Air => Brume
-
-    (6, 3, 12),        -- Terre + Eau => Boue
-    (4, 6, 13),        -- Feu + Terre => Volcan
-
-    (8, 3, 14),        -- Sable + Eau => Oasis
-    (4,8,15),          -- feu + sable => Verre
-
-    (2,3,16),          -- feuille + eau => plante
-    (4,5,17),        -- vent + feu => fumee
-
-    (17,3,18),  -- fumee + eau => brouillard
-    (18,5,19),  -- brouillard + air => nuage
-
-    (3,5,20), -- eau + air => vague
-    (3,16,21), -- plante + eau => marais
-
-    (16,3,22),  -- plante + eau => arbre
-    (22,4,23),  -- arbre +feu => charbon
-
-    (23,4,24),  -- charbon +feu => chaleur
-    (24,3,10),  -- chaleur +eau => vapeur
-
-    (6,7,13);  -- terre +lave => volcan
+    (1,3,6), -- water + dirt => plant id 6
+    (5, 2, 7),         -- Pierre + Feu => Lave id 7
+    (5, 1, 8),         -- Pierre + Eau => Sable id 8
+    (6, 2, 9),         -- plante + Feu => Cendre id 9
+    (1, 2, 10),        -- Eau + Feu => Vapeur id 10
+    (1, 4, 11),        -- Eau + Air => Brume id 11
+    (2, 3, 12),        -- Feu + Terre => Volcan id 12
+    (8,1, 13),        -- Sable + Eau => Oasis id 13
+    (2,8,14),          -- feu + sable => Verre id 14
+    (4,2,15),        -- air + fire => fumee id 15
+    (15,1,16),  -- fumee + water => brouillard id 16
+    (16,4,17),  -- brouillard + air => nuage id 17
+    (1,4,18), -- eau + air => vague id 18
+    (6,1,19),  -- plante + eau => arbre id 19
+    (19,2,20),  -- arbre +feu => charbon id 20
+    (20,2,21),  -- charbon +feu => chaleur id 21
+    (21,1,22),  -- chaleur +eau => vapeur id 22
+    (3,7,23);  -- terre +lave => volcan id 23
 
 
 

@@ -65,6 +65,7 @@ const logoutUser = async () => {
       <a @click="$emit('open-credits')">Credits</a>
       <a v-if="gameMode !== 'guest'" @click="logoutUser">Logout</a>
       <a v-if="gameMode === 'guest'" @click="router.push('/login')">Login</a>
+      <a v-if="gameMode === 'guest'" @click="router.push('/login')">Exit</a> <!-- toujour faire croire que l'utilisateur à le choix... -->
     </div>
     </Transition>
   </div>

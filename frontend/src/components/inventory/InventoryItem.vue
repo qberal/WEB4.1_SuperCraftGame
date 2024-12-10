@@ -39,6 +39,9 @@ const handleDragStart = (event) => {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  padding-inline: 5px;
   border-radius: 10px;
   border: 1px solid #BBB;
   background: #F7F7F7;
@@ -56,25 +59,17 @@ const handleDragStart = (event) => {
 }
 
 .icon-infinity {
-  width: 50px;
-  height: 50px;
+  margin-right: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px;
-  border-radius: 11px;
-  border: 1px solid #BBB;
   font-size: 20pt;
 }
-
 
 .icon {
   width: 50px;
   height: 50px;
-  padding: 2px;
-  margin: 10px;
-  border-radius: 11px;
-  border: 1px solid #BBB;
+  margin-right: 5px;
 }
 
 @media (max-width: 768px) {

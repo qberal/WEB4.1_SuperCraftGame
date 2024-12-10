@@ -30,7 +30,7 @@ const openDemoFinished = ref(false);
 // Pop-ups et état
 let cleanUpToggle = ref(false);
 let openLeaderboard = ref(false);
-let openSettings = ref(false);
+let openCredits = ref(false);
 
 // Fonction pour ajouter un objet à l'inventaire
 const addToInventory = (item) => {
@@ -114,7 +114,7 @@ onMounted(async () => {
           :maxScore=player.maxScore
           :gameMode=props.gameMode
           @open-leaderboard="openLeaderboard = !openLeaderboard"
-          @open-settings="openSettings = !openSettings"
+          @open-credits="openCredits = !openCredits"
       />
     </div>
 
@@ -148,8 +148,8 @@ onMounted(async () => {
       <Leaderboard :game-mode="props.gameMode"/>
     </PopUpMenu>
 
-    <PopUpMenu title="Settings" :show="openSettings" @close="openSettings = false">
-      <p>Settings (WIP)</p>
+    <PopUpMenu title="Credits" :show="openCredits" @close="openCredits = false">
+      <p>Credits (WIP)</p>
     </PopUpMenu>
 
     <PopUpMenu title="Demo finished" :show="openDemoFinished">

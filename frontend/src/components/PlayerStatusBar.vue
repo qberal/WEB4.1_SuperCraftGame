@@ -62,7 +62,7 @@ const logoutUser = async () => {
         class="extra-settings"
     >
       <a v-if="gameMode !== 'guest'" @click="$emit('open-leaderboard')">Leaderboard</a>
-      <a v-if="gameMode !== 'guest'" @click="$emit('open-settings')">Settings</a>
+      <a v-if="gameMode !== 'guest'" @click="$emit('open-settings')">Credits</a>
       <a v-if="gameMode !== 'guest'" @click="logoutUser">Logout</a>
       <a v-if="gameMode === 'guest'" @click="router.push('/login')">Login</a>
     </div>

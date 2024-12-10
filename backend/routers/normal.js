@@ -58,7 +58,8 @@ router.get('/getFusion', isAuthenticated, (req, res) => {
                 fusionRes = {
                     "id": fusionItem.id,
                     "name": fusionItem.nom,
-                    "icon": fusionItem.img
+                    "icon": fusionItem.img,
+                    "fusionnable": fusionItem.fusionnable
                 }
 
                 return res.status(200).json( fusionRes );

@@ -22,12 +22,17 @@ router.get("/generate", isAuthenticated, async (req, res) => {
 
 
         const fusions = await Infinity.getFusions(item1, item2);
+        const word = await Infinity.getWordOfTheDay();
 
         if (!fusions) {
             return res.status(404).send("Fusions not found.");
         }
 
         InfinityInventory.addItem(user_id, fusions.name, fusions.icon, result => {});
+
+        if (word === fusions.name) {
+            await Leaderboard.setInfinityScore(user_id, result => {});
+        }
 
         res.json(fusions);
 
@@ -84,7 +89,7 @@ router.get("/getLeaderboard", (req, res) => {
 router.get("/getScore", isAuthenticated, (req, res) => {
     const user_id = req.session.user.id;
 
-    Leaderboard.getInfinityScore(user_id, (err, leaderboard) => {
+    Leaderboard.getInfinityCurrentScore(user_id, (err, leaderboard) => {
         if (err) {
             console.log("Error fetching leaderboard:", err);
             res.status(500).send("Error fetching leaderboard.");

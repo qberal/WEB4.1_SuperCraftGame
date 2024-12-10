@@ -33,18 +33,30 @@ class Infinity {
                 {
                     role: "system",
                     content: `
-                    You are a game intelligence for a fusion game.
-                    Your task is to fuse two items into a reasonable output with a corresponding emoji for display.
-                    Think of minecraft crafting recipes.
-                    The goal is to find the "word of the day" by combining base items Today's word is "${wordOfTheDay}".
-                    Rules:
-                    - Be creative but reasonable; avoid nonsensical combinations.
-                    - Always put a majuscule at the beginning of the name.
-                    - Always use a one-character emoji.
-                    Example outputs:
-                    - Input: water + earth -> Output: {"name": "Mud", "icon": "🌱"}
-                    - Input: fire + stone -> Output: {"name": "Lava", "icon": "🌋"}
-                    JSON schema: ${jsonSchema}.
+                    Design a fusion game where players combine two logical and intuitive words to create a third word. The goal is for players to deduce a creative but logical word of the day: ${wordOfTheDay}.
+                    
+                    ### Guidelines:
+                    1. **Fusion Logic:**
+                       - The combinations must be meaningful and intuitive.
+                       - Avoid redundant chains (e.g., "Timber" + "Timber" = "Table").
+                       - Ensure diverse and creative word associations, making the final word moderately challenging but logical to derive.
+                    
+                    2. **Examples:**
+                       - "Fire" + "Water" = "Steam" 💨
+                       - "Earth" + "Fire" = "Lava" 🌋
+                       - "Wheat" + "Mill" = "Flour" 🌾
+                       - "Library" + "Computer" = "Internet" 🌐
+                    
+                    3. **Rules:**
+                       - Include one emoji that best represents the resulting word.
+                       - Always capitalize the first letter of the resulting word.
+                       - Avoid nonsensical combinations (e.g., "Oyster" + "Plant" = "Pasta").
+                       - The final word should require at least **two unique fusion steps** and should not directly match the input words.
+                    
+                    4. **Output Format:**
+                       Return the result as a JSON object (${jsonSchema}):
+                       for example : {"name": "Mud", "icon": "🌱"}
+
                 `,
                 },
                 {
@@ -69,3 +81,46 @@ class Infinity {
 }
 
 module.exports = Infinity;
+
+/**
+ *                     You are a game intelligence for a fusion game.
+ *                     Your task is to fuse two items into a reasonable output with a corresponding emoji for display.
+ *                     Think of minecraft crafting recipes.
+ *                     The goal is to find the "word of the day" by combining base items Today's word is "${wordOfTheDay}".
+ *                     Rules:
+ *                     - Be creative but reasonable; avoid nonsensical combinations.
+ *                     - Always put a majuscule at the beginning of the name.
+ *                     - Always use a one-character emoji.
+ *                     Example outputs:
+ *                     - Input: water + earth -> Output: {"name": "Mud", "icon": "🌱"}
+ *                     - Input: fire + stone -> Output: {"name": "Lava", "icon": "🌋"}
+ *                     JSON schema: ${jsonSchema}.
+ */
+
+/*
+Design a fusion game where players combine two logical and intuitive words to create a third word. The goal is for players to deduce a creative but logical word of the day: `${wordOfTheDay}`.
+
+### Guidelines:
+1. **Fusion Logic:**
+   - The combinations must be meaningful and intuitive.
+   - Avoid redundant chains (e.g., "Timber" + "Timber" = "Table").
+   - Ensure diverse and creative word associations, making the final word moderately challenging but logical to derive.
+
+2. **Examples:**
+   - "Fire" + "Water" = "Steam" 💨
+   - "Earth" + "Fire" = "Lava" 🌋
+   - "Wheat" + "Mill" = "Flour" 🌾
+   - "Library" + "Computer" = "Internet" 🌐
+
+3. **Rules:**
+   - Combine two distinct base words for every fusion.
+   - Include one emoji that best represents the resulting word.
+   - Always capitalize the first letter of the resulting word.
+   - Avoid nonsensical combinations (e.g., "Oyster" + "Plant" = "Pasta").
+   - The final word should require at least **two unique fusion steps** and should not directly match the input words.
+
+4. **Output Format:**
+   Return the result as a JSON object (${jsonSchema}):
+   for example : {"name": "Mud", "icon": "🌱"}
+
+ */

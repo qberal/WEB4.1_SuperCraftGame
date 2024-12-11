@@ -8,13 +8,26 @@ const jsonSchema = {
     "icon": "string",
 }
 
+/**
+ * Service to interact with the Infinity game
+ */
 class Infinity {
 
+    /**
+     * Get the word of the day
+     * @returns {Promise<*>}
+     */
     static async getWordOfTheDay() {
         const word = await Word.getWordOfTheDay();
         return word;
     }
 
+    /**
+     * Get the fusions of two items
+     * @param item_name1
+     * @param item_name2
+     * @returns {Promise<{name: string, icon: string}|any>}
+     */
     static async getFusions(item_name1, item_name2) {
 
         const wordOfTheDay = await this.getWordOfTheDay();

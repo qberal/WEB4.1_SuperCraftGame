@@ -1,3 +1,9 @@
+/**
+ * Middleware pour vérifier si l'utilisateur est connecté
+ * @param req
+ * @param res
+ * @param next
+ */
 function isAuthenticated(req, res, next) {
     if (req.session.user) {
         next();

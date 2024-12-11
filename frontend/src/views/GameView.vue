@@ -158,7 +158,16 @@ onMounted(async () => {
     </PopUpMenu>
 
     <PopUpMenu title="Credits" :show="openCredits" @close="openCredits = false">
-      <p>Credits (WIP)</p>
+      <p>
+        This game was created by :
+        <ul>
+          <li><a href="https://github.com/qberal">Quentin BERAL</a></li>
+          <li><a href="https://github.com/nlegendree">Nathan LEGENDRE</a></li>
+          <li><a href="https://github.com/vsentchev">Vassili SENTCHEV</a></li>
+          <li><a href="https://github.com/Mubelotix">Simon GIRARD</a></li>
+        </ul>
+        The project was conducted as part of the "Web Technologies 2" course at <a href="https://insa-rouen.fr/">INSA Rouen</a>.
+      </p>
     </PopUpMenu>
 
     <PopUpMenu title="Demo finished" :show="openDemoFinished">

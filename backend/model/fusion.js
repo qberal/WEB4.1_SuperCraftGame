@@ -1,6 +1,9 @@
 const db = require('../config/db');
-const Inventory = require('./inventory'); // Assurez-vous de bien importer votre modèle Inventory
+const Inventory = require('./inventory');
 
+/**
+ * Class representing a fusion
+ */
 class Fusion {
     constructor(fusion) {
         this.id = fusion.id;
@@ -9,7 +12,11 @@ class Fusion {
         this.item_fusionne_id = fusion.item_fusionne_id;
     }
 
-    // Créer une fusion 
+    /**
+     * Create a new fusion
+     * @param newFusion
+     * @param result
+     */
     static create(newFusion, result) {
         db.run(
             "INSERT INTO fusions (item_id_1, item_id_2, item_fusionne_id) VALUES (?, ?, ?)", 
@@ -26,7 +33,11 @@ class Fusion {
         );
     }
 
-    // Trouver une fusion par ID
+    /**
+     * Delete a fusion
+     * @param id
+     * @param result
+     */
     static findById(id, result) {
         db.get(
             "SELECT * FROM fusions WHERE id = ?", 
@@ -46,7 +57,10 @@ class Fusion {
         );
     }
 
-    // Lister toutes les fusions
+    /**
+     * Get all fusions
+     * @param result
+     */
     static getAll(result) {
         db.all(
             "SELECT * FROM fusions", 
@@ -62,15 +76,18 @@ class Fusion {
         );
     }
 
+    /**
+     * Get the fusion for two items
+     * @param userId
+     * @param itemId1
+     * @param itemId2
+     * @param callback
+     */
     static getFusionItemId(userId, itemId1, itemId2, callback) {
-        // Vérifier si les deux items sont présents dans l'inventaire de l'utilisateur
         Inventory.areItemsInInventory(userId, itemId1, itemId2, (areInInventory) => {
             if (!areInInventory) {
-                // Si les items ne sont pas dans l'inventaire, retourner une erreur
                 return callback("Les items ne sont pas tous dans l'inventaire.", null);
             }
-
-            // Si les items sont dans l'inventaire, on cherche la fusion correspondante
             const query = `
                 SELECT item_id
                 FROM fusions
@@ -84,25 +101,26 @@ class Fusion {
                 }
 
                 if (fusion) {
-                    // Retourner l'item fusionné trouvé
                     callback(null, fusion.item_id);
                 } else {
-                    // Si aucune fusion n'est trouvée, retourner une erreur
                     callback("Aucune fusion trouvée pour ces items.", null);
                 }
             });
         });
     }
 
+    /**
+     * Get the fusion item details from two items
+     * @param userId
+     * @param itemId1
+     * @param itemId2
+     * @param callback
+     */
     static getFusionItemDetails(userId, itemId1, itemId2, callback) {
-        // Vérifier si les deux items sont présents dans l'inventaire de l'utilisateur
         Inventory.areItemsInInventory(userId, itemId1, itemId2, (areInInventory) => {
             if (!areInInventory) {
-                // Si les items ne sont pas dans l'inventaire, retourner une erreur
                 return callback("Les items ne sont pas tous dans l'inventaire.", null);
             }
-    
-            // Si les items sont dans l'inventaire, on cherche la fusion correspondante
             const query = `
                 SELECT item_id
                 FROM fusions
@@ -116,7 +134,6 @@ class Fusion {
                 }
     
                 if (fusion) {
-                    // Chercher l'item correspondant à l'ID de la fusion dans la table items
                     const itemQuery = `
                         SELECT * FROM items WHERE id = ?
                     `;
@@ -128,7 +145,6 @@ class Fusion {
                         }
     
                         if (item) {
-                            // Vérifier si l'item fusionné est lui-même fusionnable
                             const fusionnableQuery = `
                                 SELECT COUNT(*) AS count
                                 FROM fusions
@@ -140,8 +156,6 @@ class Fusion {
                                     console.log("Erreur lors de la vérification de fusion :", err);
                                     return callback("Erreur lors de la vérification de fusion.", null);
                                 }
-    
-                                // Ajouter l'attribut fusionnable au résultat
                                 const isFusionnable = result.count > 0;
                                 callback(null, { ...item, fusionnable: isFusionnable });
                             });
@@ -150,7 +164,6 @@ class Fusion {
                         }
                     });
                 } else {
-                    // Si aucune fusion n'est trouvée, retourner une erreur
                     callback("Aucune fusion trouvée pour ces items.", null);
                 }
             });
@@ -158,9 +171,5 @@ class Fusion {
     }
     
 }
-
-
-
-
 
 module.exports = Fusion;

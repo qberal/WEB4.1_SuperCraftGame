@@ -1,7 +1,14 @@
 const db = require('../config/db');
 const InfinityInventory = require("./infinityInventory");
 
+/**
+ * Class representing a word
+ */
 class Word {
+    /**
+     * Get the word of the day
+     * @returns {Promise<unknown>}
+     */
     static async getWordOfTheDay() {
         return new Promise((resolve, reject) => {
             const today = new Date().toISOString().split('T')[0];
@@ -32,6 +39,10 @@ class Word {
         });
     }
 
+    /**
+     * Get the word id of the day
+     * @returns {Promise<unknown>}
+     */
     static async getWordIdOfTheDay() {
         return new Promise((resolve, reject) => {
             const today = new Date().toISOString().split('T')[0];

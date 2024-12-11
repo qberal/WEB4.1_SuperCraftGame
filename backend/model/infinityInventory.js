@@ -1,16 +1,19 @@
 const db = require('../config/db');
 
+/**
+ * Class representing an inventory for infinite mode
+ */
 class InfinityInventory {
-    /**
-     * Inventaire stocké en bdd pour les utilisateurs qui font le mode infini
-     * En gros, l'inventaire est un table qui contient juste user_id et item_name et icon (pas de quantité)
-     * On va stocker les items que l'utilisateur a découvert dans le mode infini
-     */
     constructor(inventory) {
         this.user_id = inventory.user_id;
     }
 
-    //vérifier si un item est déjà dans l'inventaire
+    /**
+     * Check if an item is in the infinite inventory
+     * @param user_id
+     * @param item_name
+     * @returns {Promise<unknown>}
+     */
     static checkItem(user_id, item_name) {
         return new Promise((resolve, reject) => {
             db.get("SELECT * FROM infinity_inventory WHERE (user_id = ? OR user_id = 0) AND item_name = ?", [user_id, item_name], function (err, item) {
@@ -24,7 +27,13 @@ class InfinityInventory {
         });
     }
 
-    // Ajouter un item à l'inventaire
+    /**
+     * Add an item to the infinite inventory
+     * @param user_id
+     * @param item_name
+     * @param icon
+     * @param result
+     */
     static addItem(user_id, item_name, icon, result) {
 
         if (item_name === 'Error') {
@@ -41,7 +50,11 @@ class InfinityInventory {
         });
     }
 
-    // Trouver les items d'un utilisateur
+    /**
+     * Find inventory by user
+     * @param user_id
+     * @param result
+     */
     static findByUserId(user_id, result) {
         db.all("SELECT * FROM infinity_inventory WHERE user_id = ? OR user_id = 0", [user_id], function (err, inventory) {
             if (err) {
@@ -53,6 +66,11 @@ class InfinityInventory {
         });
     }
 
+    /**
+     * Delete inventory by user
+     * @param user_id
+     * @param result
+     */
     static deleteAll(user_id, result) {
         db.run("DELETE FROM infinity_inventory WHERE user_id = ?", [user_id], function (err) {
             if (err) {
@@ -65,6 +83,11 @@ class InfinityInventory {
         });
     }
 
+    /**
+     * Count the number of items in the inventory
+     * @param user_id
+     * @param result
+     */
     static countInventory(user_id, result) {
         db.get("SELECT COUNT(*) as count FROM infinity_inventory WHERE user_id = ?", [user_id], function (err, count) {
             if (err) {
@@ -76,6 +99,10 @@ class InfinityInventory {
         });
     }
 
+    /**
+     * Reset the infinite inventory for all users
+     * @param result
+     */
     static resetInfiniteInventory(result) {
         db.run("DELETE FROM infinity_inventory WHERE user_id != 0", (err) => {
             if (err) {

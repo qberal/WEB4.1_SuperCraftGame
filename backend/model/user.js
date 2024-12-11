@@ -1,7 +1,9 @@
 const db = require('../config/db');
 const bcrypt = require('bcrypt');
 
-//model for user
+/**
+ * Class representing a user
+ */
 class User {
     constructor(user) {
         this.id = user.id;
@@ -11,30 +13,16 @@ class User {
         this.role = user.role;
     }
 
-    //create user
-    /*static create(newUser, result) {
-
-        //hash password
-        newUser.password = bcrypt.hash(newUser.password, 10);
-
-        db.run("INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)", [newUser.username, newUser.password, newUser.email, newUser.role], function (err) {
-            if (err) {
-                console.log("error: ", err);
-                result(err, null);
-                return;
-            }
-            console.log("Created user: ", {id: this.lastID, ...newUser});
-            result(null, {id: this.lastID, ...newUser});
-        });
-    }*/
-
+    /**
+     * Create a new user
+     * @param newUser
+     * @param result
+     * @returns {Promise<void>}
+     */
     static async create(newUser, result) {
         try {
-            // Hacher le mot de passe
             const hashedPassword = await bcrypt.hash(newUser.password, 10);
             newUser.password = hashedPassword;
-
-            // Insérer l'utilisateur dans la base de données
             db.run(
                 "INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)",
                 [newUser.username, newUser.password, newUser.email, newUser.role],
@@ -53,9 +41,13 @@ class User {
             result(error, null);
         }
     }
-    
 
-    //find user by id
+
+    /**
+     * Find a user by its id
+     * @param id
+     * @param result
+     */
     static findById(id, result) {
         db.get("SELECT * FROM users WHERE id = ?", [id], function (err, user) {
             if (err) {
@@ -67,12 +59,15 @@ class User {
                 result(null, user);
                 return;
             }
-            // not found user with the id
             result({kind: "not_found"}, null);
         });
     }
 
-    //find user by username
+    /**
+     * Find a user by its username
+     * @param username
+     * @param result
+     */
     static findByUsername(username, result) {
         db.get("SELECT * FROM users WHERE username = ?", [username], function (err, user) {
             if (err) {
@@ -89,7 +84,11 @@ class User {
         });
     }
 
-    //find user by email
+    /**
+     * Find a user by its email
+     * @param email
+     * @param result
+     */
     static findByEmail(email, result) {
         db.get("SELECT * FROM users WHERE email = ?", [email], function (err, user) {
                 if (err) {
@@ -107,7 +106,12 @@ class User {
         );
     }
 
-    //check password
+    /**
+     * Check if the password is correct
+     * @param user
+     * @param password
+     * @returns {Promise<void|*>}
+     */
     static async checkPassword(user, password) {
         try {
             const isValid = await bcrypt.compare(password, user.password);
@@ -117,7 +121,6 @@ class User {
             throw error;
         }
     }
-
 }
 
 module.exports = User;

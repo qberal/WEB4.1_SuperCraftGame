@@ -1,10 +1,18 @@
 const db = require('../config/db');
 
+/**
+ * Class representing an inventory for classic mode
+ */
 class Inventory {
     constructor(inventory) {
         this.user_id = inventory.user_id;
     }
 
+    /**
+     * Get the user's inventory
+     * @param userId
+     * @returns {Promise<unknown>}
+     */
     static getUserInventory(userId) {
         const query = `
             SELECT items.id AS item_id, items.nom AS item_name, items.img AS item_image
@@ -25,6 +33,10 @@ class Inventory {
         });
     }
 
+    /**
+     * Get all items in the inventory
+     * @returns {Promise<unknown>}
+     */
     static getAllItems() {
         return new Promise((resolve, reject) => {
             const query = `
@@ -43,7 +55,12 @@ class Inventory {
         });
     }
 
-
+    /**
+     * Add an item to the user's inventory
+     * @param userId
+     * @param itemId
+     * @returns {Promise<unknown>}
+     */
     static addItemToInventory(userId, itemId) {
         return new Promise((resolve, reject) => {
             // Vérifier si l'item est déjà dans l'inventaire de l'utilisateur
@@ -79,8 +96,12 @@ class Inventory {
             });
         });
     }
-    
 
+    /**
+     * Count the number of items in the user's inventory
+     * @param userId
+     * @returns {Promise<unknown>}
+     */
     static countInventory(userId) {
         return new Promise((resolve, reject) => {
             const query = `
@@ -101,6 +122,12 @@ class Inventory {
     }
 
 
+    /**
+     * Check if an item is in the user's inventory
+     * @param userId
+     * @param itemId
+     * @param callback
+     */
     static isItemInInventory(userId, itemId, callback) {
         const query = `
             SELECT 1
@@ -118,6 +145,13 @@ class Inventory {
         });
     }
 
+    /**
+     * Check if two items are in the user's inventory
+     * @param userId
+     * @param itemId1
+     * @param itemId2
+     * @param callback
+     */
     static areItemsInInventory(userId, itemId1, itemId2, callback) {
         const query = `
             SELECT 1
@@ -134,11 +168,6 @@ class Inventory {
             callback(rows.length === 2); // Retourne true si 2 items sont trouvés, sinon false
         });
     }
-    
-
-    
-    
-    
 }
 
 module.exports = Inventory;

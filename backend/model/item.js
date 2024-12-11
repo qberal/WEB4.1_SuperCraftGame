@@ -1,5 +1,8 @@
 const db = require('../config/db');
 
+/**
+ * Class representing an item
+ */
 class Item {
     constructor(item) {
         this.id = item.id;
@@ -8,7 +11,11 @@ class Item {
         this.image = item.image;
     }
 
-    // Créer un item
+    /**
+     * Create a new item
+     * @param newItem
+     * @param result
+     */
     static create(newItem, result) {
         // Pas de boolean dans SQLITE, seulement 0 ou 1
         newItem.fusionnable = newItem.fusionnable ? 1 : 0; 
@@ -23,7 +30,11 @@ class Item {
         });
     }
 
-    // Trouver un item par ID
+    /**
+     * Find an item by its id
+     * @param id
+     * @param result
+     */
     static findById(id, result) {
         db.get("SELECT * FROM items WHERE id = ?", [id], function (err, item) {
             if (err) {
@@ -39,6 +50,10 @@ class Item {
         });
     }
 
+    /**
+     * Get all items
+     * @param result
+     */
     static getAll(result) {
         db.all(
             "SELECT * FROM items", 

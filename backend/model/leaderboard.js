@@ -75,7 +75,7 @@ class Leaderboard {
      * @param result
      */
     static getNormalLeaderboard(result) {
-        db.all("SELECT username, COUNT(*) as count FROM inventory JOIN users ON users.id = inventory.user_id GROUP BY username ORDER BY COUNT ASC", function (err, scores) {
+        db.all("SELECT username, COUNT(*) + (SELECT COUNT(*) FROM inventory WHERE user_id = 0) as count FROM inventory JOIN users ON users.id = inventory.user_id  AND inventory.user_id != 0 GROUP BY username ORDER BY COUNT ASC", function (err, scores) {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);

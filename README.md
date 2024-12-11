@@ -6,7 +6,7 @@ Super Craft Game is an engaging game developed using Vue 3 for the frontend and 
 ### Functionalities
 
 - Register / Login
-- Login via [CAS](https://cas.insa-rouen.fr) *only  at [supercraftgame.insa.lol](https://supercraftgame.insa.lol)* 
+- Login via [CAS](https://cas.insa-rouen.fr) (*only  at [supercraftgame.insa.lol](https://supercraftgame.insa.lol)*)
 - Game Modes:
   - Classic Mode: Find all elements to win the game.
   - Infinity Mode: Deduce the word of the day by combining elements.
@@ -49,6 +49,7 @@ You can access the hosted version of the game at [supercraftgame.insa.lol](https
     ```sh
     npm run build
     ```
+    To serve the project for production, you should use a server that supports single-page applications (SPA) and ensure that all routes are redirected to index.html.
   - Backend:
     ```sh
     npm run start

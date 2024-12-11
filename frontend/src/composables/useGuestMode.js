@@ -1,3 +1,8 @@
+/**
+ * Set default inventory for guest mode
+ * @param inventory
+ * @returns {{setDefaultInventory: setDefaultInventory}}
+ */
 export default function useGuestMode(inventory) {
 
     function setDefaultInventory() {

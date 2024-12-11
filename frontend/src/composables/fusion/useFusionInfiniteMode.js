@@ -1,14 +1,15 @@
-// useFusionInfiniteMode.js
 import axios from 'axios';
 import useCreateFusion from "@/composables/fusion/useCreateFusion.js";
 
+/**
+ * Handle the fusion between two shapes for the infinite mode
+ * @param shapes
+ * @param addShape
+ * @param emit
+ * @returns {{handleFusion: ((function(*, *): Promise<void>)|*)}}
+ */
 export default function useFusionInfiniteMode(shapes, addShape, emit) {
     const handleFusion = async (shape1, shape2) => {
-        /**
-         * C'est ici qu'on va tester si 2 items sont fusionnables ou pas. si oui, on va les fusionner et créer un nouvel item.
-         * On enverra cet item dans l'inventaire pour qu'il soit affiché.
-         * (On peut aussi faire une animation de fusion si on veut)
-         */
 
         let fusionResult = {
             icon: './favicon.svg',

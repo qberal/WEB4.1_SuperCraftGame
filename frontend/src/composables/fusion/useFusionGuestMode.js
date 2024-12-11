@@ -1,7 +1,4 @@
-//fusions possible, nom1, nom2, nom fusion, icon fusion
-
 import useCreateFusion from './useCreateFusion';
-
 
 let fusions = [
     {name1: 'Air', name2: 'Fire', name: 'Smoke', icon: '/smoke.svg'},
@@ -12,8 +9,13 @@ let fusions = [
     {name1: 'Water', name2: 'Earth', name: 'Mud', icon: '/mud.svg'},
 ];
 
-
-
+/**
+ * Handle the fusion between two shapes for the guest mode
+ * @param shapes
+ * @param addShape
+ * @param emit
+ * @returns {{handleFusion: ((function(*, *): Promise<void>)|*)}}
+ */
 export default function useFusionGuestMode(shapes, addShape, emit) {
     const handleFusion = async (shape1, shape2) => {
 
@@ -30,9 +32,6 @@ export default function useFusionGuestMode(shapes, addShape, emit) {
             console.error('Error while fusing:', 'No fusion found');
             return;
         }
-
-        //TODO: Créer une méthode pour supprimer les formes fusionnées et ajouter la nouvelle forme résultant de la fusion
-        // Supprimer les formes fusionnées
 
         const {createFusion} = useCreateFusion(shapes, shape1, shape2, addShape, fusionResult, emit);
 

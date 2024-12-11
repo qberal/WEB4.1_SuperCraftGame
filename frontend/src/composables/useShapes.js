@@ -2,10 +2,15 @@
 import {reactive} from 'vue';
 import axios from "axios";
 
+/**
+ * Handle the shapes on the canvas
+ * @param containerRef
+ * @param gameMode
+ * @returns {{bringToFront: bringToFront, shapes: Reactive<*[]>, loadCanvas: ((function(): Promise<void>)|*), addShape: (function(*, *, null=, null=, boolean=, null=): UnwrapNestedRefs<{x: number, width: number, icon: null, name: null, y: number, id: number, isDragging: boolean, height: number}> & {}), isOverlapping: (function(*, *, number=): boolean), isSuperposed: ((function(*): (*|null))|*), saveCanvas: ((function(): Promise<void>)|*)}}
+ */
 export default function useShapes(containerRef, gameMode) {
     const shapes = reactive([]);
 
-    // Vérifie si deux formes se chevauchent
     const isOverlapping = (shape1, shape2, margin = 25) => {
         return !(
             shape1.x + shape1.width - margin <= shape2.x + margin ||
@@ -15,7 +20,6 @@ export default function useShapes(containerRef, gameMode) {
         );
     };
 
-    // Vérifie si une forme donnée est superposée avec une autre
     const isSuperposed = (shape) => {
         for (const otherShape of shapes) {
             if (shape !== otherShape && isOverlapping(shape, otherShape)) {
@@ -53,8 +57,6 @@ export default function useShapes(containerRef, gameMode) {
         if (gameMode === 'infinity') {
             canvasData.expiration = new Date().setHours(24, 0, 0, 0);// Expire à minuit
         }
-
-        //save in local storage : username/gameMode
 
         const storageKey = `${username}_${gameMode}`;
         localStorage.setItem(storageKey, JSON.stringify(canvasData));

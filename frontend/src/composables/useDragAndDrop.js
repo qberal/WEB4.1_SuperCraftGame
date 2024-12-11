@@ -1,6 +1,17 @@
 // useDragAndDrop.js
 import { ref } from 'vue';
 
+/**
+ * Handle the drag and drop of shapes
+ * @param shapes
+ * @param containerRef
+ * @param addShape
+ * @param isSuperposed
+ * @param handleFusion
+ * @param bringToFront
+ * @param saveCanvas
+ * @returns {{handleDragOver: handleDragOver, isDraggingInternal: Ref<UnwrapRef<boolean>, UnwrapRef<boolean> | boolean>, isDragOver: Ref<UnwrapRef<boolean>, UnwrapRef<boolean> | boolean>, handleDrop: handleDrop, startDrag: startDrag, handleDragEnter: handleDragEnter, handleDragLeave: handleDragLeave}}
+ */
 export default function useDragAndDrop(shapes, containerRef, addShape, isSuperposed, handleFusion, bringToFront, saveCanvas) {
     const isDragOver = ref(false);
     const isDraggingInternal = ref(false);

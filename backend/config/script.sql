@@ -49,7 +49,7 @@ INSERT OR IGNORE INTO items (id, nom, img) VALUES (16, 'Fog', 'fog.png');
 -- Fusion 17 : Brouillard + Air => Nuage
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (17, 'Cloud', 'cloud.png');
 -- Fusion 18 : Eau + Air => Vague
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (18, 'Wave', 'swave2.png');
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (18, 'Wave', 'swave2.png'); -- attention img 
 
 -- Fusion 19 : Plante + Eau => Arbre
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (19, 'Tree', 'tree.png');
@@ -57,6 +57,59 @@ INSERT OR IGNORE INTO items (id, nom, img) VALUES (19, 'Tree', 'tree.png');
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (20, 'Coal', 'coal.png');
 -- Fusion 21 : Charbon + Feu => Chaleur
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (21, 'Heat', 'heat.png');
+
+-- Fusion 22 : chaleur + eau => steam
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (22, 'Steam', 'steam.png');
+
+
+-- Fusion 23 : earth + lava => volcano
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (23, 'Volcano', 'volcano.png');
+
+
+----------------------------  PART 2 --------------------------------
+
+-- Fusion 24 : stone + plant = axe 
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (24, 'Axe', 'axe.png'); 
+-- Fusion 25 : axe + tree = wood 
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (25, 'Wood', 'log.png'); 
+-- Fusion 26 : axe + wood = baguette 
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (26, 'Baguette', 'baguette.png'); 
+-- Fusion 27 : fire + wood = Campfire 
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (27, 'Campfire', 'campfire.png'); 
+-- Fusion 28 : earth + earth = plain 
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (28, 'Plain', 'plain.png'); ---- new img
+-- Fusion 29 : Wave + Wave = ocean  
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (29, 'Ocean ', 'ocean .png'); ---- new img
+-- Fusion 30 : plain + ocean  = Planet  
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (30, 'Planet ', 'planet .png'); 
+-- Fusion 31 : planet + planet   = Moon  
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (31, 'Moon ', 'moon .png'); 
+-- Fusion 32 : Volcano + Ocean   = Bacteria  
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (32, 'Bacteria ', 'bacteria.png'); 
+-- Fusion 32 : Volcano + Ocean   = Bacteria  
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (32, 'Bacteria ', 'bacteria.png'); 
+-- Fusion 33 : Bacteria + Planet   = Human  
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (33, 'Human ', 'human.png'); 
+-- Fusion 34 : Bacteria + Moon   = Alien  
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (34, 'Alien ', 'alien.png'); 
+-- Fusion 35 : Human + Human   = Village  
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (35, 'Village ', 'village.png'); 
+-- Fusion 36 : Bacteria + Air   = Bird  
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (36, 'Bird ', 'bird.png'); 
+-- Fusion 37 : Planet + Moon   = Solar System 
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (37, 'Solar System', 'solar_system.png'); 
+
+-- Fusion 38 : Fire + baguette   = Torch
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (38, 'Torch', 'torch.png'); 
+
+-- Fusion 39 : Bird + Bird   = egg
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (39, 'Egg', 'egg.png'); 
+-- Fusion 40 : water + Bacteria   = Fish
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (40, 'Fish', 'fish.png'); 
+-- Fusion 41 : Wave + Bacteria   = Fish
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (41, 'Fish', 'fish.png'); 
+-- Fusion 42 : Ocean + Bacteria   = Fish
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (42, 'Fish', 'fish.png'); 
 
 /*
 INSERT INTO items (id, nom, img) VALUES (39, 'Alien', 'alien.png');
@@ -176,7 +229,13 @@ INSERT INTO fusions (item_id_1, item_id_2, item_id) VALUES
     (19,2,20),  -- arbre +feu => charbon id 20
     (20,2,21),  -- charbon +feu => chaleur id 21
     (21,1,22),  -- chaleur +eau => vapeur id 22
-    (3,7,23);  -- terre +lave => volcan id 23
+    (3,7,23),  -- terre +lave => volcan id 23
+
+
+    (5,6,24), -- plant + stone = axe id 24
+    (19,24,25), -- axe + tree = wood id 25
+
+
 
 
 

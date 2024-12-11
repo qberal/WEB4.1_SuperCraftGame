@@ -4,7 +4,10 @@ import BaseForm from './BaseForm.vue'
 
 const router = useRouter();
 
-// Fonction qui gère la redirection après la soumission du formulaire
+/**
+ * Handle redirection after form submission
+ * @param response
+ */
 const handleFormSubmit = (response) => {
   if (response && response.status === 201) {
     router.push('/login');

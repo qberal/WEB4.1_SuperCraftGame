@@ -5,7 +5,10 @@ import { onMounted } from "vue";
 
 const router = useRouter();
 
-// Fonction qui gère la redirection après la soumission du formulaire
+/**
+ * Handle redirection after form submission
+ * @param response
+ */
 const handleFormSubmit = (response) => {
   if (response && response.status === 200) {
     router.push('/normal');
@@ -22,6 +25,7 @@ onMounted(() => {
   let target = `https://auth.insa.lol/login?next=${encodedNext}`;
   casLoginLink.href = target;
 });
+
 </script>
 
 <template>

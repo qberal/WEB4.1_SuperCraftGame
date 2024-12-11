@@ -16,7 +16,6 @@ const emit = defineEmits(['fusion-completed']);
 
 const containerRef = ref(null);
 
-// Utilisation du composable useShapes
 const {shapes, addShape, saveCanvas, loadCanvas, isSuperposed, bringToFront} = useShapes(containerRef, props.gameMode);
 
 watch(
@@ -42,7 +41,6 @@ if (props.gameMode !== 'guest') {
   loadCanvas();
 }
 
-// Utilisation du composable useDragAndDrop
 const {
   isDragOver,
   handleDrop,
@@ -53,7 +51,7 @@ const {
   isDraggingInternal,
 } = useDragAndDrop(shapes, containerRef, addShape, isSuperposed, handleFusion, bringToFront, saveCanvas);
 
-// Gestion du clic pour ajouter des formes
+
 const handleClick = (event) => {
   bringToFront()
 };

@@ -1,26 +1,22 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-//import eltable
 
 const props = defineProps({
   gameMode: String,
 });
 
-// Variable réactive pour les joueurs
 const players = ref([]);
 
-// Fonction pour récupérer les joueurs depuis l'API
 const fetchPlayers = async () => {
   try {
     const response = await axios.get(`/api/${props.gameMode}/getLeaderboard`);
-    players.value = response.data; // Met à jour les joueurs
+    players.value = response.data;
   } catch (error) {
     console.error("Erreur lors de la récupération des joueurs :", error);
   }
 };
 
-// Récupération des données lors du montage du composant
 onMounted(() => {
   fetchPlayers();
 });

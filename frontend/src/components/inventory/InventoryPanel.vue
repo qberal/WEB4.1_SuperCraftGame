@@ -7,7 +7,7 @@ const props = defineProps({
   gameMode: String,
 });
 
-// search bar visibility
+// Search bar visibility
 const isSearchVisible = ref(false);
 const searchQuery = ref("");
 const inputRef = ref(null); // Référence pour l'input
@@ -26,7 +26,7 @@ const toggleSearch = () => {
   }
 };
 
-// search functionality
+// Search functionality
 const filteredInventory = computed(() => {
   let sortedInventory = [...props.inventory].sort((a, b) =>
       a.name.localeCompare(b.name)

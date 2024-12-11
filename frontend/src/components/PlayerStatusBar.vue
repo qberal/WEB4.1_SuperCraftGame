@@ -17,6 +17,10 @@ let extraSettingOpened = ref(false);
 
 const router = useRouter();
 
+/**
+ * Logout the user and redirect to the login page
+ * @returns {Promise<void>}
+ */
 const logoutUser = async () => {
   try {
     const response = await axios.post('/api/logout');

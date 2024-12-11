@@ -13,8 +13,9 @@ export default function useCreateFusion(shapes, shape1, shape2, addShape, fusion
         shapes.splice(shapes.indexOf(shape1), 1);
         shapes.splice(shapes.indexOf(shape2), 1);
 
-        const x = (shape1.x + shape2.x) / 2 + 25;
-        const y = Math.min(shape1.y, shape2.y) + 25;
+        // Calculer la position du nouvel élément
+        const x = (shape1.x + shape2.x) / 2 + 50;
+        const y = (shape1.y + shape2.y) / 2 + 50;
 
         addShape(x, y, fusionResult.icon, fusionResult.name, false, fusionResult.id);
 

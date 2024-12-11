@@ -4,6 +4,9 @@ const User = require('../model/user');
 
 router.use(express.urlencoded({ extended: true }));
 
+/**
+ * Route to login
+ */
 router.post('/login', function (req, res) {
     const { username, password } = req.body;
 
@@ -34,14 +37,9 @@ router.post('/login', function (req, res) {
     }
 });
 
-/*router.get('/protected', (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).json({ message: "Non autorisé. Veuillez vous connecter." });
-    }
-
-    res.json({ message: `Bienvenue, ${req.session.user.username}!` });
-});*/
-
+/**
+ * Route for the frontend to get the username
+ */
 router.get('/getUsername', (req, res) => {
     if (!req.session.user) {
         return res.status(401).json({ message: "Non autorisé" });
@@ -49,6 +47,9 @@ router.get('/getUsername', (req, res) => {
     res.json({ username: req.session.user.username });
 });
 
+/**
+ * Route for the frontend to get the status of the session
+ */
 router.get('/getSession', (req, res) => {
     res.json({ authenticated: (req.session && req.session.user) });
 });

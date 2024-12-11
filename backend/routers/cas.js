@@ -4,6 +4,7 @@ const User = require('../model/user');
 
 router.use(express.urlencoded({ extended: true }));
 
+
 router.get('/cas-callback', function (req, res) {
     // TODO: Production servers should make sure they override these headers
 

@@ -5,6 +5,9 @@ const express = require("express");
 const { isAuthenticated } = require('../services/auth');
 const router = express.Router();
 
+/**
+ * Route to generate a fusion
+ */
 router.get("/generate", isAuthenticated, async (req, res) => {
     try {
         const user_id = req.session.user.id;
@@ -42,11 +45,17 @@ router.get("/generate", isAuthenticated, async (req, res) => {
     }
 });
 
+/**
+ * Route to get the word of the day
+ */
 router.get("/getWordOfTheDay", async (req, res) => {
     const word = await Infinity.getWordOfTheDay();
     res.json({"word": word});
 });
 
+/**
+ * Route to get the inventory of the user
+ */
 router.get("/getInventory", isAuthenticated, (req, res) => {
     const user_id = req.session.user.id;
 
@@ -70,6 +79,9 @@ router.get("/getInventory", isAuthenticated, (req, res) => {
     });
 });
 
+/**
+ * Route to get the leaderboard
+ */
 router.get("/getLeaderboard", (req, res) => {
     Leaderboard.getInfiniteLeaderboard((err, leaderboard) => {
         if (err) {
@@ -86,6 +98,9 @@ router.get("/getLeaderboard", (req, res) => {
     });
 });
 
+/**
+ * Route to get the score of the user
+ */
 router.get("/getScore", isAuthenticated, (req, res) => {
     const user_id = req.session.user.id;
 

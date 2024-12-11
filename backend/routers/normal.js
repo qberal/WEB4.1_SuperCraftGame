@@ -6,7 +6,9 @@ const Fusion = require('../model/fusion');
 const { isAuthenticated } = require('../services/auth');
 const {getNormalLeaderboard} = require("../model/leaderboard");
 
-
+/**
+ * Route to get the inventory of the user
+ */
 router.get('/getInventory', isAuthenticated, async (req, res) => {
     if (!req.session.user) {
         return res.status(401).json({ message: "Non autorisé. Veuillez vous connecter." });
@@ -32,25 +34,23 @@ router.get('/getInventory', isAuthenticated, async (req, res) => {
 });
 
 
-// Route pour obtenir l'item fusionné de deux items, si la fusion est possible (les 2 items dans linventaire , et compatible pr une fusion), alors le nouveau item est ajouté á linventaire
+/**
+ * Route to get the fusion of two items
+ */
 router.get('/getFusion', isAuthenticated, (req, res) => {
-    // Récupérer l'ID de l'utilisateur, item1 et item2 depuis les paramètres de requête
     const user_id = req.session.user.id;
     const item1 = req.query.item1;
     const item2 = req.query.item2;
 
-    // Vérifier que les paramètres sont bien fournis
     if (!user_id || !item1 || !item2) {
         return res.status(400).json({ message: 'Paramètres manquants (userId, item1, item2)' });
     }
 
-    // Appeler la fonction FusionService pour obtenir les détails de l'item fusionné
     Fusion.getFusionItemDetails(user_id, item1, item2, (err, fusionItem) => {
         if (err) {
             return res.status(400).json({ message: err });
         }
 
-        // Ajouter l'item fusionné à l'inventaire
         Inventory.addItemToInventory(user_id, fusionItem.id)
             .then(() => {
                 console.log(`Item fusionné ajouté à l'inventaire : ${fusionItem.id} -> ${fusionItem.nom}`); // Exemple d'info log
@@ -72,17 +72,18 @@ router.get('/getFusion', isAuthenticated, (req, res) => {
 });
 
 
+/**
+ * Route to get the score of the user
+ */
 router.get('/getScore', isAuthenticated, (req, res) => {
     const user_id = req.session.user.id;
 
-    //returns score and max score, score = number of items in inventory, max score = number of items in the game
     Inventory.getUserInventory(user_id)
         .then(inventory => {
 
             let score = inventory.length;
             let maxScore = 0;
 
-            // Get the number of items in the game
             Inventory.getAllItems()
                 .then(items => {
                     maxScore = items.length;
@@ -99,6 +100,9 @@ router.get('/getScore', isAuthenticated, (req, res) => {
         });
 });
 
+/**
+ *
+ */
 router.get('/getLeaderboard', isAuthenticated, (req, res) => {
     getNormalLeaderboard((err, scores) => {
         if (err) {
@@ -108,6 +112,5 @@ router.get('/getLeaderboard', isAuthenticated, (req, res) => {
         res.json(scores);
     });
 });
-
 
 module.exports = router;

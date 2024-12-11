@@ -2,7 +2,7 @@
 import { onMounted, onUnmounted, ref } from 'vue';
 
 const backgroundItems = ref([]);
-const assetNames = ["water.png","flame.png","dirt.png","air.png","stone.png","plant.png","lava.png","sand.png","ashes.png","steam.png","volcano.png","oasis.png","glass.png","dark_smoke.png","fog.png","cloud.png","swave2.png","tree.png","coal.png","heat.png","steam.png","volcano.png","axe.png","log.png","baguette.png","campfire.png","plain.png","ocean.png","planet.png","moon.png","bacteria.png","human.png","alien.png","village.png","bird.png","solar_system.png","torch.png","egg.png","fish.png"];
+const assetNames = ["water.png","flame.png","dirt.png","air.png","stone.png","plant.png","lava.png","sand.png","ashes.png","steam.png","volcano.png","oasis.png","glass.png","dark_smoke.png","fog.png","cloud.png","swave2.png","tree.png","coal.png","heat.png","steam.png","volcano.png","axe.png","log.png","stick.png","campfire.png","plain.png","ocean.png","planet.png","moon.png","bacteria.png","human.png","alien.png","village.png","bird.png","solar_system.png","torch.png","egg.png","fish.png","gueriau.png"];
 
 const createBackgroundItem = (index) => ({
   id: index,

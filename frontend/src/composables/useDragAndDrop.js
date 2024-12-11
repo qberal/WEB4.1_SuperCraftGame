@@ -28,7 +28,6 @@ export default function useDragAndDrop(shapes, containerRef, addShape, isSuperpo
         const data = event.dataTransfer.getData('application/json');
         const item = JSON.parse(data);
 
-        console.log('Item dropped:', item);
 
         if (item?.icon) {
             const newShape = addShape(x, y, item.icon, item.name, false, item.id);

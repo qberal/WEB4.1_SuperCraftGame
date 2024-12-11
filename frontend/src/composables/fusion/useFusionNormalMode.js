@@ -38,7 +38,6 @@ export default function useFusionNormalMode(shapes, addShape, emit) {
             fusionResult.name = response.data.name;
             fusionResult.icon = response.data.icon;
 
-            console.log('Fusion result:', fusionResult);
 
         } catch (error) {
             shape1.ongoingFusions--;

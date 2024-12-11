@@ -63,7 +63,6 @@ export default function useShapes(containerRef, gameMode) {
     };
 
     const loadCanvas = async () => {
-        console.log('canvas loaded: ', gameMode);
 
         const username = await axios.get('/api/getSession').then((response) => {
             return response.data.authenticated.username;
@@ -77,7 +76,6 @@ export default function useShapes(containerRef, gameMode) {
         if (gameMode === 'infinity') {
             const now = Date.now();
             if (canvasData.expiration && now > canvasData.expiration) {
-                console.log('Les données du localStorage ont expiré pour le mode infini.');
                 localStorage.removeItem(storageKey);
                 return;
             }

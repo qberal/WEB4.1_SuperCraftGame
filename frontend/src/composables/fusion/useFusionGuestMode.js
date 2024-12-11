@@ -1,12 +1,13 @@
 import useCreateFusion from './useCreateFusion';
 
 let fusions = [
-    {name1: 'Air', name2: 'Fire', name: 'Smoke', icon: '/smoke.svg'},
-    {name1: 'Air', name2: 'Water', name: 'Ice', icon: '/ice.svg'},
-    {name1: 'Air', name2: 'Earth', name: 'Dust', icon: '/dust.svg'},
-    {name1: 'Fire', name2: 'Water', name: 'Steam', icon: '/steam.svg'},
-    {name1: 'Fire', name2: 'Earth', name: 'Lava', icon: '/lava.svg'},
-    {name1: 'Water', name2: 'Earth', name: 'Mud', icon: '/mud.svg'},
+    {name1: 'Earth', name2: 'Fire', name: 'Volcano', icon: 'volcano.png'},
+    {name1: 'Water', name2: 'Air', name: 'Wave', icon: 'swave2.png'},
+    {name1: 'Earth', name2: 'Earth', name: 'Plain', icon: 'plain.png'},
+    {name1: 'Water', name2: 'Fire', name: 'Steam', icon: 'steam.png'},
+    {name1: 'Water', name2: 'Earth', name: 'Plant', icon: 'plant.png'},
+
+
 ];
 
 /**

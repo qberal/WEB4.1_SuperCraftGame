@@ -54,7 +54,7 @@ const addToInventory = (item) => {
     return;
   }
 
-  if (props.gameMode === "guest" && inventory.length >= 7) {
+  if (props.gameMode === "guest" && inventory.length >= 10) {
     openDemoFinished.value = true;
   }
 

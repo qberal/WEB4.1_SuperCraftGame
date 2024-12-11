@@ -73,7 +73,7 @@ const handleClick = (event) => {
       <CanvasItem
           :data="shape"
           @mousedown="(e) => startDrag(shape, e)"
-          @dblclick="addShape(shape.x + shape.width, shape.y + shape.height, shape.icon, shape.name,false, shape.id)"
+          @dblclick="addShape(shape.x + shape.width, shape.y + shape.height, shape.icon, shape.name,false)"
           draggable="false"
           :game-mode="gameMode"
       />

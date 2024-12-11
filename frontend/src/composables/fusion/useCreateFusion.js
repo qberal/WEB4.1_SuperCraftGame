@@ -10,8 +10,21 @@ export default function useCreateFusion(shapes, shape1, shape2, addShape, fusion
      * @param emit
      */
     const createFusion = (shapes, shape1, shape2, addShape, fusionResult, emit) => {
-        shapes.splice(shapes.indexOf(shape1), 1);
-        shapes.splice(shapes.indexOf(shape2), 1);
+        let idx1 = shapes.indexOf(shape1);
+        let idx2 = shapes.indexOf(shape2);
+
+        if (idx1 === -1 || idx2 === -1) {
+            console.error("Seems like shapes were already removed from the canvas");
+            return;
+        }
+
+        if (idx1 < idx2) {
+            shapes.splice(idx2, 1);
+            shapes.splice(idx1, 1);
+        } else {
+            shapes.splice(idx1, 1);
+            shapes.splice(idx2, 1);
+        }
 
         // Calculer la position du nouvel élément
         const x = (shape1.x + shape2.x) / 2 + 50;

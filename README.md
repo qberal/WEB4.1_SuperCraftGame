@@ -59,5 +59,5 @@ You can access the hosted version of the game at [supercraftgame.insa.lol](https
 - **Frontend:** Vue 3
   - Libraries: `animate.css`, `axios`, `element-plus`, `vue-router`
 - **Backend:** Node.js, Express, SQLite
-  - Libraries: `bcrypt`, `cors`, `dotenv`, `express`, `express-session`, `form-data`, `groq-sdk`, `sqlite3`,
+  - Libraries: `bcrypt`, `cors`, `dotenv`, `express`, `express-session`, `groq-sdk`, `sqlite3`,
 - **Development Tools:** `nodemon`, `vite`, `vite-plugin-vue-devtools`

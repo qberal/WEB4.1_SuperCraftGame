@@ -11,12 +11,11 @@ import GameModeSelection from "@/components/GameModeSelection.vue";
 import useGuestMode from "@/composables/useGuestMode";
 import axios from "axios";
 
-// Props
 const props = defineProps({
   gameMode: String,
 });
 
-// Références et variables réactives
+
 const todaysWord = ref("");
 const player = ref({
   name: "Guest",
@@ -27,12 +26,14 @@ const player = ref({
 const inventory = reactive([]);
 const openDemoFinished = ref(false);
 
-// Pop-ups et état
 let cleanUpToggle = ref(false);
 let openLeaderboard = ref(false);
 let openCredits = ref(false);
 
-// Fonction pour ajouter un objet à l'inventaire
+/**
+ * Ajoute un item à l'inventaire du joueur
+ * @param item
+ */
 const addToInventory = (item) => {
   if (inventory.find((i) => i.name === item.name)) {
     return;
@@ -59,7 +60,7 @@ const addToInventory = (item) => {
 
 };
 
-// Initialisation avec onMounted
+
 onMounted(async () => {
 
   if (props.gameMode === "infinity") {

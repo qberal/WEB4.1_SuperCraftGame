@@ -21,17 +21,17 @@ INSERT INTO items (id, nom, img) VALUES (5, 'Stone', 'stone.png');
 
 
 -- Fusion 6 : Water + Earth => Plant
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (6, 'plant', 'plant.png');
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (6, 'plant', 'plant.png');--
 -- Fusion 7 : Pierre + Feu => Lave
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (7, 'Lava', 'lava.png');
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (7, 'Lava', 'lava.png');--
 -- Fusion 8 : Pierre + Eau => Sable
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (8, 'Sand', 'sand.png');
 -- Fusion  9 : plante + Feu => Cendre
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (9, 'ash', 'ash.png');
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (9, 'ash', 'ashes.png');
 -- Fusion 10 : Eau + Feu => Vapeur
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (10, 'steam', 'steam.png');
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (10, 'steam', 'steam.png'); --
 -- Fusion 11 : Eau + Air => Brume
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (11, 'mist', 'mist.png');
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (11, 'mist', 'mist.png'); --
 
 -- Fusion 12 : Feu + Terre => Volcan
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (12, 'Volcano', 'volcano.png');
@@ -43,13 +43,13 @@ INSERT OR IGNORE INTO items (id, nom, img) VALUES (14, 'Glass', 'glass.png');
 
 
 -- Fusion 15 : Vent + Feu => Fumée
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (15, 'Smoke', 'smoke.png');
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (15, 'Smoke', 'dark_smoke.png');
 -- Fusion 16 : Fumée + Eau => Brouillard
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (16, 'Fog', 'fog.png');
 -- Fusion 17 : Brouillard + Air => Nuage
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (17, 'Cloud', 'cloud.png');
 -- Fusion 18 : Eau + Air => Vague
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (18, 'Wave', 'wave.png');
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (18, 'Wave', 'swave2.png');
 
 -- Fusion 19 : Plante + Eau => Arbre
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (19, 'Tree', 'tree.png');
@@ -58,23 +58,8 @@ INSERT OR IGNORE INTO items (id, nom, img) VALUES (20, 'Coal', 'coal.png');
 -- Fusion 21 : Charbon + Feu => Chaleur
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (21, 'Heat', 'heat.png');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/*
 INSERT INTO items (id, nom, img) VALUES (39, 'Alien', 'alien.png');
-INSERT INTO items (id, nom, img) VALUES (40, 'Ash', 'ashes.png');
 INSERT INTO items (id, nom, img) VALUES (41, 'Axe', 'axe.png');
 INSERT INTO items (id, nom, img) VALUES (42, 'Baguette', 'baguette.png');
 INSERT INTO items (id, nom, img) VALUES (43, 'Barrel', 'barrel.png');
@@ -92,13 +77,11 @@ INSERT INTO items (id, nom, img) VALUES (54, 'Chalice', 'chalice.png');
 INSERT INTO items (id, nom, img) VALUES (55, 'Chest', 'chest.png');
 INSERT INTO items (id, nom, img) VALUES (56, 'Clay Pot', 'clay_pot.png');
 INSERT INTO items (id, nom, img) VALUES (57, 'Clock', 'clock.png');
-INSERT INTO items (id, nom, img) VALUES (58, 'Cloud', 'cloud.png');
 INSERT INTO items (id, nom, img) VALUES (59, 'Coffee', 'coffee.png');
 INSERT INTO items (id, nom, img) VALUES (60, 'Controller', 'controller.png');
 INSERT INTO items (id, nom, img) VALUES (61, 'Crate', 'crate.png');
 INSERT INTO items (id, nom, img) VALUES (62, 'Crown', 'crown.png');
 INSERT INTO items (id, nom, img) VALUES (63, 'Crystal', 'crystal.png');
-INSERT INTO items (id, nom, img) VALUES (64, 'Dark Smoke', 'dark_smoke.png');
 INSERT INTO items (id, nom, img) VALUES (65, 'Diamond', 'diamond.png');
 INSERT INTO items (id, nom, img) VALUES (66, 'Emerald', 'emerald.png');
 INSERT INTO items (id, nom, img) VALUES (67, 'Energy', 'energy.png');
@@ -111,7 +94,6 @@ INSERT INTO items (id, nom, img) VALUES (73, 'Golden Ring', 'gold_ring.png');
 INSERT INTO items (id, nom, img) VALUES (74, 'Gold', 'gold.png');
 INSERT INTO items (id, nom, img) VALUES (75, 'Grass', 'grass.png');
 INSERT INTO items (id, nom, img) VALUES (76, 'Gun', 'gun.png');
-INSERT INTO items (id, nom, img) VALUES (77, 'Heat', 'heat.png');
 INSERT INTO items (id, nom, img) VALUES (78, 'Horse', 'horse.png');
 INSERT INTO items (id, nom, img) VALUES (79, 'Time', 'hourglass.png');
 INSERT INTO items (id, nom, img) VALUES (80, 'Human', 'human.png');
@@ -138,14 +120,12 @@ INSERT INTO items (id, nom, img) VALUES (100, 'Reeds', 'reeds.png');
 INSERT INTO items (id, nom, img) VALUES (101, 'Robot', 'robot.png');
 INSERT INTO items (id, nom, img) VALUES (102, 'Rose', 'rose.png');
 INSERT INTO items (id, nom, img) VALUES (103, 'Rune', 'rune.png');
-INSERT INTO items (id, nom, img) VALUES (104, 'Sand', 'sand.png');
 INSERT INTO items (id, nom, img) VALUES (105, 'Shield', 'shield.png');
 INSERT INTO items (id, nom, img) VALUES (106, 'Soap', 'soap.png');
 INSERT INTO items (id, nom, img) VALUES (107, 'Solar System', 'solar_system.png');
 INSERT INTO items (id, nom, img) VALUES (108, 'Soup', 'soup.png');
 INSERT INTO items (id, nom, img) VALUES (109, 'Stone', 'stone.png');
 INSERT INTO items (id, nom, img) VALUES (110, 'Swamp', 'swamp.png');
-INSERT INTO items (id, nom, img) VALUES (111, 'Wave', 'swave2.png');
 INSERT INTO items (id, nom, img) VALUES (112, 'Table', 'table.png');
 INSERT INTO items (id, nom, img) VALUES (113, 'Telescope', 'telescope.png');
 INSERT INTO items (id, nom, img) VALUES (114, 'Thermometer', 'thermometer.png');
@@ -153,10 +133,8 @@ INSERT INTO items (id, nom, img) VALUES (115, 'Thunder', 'thundercloud.png');
 INSERT INTO items (id, nom, img) VALUES (116, 'Torch', 'torch.png');
 INSERT INTO items (id, nom, img) VALUES (117, 'Tornado', 'tornado.png');
 INSERT INTO items (id, nom, img) VALUES (118, 'Trash', 'trash.png');
-INSERT INTO items (id, nom, img) VALUES (119, 'Tree', 'tree.png');
 INSERT INTO items (id, nom, img) VALUES (120, 'Truck', 'truck2.png');
 INSERT INTO items (id, nom, img) VALUES (121, 'Village', 'village.png');
-INSERT INTO items (id, nom, img) VALUES (122, 'Volcano', 'volcano.png');
 INSERT INTO items (id, nom, img) VALUES (123, 'Egg', 'egg.png');
 INSERT INTO items (id, nom, img) VALUES (124, 'Duck', 'duck.png');
 INSERT INTO items (id, nom, img) VALUES (125, 'Bacteria', 'bacteria.png');
@@ -165,7 +143,7 @@ INSERT INTO items (id, nom, img) VALUES (127, 'Wheel', 'wheel.png');
 INSERT INTO items (id, nom, img) VALUES (128, 'Electricity', 'electricity.png');
 INSERT INTO items (id, nom, img) VALUES (129, 'Oven', 'oven.png');
 INSERT INTO items (id, nom, img) VALUES (130, 'Boat', 'boat.png');
-
+ */
 
 
 -- Table fusions

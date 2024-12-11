@@ -108,7 +108,7 @@ INSERT OR IGNORE INTO items (id, nom, img) VALUES (39, 'Egg', 'egg.png');
 -- Fusion 40 : water + Bacteria   = Fish
 -- Fusion 41 : Wave + Bacteria   = Fish
 -- Fusion 42 : Ocean + Bacteria   = Fish
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (41, 'Fish', 'fish.png');
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (40, 'Fish', 'fish.png');
 
 
 /*
@@ -232,6 +232,23 @@ INSERT INTO fusions (item_id_1, item_id_2, item_id) VALUES
     (3,7,23),  -- terre +lave => volcan id 23
     (5,6,24), -- plant + stone = axe id 24
     (19,24,25), -- axe + tree = wood id 25
+    (24,25,26), -- axe + wood = baguette id 26
+    (2,25,27), -- fire + wood = campfire id 27
+    (3,3,28), -- earth + earth = plain id 28
+    (18,18,29), -- wave + wave = ocean id 29
+    (28,29,30), -- plain + wave = planet id 30
+    (30,30,31), -- planet + planet = Moon id 31
+    (23,29,32), -- volcano + Ocean = Bacteria id 32
+    (32,30,33), -- bacteiria + planet = Human id 33
+    (32,31,34), -- Bacteria + moon = alien id 34
+    (33,33,35), -- Human + Human = Village id 35
+    (32,4,36), -- bacteria + air = bird id 36
+    (33,34,37), -- planet + moon  = solar system id 37
+    (2,26,38), -- fire + baguette = torch
+    (36,36,39), -- bird + bird = egg
+    (1,32,40), -- water + bacteria = fish
+    (18,32,40), -- Wave + bacteria = fish
+    (29,32,40);-- Ocean + bacteria = fish
 
 
 

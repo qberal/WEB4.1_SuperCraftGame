@@ -21,7 +21,7 @@ INSERT INTO items (id, nom, img) VALUES (5, 'Stone', 'stone.png');
 
 
 -- Fusion 6 : Water + Earth => Plant
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (6, 'Plant', 'plant.png');--
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (6, 'Plant', 'plant.png');
 -- Fusion 7 : Pierre + Feu => Lave
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (7, 'Lava', 'lava.png');--
 -- Fusion 8 : Pierre + Eau => Sable
@@ -79,15 +79,15 @@ INSERT OR IGNORE INTO items (id, nom, img) VALUES (27, 'Campfire', 'campfire.png
 -- Fusion 28 : earth + earth = plain 
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (28, 'Plain', 'plain.png'); ---- new img
 -- Fusion 29 : Wave + Wave = ocean  
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (29, 'Ocean ', 'ocean .png'); ---- new img
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (29, 'Ocean ', 'ocean.png'); ---- new img
 -- Fusion 30 : plain + ocean  = Planet  
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (30, 'Planet ', 'planet .png'); 
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (30, 'Planet ', 'planet.png');
 -- Fusion 31 : planet + planet   = Moon  
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (31, 'Moon ', 'moon .png'); 
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (31, 'Moon ', 'moon.png');
 -- Fusion 32 : Volcano + Ocean   = Bacteria  
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (32, 'Bacteria ', 'bacteria.png'); 
 -- Fusion 32 : Volcano + Ocean   = Bacteria  
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (32, 'Bacteria ', 'bacteria.png'); 
+--INSERT OR IGNORE INTO items (id, nom, img) VALUES (32, 'Bacteria ', 'bacteria.png');
 -- Fusion 33 : Bacteria + Planet   = Human  
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (33, 'Human ', 'human.png'); 
 -- Fusion 34 : Bacteria + Moon   = Alien  
@@ -103,13 +103,13 @@ INSERT OR IGNORE INTO items (id, nom, img) VALUES (37, 'Solar System', 'solar_sy
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (38, 'Torch', 'torch.png'); 
 
 -- Fusion 39 : Bird + Bird   = egg
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (39, 'Egg', 'egg.png'); 
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (39, 'Egg', 'egg.png');
+
 -- Fusion 40 : water + Bacteria   = Fish
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (40, 'Fish', 'fish.png'); 
 -- Fusion 41 : Wave + Bacteria   = Fish
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (41, 'Fish', 'fish.png'); 
 -- Fusion 42 : Ocean + Bacteria   = Fish
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (42, 'Fish', 'fish.png'); 
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (41, 'Fish', 'fish.png');
+
 
 /*
 INSERT INTO items (id, nom, img) VALUES (39, 'Alien', 'alien.png');

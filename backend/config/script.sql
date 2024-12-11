@@ -97,7 +97,7 @@ INSERT OR IGNORE INTO items (id, nom, img)
 VALUES (25, 'Wood', 'log.png');
 -- Fusion 26 : axe + wood = baguette 
 INSERT OR IGNORE INTO items (id, nom, img)
-VALUES (26, 'Baguette', 'baguette.png');
+VALUES (26, 'Stick', 'stick.png');
 -- Fusion 27 : fire + wood = Campfire 
 INSERT OR IGNORE INTO items (id, nom, img)
 VALUES (27, 'Campfire', 'campfire.png');

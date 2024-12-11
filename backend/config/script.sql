@@ -132,7 +132,7 @@ VALUES (35, 'Village ', 'village.png');
 -- Fusion 36 : Bacteria + Air   = Bird  
 INSERT OR IGNORE INTO items (id, nom, img)
 VALUES (36, 'Bird ', 'bird.png');
--- Fusion 37 : Planet + Moon   = Solar System 
+-- Fusion 37 : Human + Alien   = Solar System 
 INSERT OR IGNORE INTO items (id, nom, img)
 VALUES (37, 'Solar System', 'solar_system.png');
 

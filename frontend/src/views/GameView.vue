@@ -58,6 +58,13 @@ const addToInventory = (item) => {
     openDemoFinished.value = true;
   }
 
+  //if in normal mode all the items are collected, the game is won : alert
+  if (props.gameMode === "normal" && player.value.score === player.value.maxScore ) {
+    setTimeout(() => {
+      alert("You found all the items! You win. Your score is: " + player.value.score + "\n You can still enjoy the infinity mode");
+    }, 1000);
+  }
+
 };
 
 

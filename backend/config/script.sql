@@ -84,9 +84,9 @@ INSERT OR IGNORE INTO items (id, nom, img) VALUES (29, 'Ocean ', 'ocean.png'); -
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (30, 'Planet ', 'planet.png');
 -- Fusion 31 : planet + planet   = Moon  
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (31, 'Moon ', 'moon.png');
--- Fusion 32 : Volcano + Ocean   = Bacteria  
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (32, 'Bacteria ', 'bacteria.png'); 
--- Fusion 32 : Volcano + Ocean   = Bacteria  
+-- Fusion 32 : Volcano + Ocean   = Bacteria
+-- Fusion 32 : Volcano + Ocean   = Bacteria
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (32, 'Bacteria ', 'bacteria.png');
 --INSERT OR IGNORE INTO items (id, nom, img) VALUES (32, 'Bacteria ', 'bacteria.png');
 -- Fusion 33 : Bacteria + Planet   = Human  
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (33, 'Human ', 'human.png'); 
@@ -230,8 +230,6 @@ INSERT INTO fusions (item_id_1, item_id_2, item_id) VALUES
     (20,2,21),  -- charbon +feu => chaleur id 21
     (21,1,22),  -- chaleur +eau => vapeur id 22
     (3,7,23),  -- terre +lave => volcan id 23
-
-
     (5,6,24), -- plant + stone = axe id 24
     (19,24,25), -- axe + tree = wood id 25
 

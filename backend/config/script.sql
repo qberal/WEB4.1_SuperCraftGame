@@ -21,17 +21,17 @@ INSERT INTO items (id, nom, img) VALUES (5, 'Stone', 'stone.png');
 
 
 -- Fusion 6 : Water + Earth => Plant
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (6, 'plant', 'plant.png');--
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (6, 'Plant', 'plant.png');--
 -- Fusion 7 : Pierre + Feu => Lave
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (7, 'Lava', 'lava.png');--
 -- Fusion 8 : Pierre + Eau => Sable
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (8, 'Sand', 'sand.png');
 -- Fusion  9 : plante + Feu => Cendre
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (9, 'ash', 'ashes.png');
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (9, 'Ash', 'ashes.png');
 -- Fusion 10 : Eau + Feu => Vapeur
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (10, 'steam', 'steam.png'); --
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (10, 'Steam', 'steam.png'); --
 -- Fusion 11 : Eau + Air => Brume
-INSERT OR IGNORE INTO items (id, nom, img) VALUES (11, 'mist', 'mist.png'); --
+INSERT OR IGNORE INTO items (id, nom, img) VALUES (11, 'Mist', 'mist.png'); --
 
 -- Fusion 12 : Feu + Terre => Volcan
 INSERT OR IGNORE INTO items (id, nom, img) VALUES (12, 'Volcano', 'volcano.png');

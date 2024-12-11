@@ -18,6 +18,8 @@ let fusions = [
  */
 export default function useFusionGuestMode(shapes, addShape, emit) {
     const handleFusion = async (shape1, shape2) => {
+        shape1.ongoingFusions++;
+        shape2.ongoingFusions++;
 
         let fusionResult = {
             icon: './favicon.svg',
@@ -30,6 +32,8 @@ export default function useFusionGuestMode(shapes, addShape, emit) {
 
         if(!fusionResult) {
             console.error('Error while fusing:', 'No fusion found');
+            shape1.ongoingFusions--;
+            shape2.ongoingFusions--;
             return;
         }
 

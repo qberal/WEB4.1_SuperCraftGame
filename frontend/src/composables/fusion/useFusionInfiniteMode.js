@@ -10,6 +10,8 @@ import useCreateFusion from "@/composables/fusion/useCreateFusion.js";
  */
 export default function useFusionInfiniteMode(shapes, addShape, emit) {
     const handleFusion = async (shape1, shape2) => {
+        shape1.ongoingFusions++;
+        shape2.ongoingFusions++;
 
         let fusionResult = {
             icon: './favicon.svg',
@@ -33,6 +35,8 @@ export default function useFusionInfiniteMode(shapes, addShape, emit) {
 
         if(fusionResult.name === 'Error') {
             window.alert('Erreur lors de la génération de la fusion');
+            shape1.ongoingFusions--;
+            shape2.ongoingFusions--;
             return;
         }
 

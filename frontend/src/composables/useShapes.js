@@ -112,6 +112,7 @@ export default function useShapes(containerRef, gameMode) {
             icon: icon,
             isDragging: false,
             name: name,
+            ongoingFusions: 0,
         });
         shapes.push(newShape);
         if(!load) saveCanvas();

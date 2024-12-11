@@ -11,6 +11,8 @@ import useCreateFusion from "@/composables/fusion/useCreateFusion.js";
  */
 export default function useFusionNormalMode(shapes, addShape, emit) {
     const handleFusion = async (shape1, shape2) => {
+        shape1.ongoingFusions++;
+        shape2.ongoingFusions++;
 
         let fusionResult = {
             icon: './favicon.svg',
@@ -39,6 +41,8 @@ export default function useFusionNormalMode(shapes, addShape, emit) {
             console.log('Fusion result:', fusionResult);
 
         } catch (error) {
+            shape1.ongoingFusions--;
+            shape2.ongoingFusions--;
             return;
         }
 

@@ -56,6 +56,12 @@ const handleClick = (event) => {
   bringToFront()
 };
 
+const handleDblClick = (shape) => {
+  if (shape.ongoingFusions == 0) {
+    addShape(shape.x + shape.width, shape.y + shape.height, shape.icon, shape.name,false, shape.id);
+  }
+};
+
 </script>
 
 <template>
@@ -73,7 +79,7 @@ const handleClick = (event) => {
       <CanvasItem
           :data="shape"
           @mousedown="(e) => startDrag(shape, e)"
-          @dblclick="addShape(shape.x + shape.width, shape.y + shape.height, shape.icon, shape.name,false)"
+          @dblclick="handleDblClick(shape)"
           draggable="false"
           :game-mode="gameMode"
       />

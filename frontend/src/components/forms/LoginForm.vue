@@ -22,7 +22,7 @@ onMounted(() => {
   let selfDomain = window.location.origin;
   let next = `${selfDomain}/api/cas-callback`;
   let encodedNext = encodeURIComponent(next);
-  let target = `https://auth.insa.lol/login?next=${encodedNext}`;
+  let target = `https://auth.dera.page/login?next=${encodedNext}`;
   casLoginLink.href = target;
 });
 

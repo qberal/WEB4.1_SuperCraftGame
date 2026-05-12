@@ -6,7 +6,7 @@ Super Craft Game is an engaging game developed using Vue 3 for the frontend and 
 ### Functionalities
 
 - Register / Login
-- Login via [CAS](https://cas.insa-rouen.fr) (*only  at [supercraftgame.insa.lol](https://supercraftgame.insa.lol)*)
+- Login via [CAS](https://cas.insa-rouen.fr) (*only  at [supercraftgame.dera.page](https://supercraftgame.dera.page)*)
 - Game Modes:
   - Classic Mode: Find all elements to win the game.
   - Infinity Mode: Deduce the word of the day by combining elements.
@@ -17,7 +17,7 @@ Super Craft Game is an engaging game developed using Vue 3 for the frontend and 
 ## How to Use
 
 ### Hosted Version
-You can access the hosted version of the game at [supercraftgame.insa.lol](https://supercraftgame.insa.lol).
+You can access the hosted version of the game at [supercraftgame.dera.page](https://supercraftgame.dera.page).
 
 ### Running Locally
 
